@@ -11,6 +11,7 @@ import (
 	"os"
 	"strings"
 	"time"
+	"flag"
 
 	"gopkg.in/yaml.v3"
 )
@@ -69,14 +70,29 @@ var state = map[string]lastState{}
 const marketDepthBase = "https://api.dmarket.com/marketplace-api/v1/market-depth"
 
 func main() {
-	if len(os.Args) < 2 {
-		fmt.Println("usage: dmarket-watch <config.yaml>")
+	checkOnly := flag.Bool("check", false, "check DMarket connectivity and exit")
+	runOnceOnly := flag.Bool("once", false, "run a single polling iteration and exit")
+	flag.Parse()
+
+	if flag.NArg() < 1 {
+		fmt.Println("usage: dmarket-watch [flags] <config.yaml>")
+		flag.PrintDefaults()
 		os.Exit(1)
 	}
-	cfgBytes, err := os.ReadFile(os.Args[1])
+	cfgBytes, err := os.ReadFile(flag.Arg(0))
 	must(err)
 	var cfg Config
 	must(yaml.Unmarshal(cfgBytes, &cfg))
+	
+	if *checkOnly {
+		if err := checkConnection(&cfg); err != nil {
+			fmt.Fprintln(os.Stderr, "connection check failed:", err)
+			os.Exit(1)
+		}
+		fmt.Println("Connection to DMarket API looks good ✅")
+		return
+	}
+
 	pollEvery := mustParseDurationDefault(cfg.PollEvery, 10*time.Minute)
 
 	ticker := time.NewTicker(pollEvery)
@@ -84,6 +100,10 @@ func main() {
 
 	// первый прогон сразу
 	runOnce(&cfg)
+
+	if *runOnceOnly {
+		return
+	}
 
 	for range ticker.C {
 		runOnce(&cfg)
@@ -96,13 +116,13 @@ func runOnce(cfg *Config) {
 	fmt.Println("========== DMarket Watch @", now, "==========")
 	for _, it := range cfg.Items {
 		ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
-		defer cancel()
-
 		depth, raw, err := fetchMarketDepth(ctx, it.GameID, it.Title)
+		cancel()
 		if err != nil {
 			fmt.Printf("[ERR] %s — %v\n", it.Title, err)
 			continue
 		}
+		_ = raw // на всякий
 		if it.TopN <= 0 {
 			it.TopN = 5
 		}
@@ -178,7 +198,9 @@ func runOnce(cfg *Config) {
 		// 	}
 		// }
 		if needPing && cfg.Discord != nil {
-			if err := sendDiscord(cfg.Discord, msg.String()); err != nil {
+			if cfg.Discord.WebhookURL == "" {
+				fmt.Println("[discord warning]: webhook URL is not configured")
+			} else if err := sendDiscord(cfg.Discord, msg.String()); err != nil {
 				fmt.Println("[discord error]:", err)
 			}
 		}
@@ -338,31 +360,49 @@ func mustParseDurationDefault(s string, d time.Duration) time.Duration {
 }
 
 func sendDiscord(dc *DiscordCfg, text string) error {
-    // приклеим mention, если указан
-    if dc.Mention != "" {
-        text = dc.Mention + " " + text
-    }
+    	// приклеим mention, если указан
+	if dc.Mention != "" {
+		text = dc.Mention + " " + text
+	}
 
-    // Вариант А: webhook
-    if dc.WebhookURL != "" {
-        payload := map[string]any{
-            "content": text,
-            // На всякий случай запрещаем массовые @everyone/@here:
-            "allowed_mentions": map[string]any{
-                "parse": []string{}, // пусто => не парсить everyone/here
-            },
-        }
-        b, _ := json.Marshal(payload)
-        resp, err := http.Post(dc.WebhookURL, "application/json", bytes.NewReader(b))
-        if err != nil {
-            return err
-        }
-        defer resp.Body.Close()
-        if resp.StatusCode >= 300 {
-            body, _ := io.ReadAll(resp.Body)
-            return fmt.Errorf("discord webhook %d: %s", resp.StatusCode, string(body))
-        }
-        return nil
-    }
+	// Вариант А: webhook
+	if dc.WebhookURL != "" {
+		payload := map[string]any{
+			"content": text,
+			// На всякий случай запрещаем массовые @everyone/@here:
+			"allowed_mentions": map[string]any{
+				"parse": []string{}, // пусто => не парсить everyone/here
+			},
+		}
+		b, _ := json.Marshal(payload)
+		resp, err := http.Post(dc.WebhookURL, "application/json", bytes.NewReader(b))
+		if err != nil {
+			return err
+		}
+		defer resp.Body.Close()
+		if resp.StatusCode >= 300 {
+			body, _ := io.ReadAll(resp.Body)
+			return fmt.Errorf("discord webhook %d: %s", resp.StatusCode, string(body))
+		}
+		return nil
+	}
+	return fmt.Errorf("discord webhook URL is not configured")
 }
 
+func checkConnection(cfg *Config) error {
+	if len(cfg.Items) == 0 {
+		return fmt.Errorf("config has no items to query")
+	}
+	var errs []string
+	for _, it := range cfg.Items {
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		_, _, err := fetchMarketDepth(ctx, it.GameID, it.Title)
+		cancel()
+		if err == nil {
+			return nil
+		}
+		errs = append(errs, fmt.Sprintf("%s: %v", it.Title, err))
+	}
+
+	return fmt.Errorf("all probes failed:\n%s", strings.Join(errs, "\n"))
+}
