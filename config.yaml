@@ -1,0 +1,22 @@
+# период опроса
+poll_every: "5m"
+
+discord:
+  webhook_url: ""
+  mention: "<>"
+
+# # телеграм-уведомления (опционально)
+# telegram:
+#   bot_token: "123456:ABCDEF..."   # создай @BotFather    
+#   chat_id: "123456789"            # свой chat_id
+
+# список наблюдаемых айтемов
+items:
+  - title: "★ Butterfly Knife | Blue Steel"
+    game_id: "a8db"
+    stattrak: [false, true]
+    exteriors: ["FN","MW","FT","WW","BS"]
+    float_range: {min: 0.00, max: 0.25}   # для мониторинга/алертов
+    my_target_usd: 480
+    low_ask_alert_usd: 520
+    top_n: 5
