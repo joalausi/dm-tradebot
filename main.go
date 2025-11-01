@@ -32,22 +32,22 @@ type DiscordCfg struct {
 // 	ChatID   string `yaml:"chat_id"`
 // }
 
-type Selector struct {
-  Title string
-  GameID string
-  StatTrak []bool
-  Exteriors []string // ["FN","MW","FT","WW","BS"]
-  FloatMin, FloatMax *float64
-}
+// type Selector struct {
+//   Title string
+//   GameID string
+//   StatTrak []bool
+//   Exteriors []string // ["FN","MW","FT","WW","BS"]
+//   FloatMin, FloatMax *float64
+// }
 // expand -> []Variant {TitleForSide, isST, exterior}
 
 type WatchItemCfg struct {
 	Title           string  `yaml:"title"`
 	GameID          string  `yaml:"game_id"`
-	StatTrak       []bool	`yaml:"stat_trak"`
-	Exteriors      []string `yaml:"exteriors"`
-	FloatMin      *float64  `yaml:"float_min"`
-	FloatMax      *float64  `yaml:"float_max"`
+	// StatTrak       []bool	`yaml:"stat_trak"`
+	// Exteriors      []string `yaml:"exteriors"`
+	// FloatMin      *float64  `yaml:"float_min"`
+	// FloatMax      *float64  `yaml:"float_max"`
 	MyTargetUSD     float64 `yaml:"my_target_usd"`
 	LowAskAlertUSD  float64 `yaml:"low_ask_alert_usd"`
 	TopN            int     `yaml:"top_n"`
@@ -67,7 +67,20 @@ type lastState struct {
 
 var state = map[string]lastState{}
 
-const marketDepthBase = "https://api.dmarket.com/marketplace-api/v1/market-depth"
+// endpoint
+const (
+	hostDM = "https://api.dmarket.com"
+	// const marketDepthBase = "https://api.dmarket.com/marketplace-api/v1/market-depth"
+
+
+	// swagger:
+	// GET /marketplace-api/v1/targets-by-title/{gameId}/{title}
+	pathTargetsByTitle = "/marketplace-api/v1/targets-by-title"
+
+	// swagger:
+	// GET /exchange/v1/offers-by-title?Title=...&Limit=...&Currency=USD[&gameId=...]
+	pathOffersByTitle = "/exchange/v1/offers-by-title"
+)
 
 func main() {
 	checkOnly := flag.Bool("check", false, "check DMarket connectivity and exit")
@@ -75,7 +88,7 @@ func main() {
 	flag.Parse()
 
 	if flag.NArg() < 1 {
-		fmt.Println("usage: dmarket-watch [flags] <config.yaml>")
+		fmt.Println("usage: main [-once|-check] ./config.yaml")
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
@@ -86,7 +99,7 @@ func main() {
 	
 	if *checkOnly {
 		if err := checkConnection(&cfg); err != nil {
-			fmt.Fprintln(os.Stderr, "connection check failed:", err)
+			fmt.Fprintln(os.Stderr, "connection check failed ❌:", err)
 			os.Exit(1)
 		}
 		fmt.Println("Connection to DMarket API looks good ✅")
@@ -371,7 +384,7 @@ func sendDiscord(dc *DiscordCfg, text string) error {
 			"content": text,
 			// На всякий случай запрещаем массовые @everyone/@here:
 			"allowed_mentions": map[string]any{
-				"parse": []string{}, // пусто => не парсить everyone/here
+				"parse": []string{}, // пусто = не парсить everyone/here
 			},
 		}
 		b, _ := json.Marshal(payload)
