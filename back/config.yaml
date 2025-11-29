@@ -5,6 +5,10 @@ discord:
   webhook_url: ""
   mention: "<>"
 
+  dmarket:
+    public_key: ""
+    secret_key: ""
+    
 # # телеграм-уведомления (опционально)
 # telegram:
 #   bot_token: "123456:ABCDEF..."   # создай @BotFather    
