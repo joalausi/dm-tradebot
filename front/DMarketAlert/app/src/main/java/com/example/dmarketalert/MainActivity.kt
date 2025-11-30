@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +20,10 @@ class MainActivity : AppCompatActivity() {
 
         // initialization of navigation view
         bottomNavigationView1 = findViewById(R.id.bottomnavigatonview)
+        bottomNavigationView1.itemBackground = null
+        bottomNavigationView1.backgroundTintList = null
+        bottomNavigationView1.itemIconTintList = ContextCompat.getColorStateList(this, R.color.nav_item_color)
+        bottomNavigationView1.itemTextColor = ContextCompat.getColorStateList(this, R.color.white)
 
         //fragment by default
         replaceFragments(HomeFragment())

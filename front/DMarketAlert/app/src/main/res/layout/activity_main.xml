@@ -24,16 +24,18 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="#1D1F20"
-        app:indicatorColor="@android:color/transparent"
         app:itemIconSize="30dp"
         app:itemIconTint="@color/nav_item_color"
         app:itemTextColor="@color/white"
         app:labelVisibilityMode="labeled"
-        app:itemRippleColor="@android:color/transparent"
+        app:itemPaddingTop="10dp"
+        app:itemPaddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_menu" />
+        app:menu="@menu/bottom_menu"
+        app:itemActiveIndicatorStyle="@android:color/transparent"
+        app:itemRippleColor="@android:color/transparent"/>
 
     <View
         android:id="@+id/view"
@@ -50,6 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:fontFamily="@font/sora_medium"
         android:text="DMarket Alert"
         android:textColor="#FFFDFD"
         android:textSize="18sp"
