@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView1.itemTextColor = ContextCompat.getColorStateList(this, R.color.white)
 
         //fragment by default
-        replaceFragments(HomeFragment())
+        bottomNavigationView1.selectedItemId = R.id.bottom_home
 
         //replace fragments of navigation menu
         bottomNavigationView1.setOnItemSelectedListener { menuItem ->
