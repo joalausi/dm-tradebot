@@ -27,8 +27,17 @@ class SplashActivity : AppCompatActivity() {
         arrows.startAnimation(animArrows)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, MainActivity::class.java))
+            val prefs = getSharedPreferences("app_preft", MODE_PRIVATE)
+            val loggedIn = prefs.getBoolean("isLoggedIn", false)
+
+            val nextScreen = if (loggedIn) {
+                MainActivity::class.java
+            } else {
+                EnterActivity::class.java
+            }
+            startActivity(Intent(this, nextScreen))
             finish()
+
         }, 1500)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

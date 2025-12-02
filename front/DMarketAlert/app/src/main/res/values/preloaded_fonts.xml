@@ -2,6 +2,8 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/baloo_da_2_semibold</item>
+        <item>@font/dela_gothic_one</item>
+        <item>@font/monomaniac_one</item>
         <item>@font/noto_sans_nko_unjoined_medium</item>
         <item>@font/sometype_mono_bold</item>
         <item>@font/sora_medium</item>
