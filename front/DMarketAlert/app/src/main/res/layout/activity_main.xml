@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#17181A"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity">
 
     <FrameLayout
         android:id="@+id/frame_container"
@@ -68,15 +68,15 @@
         android:id="@+id/imageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:shapeAppearanceOverlay="@style/RoundedImage"
-        app:layout_constraintWidth_percent="0.065"
-        app:layout_constraintHeight_percent="0.035"
         android:layout_marginStart="24dp"
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="@id/view"
+        app:layout_constraintHeight_percent="0.035"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/view"
         app:layout_constraintTop_toTopOf="@id/view"
+        app:layout_constraintWidth_percent="0.065"
+        app:shapeAppearanceOverlay="@style/RoundedImage"
         app:srcCompat="@drawable/logo_cs" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

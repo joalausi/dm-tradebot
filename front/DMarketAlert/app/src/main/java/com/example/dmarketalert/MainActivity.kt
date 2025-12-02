@@ -10,7 +10,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var bottomNavigationView1: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
