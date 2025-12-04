@@ -85,9 +85,9 @@ class EnterActivity : AppCompatActivity() {
                 val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
                 prefs.edit().putBoolean("isLoggedIn", true).apply()
 
-                val intent2 = Intent(this, MainActivity::class.java)
-                startActivity(intent2)
-                finish()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.frame_container, HomeFragment())
+                    .commit()
             } else {
                 validEdit()
             }

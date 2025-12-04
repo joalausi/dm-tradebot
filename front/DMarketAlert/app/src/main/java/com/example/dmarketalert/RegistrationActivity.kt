@@ -10,6 +10,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import android.view.View
+import android.widget.CheckBox
+import android.widget.Checkable
+import android.widget.Toast
 import androidx.core.view.WindowInsetsCompat
 
 class RegistrationActivity : AppCompatActivity() {
@@ -22,6 +25,7 @@ class RegistrationActivity : AppCompatActivity() {
     private lateinit var error_API: TextView
     private lateinit var signUp: Button
     private lateinit var logIn: TextView
+    private lateinit var acceptRules: CheckBox
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +41,7 @@ class RegistrationActivity : AppCompatActivity() {
         error_API = findViewById(R.id.textView_error_API)
         signUp = findViewById(R.id.button_signUp)
         logIn = findViewById(R.id.textView_logIn)
+        acceptRules = findViewById(R.id.checkBox)
 
         url.setOnClickListener {
             val intent = Intent(
@@ -105,18 +110,21 @@ class RegistrationActivity : AppCompatActivity() {
             return isValid
         }
 
-
-
         signUp.setOnClickListener {
-            if (nickname_edit.text.isNotEmpty() && password_edit.text.isNotEmpty() &&api_edit.text.isNotEmpty()) {
+            if (nickname_edit.text.isNotEmpty() && password_edit.text.isNotEmpty() && api_edit.text.isNotEmpty()){
                 val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
                 prefs.edit().putBoolean("isLoggedIn", true).apply()
 
-                val intent2 = Intent(this, MainActivity::class.java)
-                startActivity(intent2)
-                finish()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, HomeFragment())
+                    .commit()
             } else {
                 validEdit()
+            }
+
+            if (!acceptRules.isChecked) {
+                Toast.makeText(this, "You need to accept the Terms of Use and Privacy Police", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
             }
         }
 

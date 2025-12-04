@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="700dp"
+    android:background="@android:color/transparent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="700dp"
+        android:background="@drawable/bg_for_edittext"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <ImageView
+                        android:id="@+id/imageView_cross3"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHeight_percent="0.02"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent="0.1"
+                        app:srcCompat="@drawable/icon_cross" />
+
+                    <View
+                        android:id="@+id/view17"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_for_view"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHeight_percent="0.002"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView27"
+                        app:layout_constraintWidth_percent="0.5" />
+
+                    <TextView
+                        android:id="@+id/textView27"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/sora_medium"
+                        android:text="Terms of Use and Privacy Police"
+                        android:textColor="#FDFCFC"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView30"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="12dp"
+                        android:text="Terms of Use\n──────────────\n1. General Information\n DMarketAlert is an independent mobile application created for monitoring price targets on the DMarket platform. The application does not execute trading actions and does not perform buying or selling operations. All transactions are carried out solely by the user through the official DMarket platform.\n  2. Independence From DMarket\n The DMarketAlert development team is not affiliated with, employed by, or officially associated with DMarket. All references to DMarket are made only to indicate the source of data. All trademarks belong to their respective owners.\n  3. Purpose of the Application\n DMarketAlert allows users to:\n • add and manage price targets;\n • receive notifications when prices change;\n • view the history of targets;\n • view active alerts;\n • configure monitoring and app settings.\n  The application does not guarantee real-time accuracy of data, as information depends on external API response, connection stability, and server operation.\n  4. User Responsibility\n Users acknowledge that:\n • all trading decisions are made independently;\n • developers are not responsible for financial losses resulting from price changes, delays, or inaccurate data;\n • notifications are informational and not a guarantee of successful transactions.\n  5. Limitation of Liability\n Developers are not responsible for:\n • failures of DMarket servers;\n • incorrect operation of the DMarket API;\n • delayed or missing notifications;\n • loss of data caused by device or network issues.\n  DMarketAlert is provided “AS IS” without any warranties.\n  6. Restrictions\n Users are prohibited from:\n • reverse engineering the application;\n • selling, modifying, or redistributing the app;\n • using the app for commercial purposes without permission;\n • manipulating or falsifying DMarket data.\n  7. Updates and Changes\n The developers may modify the Terms of Use, interface, or features without prior notice.\n  8. Acceptance of Terms\n By using DMarketAlert, you agree to these Terms of Use.\n\nPrivacy Policy\n──────────────\n1. Data Collection\n DMarketAlert does not collect personal information such as:\n • name;\n • phone number;\n • email address;\n • passwords;\n • financial data.\n  The app may use the following data:\n • user-created targets;\n • item price information;\n • technical logs (API delays, error messages).\n  None of this data can identify a specific person.\n  2. Data Usage\n All collected or generated data is used only for:\n • sending local notifications;\n • displaying targets and history;\n • performing background price monitoring.\n  Your data is not sold, shared, or transferred to third parties.\n  3. Data Storage\n Target data may be stored:\n • locally on the user’s device;\n • or (if enabled by the user) on a monitoring server managed by the backend developer.\n  No confidential personal information is stored.\n  4. Security\n We apply basic security measures, including:\n • HTTPS for API communication;\n • no advertising SDKs;\n • no analytics trackers or third-party data collectors.\n  5. DMarket API Usage\n The application accesses DMarket data only through allowed public or authorized API methods.\n We do not access user accounts, balances, or private trading information.\n  6. Data Sharing\n No data is shared with external organizations, advertisers, or analytics services.\n  7. User Rights\n Users can:\n • delete their targets;\n • clear history;\n • uninstall the app and remove all local data;\n • request deletion of server-side data (if used).\n  8. Changes to Privacy Policy\n The Privacy Policy may be updated as the app evolves.\n Continued use of the app indicates acceptance of the updated policies.\n  9. Contact\n If you have any questions, contact us:\n dmarketalert@gmail.com"
+                        android:textColor="#FFFEFE"
+                        android:textSize="14.5sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/view17" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
