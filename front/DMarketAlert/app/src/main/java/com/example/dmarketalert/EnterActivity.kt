@@ -11,7 +11,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import org.w3c.dom.Text
 
 class EnterActivity : AppCompatActivity() {
     private lateinit var url: TextView
@@ -85,9 +84,9 @@ class EnterActivity : AppCompatActivity() {
                 val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
                 prefs.edit().putBoolean("isLoggedIn", true).apply()
 
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.frame_container, HomeFragment())
-                    .commit()
+                val intent2 = Intent(this, MainActivity::class.java)
+                startActivity(intent2)
+                finish()
             } else {
                 validEdit()
             }

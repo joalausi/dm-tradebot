@@ -111,20 +111,21 @@ class RegistrationActivity : AppCompatActivity() {
         }
 
         signUp.setOnClickListener {
+            if (!acceptRules.isChecked) {
+                Toast.makeText(this, "You need to accept the Terms of Use and Privacy Policy", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
             if (nickname_edit.text.isNotEmpty() && password_edit.text.isNotEmpty() && api_edit.text.isNotEmpty()){
                 val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
                 prefs.edit().putBoolean("isLoggedIn", true).apply()
 
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, HomeFragment())
-                    .commit()
+                val intent2 = Intent(this, MainActivity::class.java)
+                startActivity(intent2)
+                finish()
+
             } else {
                 validEdit()
-            }
-
-            if (!acceptRules.isChecked) {
-                Toast.makeText(this, "You need to accept the Terms of Use and Privacy Police", Toast.LENGTH_LONG).show()
-                return@setOnClickListener
             }
         }
 
