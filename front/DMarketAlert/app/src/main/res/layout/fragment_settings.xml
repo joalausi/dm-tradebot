@@ -92,7 +92,7 @@
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/noto_sans_nko_unjoined_medium"
-                        android:text="Notification options"
+                        android:text="Notifications options"
                         android:textColor="@color/white"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -133,7 +133,7 @@
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/textView48"
+                                android:id="@+id/textView_language"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="6dp"
@@ -173,7 +173,7 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <Spinner
-                                android:id="@+id/spinner"
+                                android:id="@+id/spinner_language"
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
                                 android:layout_marginEnd="16dp"
@@ -204,7 +204,7 @@
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/textView80"
+                                android:id="@+id/textView_currency"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="6dp"
@@ -232,7 +232,7 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <Spinner
-                                android:id="@+id/spinner2"
+                                android:id="@+id/spinner_currency"
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
                                 android:layout_marginEnd="16dp"
@@ -289,7 +289,7 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <TextView
-                                android:id="@+id/textView81"
+                                android:id="@+id/textView_theme"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="6dp"
@@ -304,7 +304,7 @@
                                 app:layout_constraintVertical_bias="1.0" />
 
                             <Spinner
-                                android:id="@+id/spinner3"
+                                android:id="@+id/spinner_theme"
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
                                 android:layout_marginEnd="16dp"
@@ -347,7 +347,7 @@
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/textView86"
+                                android:id="@+id/textView_turn_notification"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="6dp"
@@ -387,7 +387,7 @@
                                 app:layout_constraintWidth_percent="0.1" />
 
                             <androidx.appcompat.widget.SwitchCompat
-                                android:id="@+id/switch2"
+                                android:id="@+id/switch_turn_notifications"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="16dp"
@@ -423,7 +423,7 @@
                             android:layout_height="match_parent">
 
                             <androidx.appcompat.widget.SwitchCompat
-                                android:id="@+id/switch1"
+                                android:id="@+id/switch_turn_outbid"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="16dp"
@@ -439,7 +439,7 @@
                                 app:trackTint="@null" />
 
                             <TextView
-                                android:id="@+id/textView78"
+                                android:id="@+id/textView_turn_outbid"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="6dp"
@@ -498,7 +498,7 @@
                             android:layout_height="match_parent">
 
                             <androidx.appcompat.widget.SwitchCompat
-                                android:id="@+id/switch5"
+                                android:id="@+id/switch_turn_API_errors"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="16dp"
@@ -514,7 +514,7 @@
                                 app:trackTint="@null" />
 
                             <TextView
-                                android:id="@+id/textView85"
+                                android:id="@+id/textView_API_errors"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="6dp"
@@ -534,7 +534,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="6dp"
                                 android:fontFamily="@font/sora_medium"
-                                android:text="Turn on/off API"
+                                android:text="Turn on/off API errors"
                                 android:textColor="@color/white"
                                 android:textSize="16sp"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -572,21 +572,17 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
-                            <androidx.appcompat.widget.SwitchCompat
-                                android:id="@+id/switch6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                            <Spinner
+                                android:id="@+id/spinner_notification_mode"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
                                 android:layout_marginEnd="16dp"
-                                android:padding="0dp"
-                                android:checked="true"
-                                android:switchMinWidth="36dp"
-                                android:thumb="@drawable/switch_thumb"
+                                android:background="@drawable/bg_for_edittext"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHeight_percent="0.65"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:thumbTint="@null"
-                                app:track="@drawable/switch_track"
-                                app:trackTint="@null" />
+                                app:layout_constraintWidth_percent="0.2" />
 
                             <TextView
                                 android:id="@+id/textView91"
@@ -594,7 +590,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="6dp"
                                 android:fontFamily="@font/sora_medium"
-                                android:text="On"
+                                android:text="Sound"
                                 android:textColor="@color/white"
                                 android:textSize="14sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -647,20 +643,17 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
-                            <androidx.appcompat.widget.SwitchCompat
-                                android:id="@+id/switch7"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                            <Spinner
+                                android:id="@+id/spinner_notification_mode2"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
                                 android:layout_marginEnd="16dp"
-                                android:padding="0dp"
-                                android:switchMinWidth="36dp"
-                                android:thumb="@drawable/switch_thumb"
+                                android:background="@drawable/bg_for_edittext"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHeight_percent="0.65"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:thumbTint="@null"
-                                app:track="@drawable/switch_track"
-                                app:trackTint="@null" />
+                                app:layout_constraintWidth_percent="0.2" />
 
                             <TextView
                                 android:id="@+id/textView92"
@@ -668,7 +661,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="6dp"
                                 android:fontFamily="@font/sora_medium"
-                                android:text="Off"
+                                android:text="0 hours"
                                 android:textColor="@color/white"
                                 android:textSize="14sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -683,7 +676,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="6dp"
                                 android:fontFamily="@font/sora_medium"
-                                android:text="Turn off all"
+                                android:text="Notification delay"
                                 android:textColor="@color/white"
                                 android:textSize="16sp"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -695,7 +688,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
                                 android:layout_marginStart="12dp"
-                                android:src="@drawable/icon_notification_clear2"
+                                android:src="@drawable/icon_notification_delay"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintHeight_percent="0.65"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -1006,7 +999,7 @@
                             android:layout_height="match_parent">
 
                             <Spinner
-                                android:id="@+id/spinner4"
+                                android:id="@+id/spinner_notifications_limit"
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
                                 android:layout_marginEnd="14dp"
@@ -1018,7 +1011,7 @@
                                 app:layout_constraintWidth_percent="0.2" />
 
                             <TextView
-                                android:id="@+id/textView101"
+                                android:id="@+id/textView_limit_notifications"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="6dp"
@@ -1077,7 +1070,7 @@
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/textView103"
+                                android:id="@+id/textView_limit_history"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="6dp"
@@ -1105,7 +1098,7 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <Spinner
-                                android:id="@+id/spinner6"
+                                android:id="@+id/spinner_histury_limit"
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
                                 android:layout_marginEnd="14dp"

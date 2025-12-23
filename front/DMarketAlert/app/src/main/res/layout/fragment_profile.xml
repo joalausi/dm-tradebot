@@ -367,7 +367,7 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <TextView
-                                android:id="@+id/textView50"
+                                android:id="@+id/textView_current_targets"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="6dp"
@@ -425,7 +425,7 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <TextView
-                                android:id="@+id/textView54"
+                                android:id="@+id/textView_all_targets"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="6dp"
@@ -471,7 +471,7 @@
                                 app:layout_constraintWidth_percent="0.1" />
 
                             <TextView
-                                android:id="@+id/textView55"
+                                android:id="@+id/textView_outbid_targets"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="6dp"
@@ -536,7 +536,7 @@
                                 android:layout_marginBottom="6dp"
                                 android:fontFamily="@font/sora_medium"
                                 android:text="Valid"
-                                android:textColor="@color/light_green"
+                                android:textColor="#8CD193"
                                 android:textSize="14sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
