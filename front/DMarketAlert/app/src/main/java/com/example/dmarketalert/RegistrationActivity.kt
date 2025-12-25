@@ -1,5 +1,6 @@
 package com.example.dmarketalert
 
+import androidx.appcompat.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -12,8 +13,13 @@ import androidx.core.view.ViewCompat
 import android.view.View
 import android.widget.CheckBox
 import android.widget.Checkable
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.WindowInsetsCompat
+import java.util.zip.Inflater
+import android.text.Editable
+import android.text.TextWatcher
+import kotlinx.coroutines.CoroutineStart
 
 class RegistrationActivity : AppCompatActivity() {
     private lateinit var url: TextView
@@ -21,11 +27,13 @@ class RegistrationActivity : AppCompatActivity() {
     private lateinit var error_nickname: TextView
     private lateinit var password_edit: EditText
     private lateinit var error_password: TextView
+    private lateinit var len_password: TextView
     private lateinit var api_edit: EditText
     private lateinit var error_API: TextView
     private lateinit var signUp: Button
     private lateinit var logIn: TextView
     private lateinit var acceptRules: CheckBox
+    private lateinit var rules: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +45,13 @@ class RegistrationActivity : AppCompatActivity() {
         error_nickname = findViewById(R.id.textView_error_nickname2)
         password_edit = findViewById(R.id.editText_password)
         error_password = findViewById(R.id.textView_error_password2)
+        len_password = findViewById(R.id.textView_password_len)
         api_edit = findViewById(R.id.editText_API_key)
         error_API = findViewById(R.id.textView_error_API)
         signUp = findViewById(R.id.button_signUp)
         logIn = findViewById(R.id.textView_logIn)
         acceptRules = findViewById(R.id.checkBox)
+        rules = findViewById(R.id.textView_rules2)
 
         url.setOnClickListener {
             val intent = Intent(
@@ -121,9 +131,11 @@ class RegistrationActivity : AppCompatActivity() {
                 prefs.edit().putBoolean("isLoggedIn", true).apply()
 
                 val intent2 = Intent(this, MainActivity::class.java)
+                intent2.putExtra("nickname_key", nickname_edit.text.toString())
+                intent2.putExtra("password_key", password_edit.text.toString())
+                intent2.putExtra("api_key", api_edit.text.toString())
                 startActivity(intent2)
                 finish()
-
             } else {
                 validEdit()
             }
@@ -133,6 +145,19 @@ class RegistrationActivity : AppCompatActivity() {
             val intent3 = Intent(this, EnterActivity::class.java)
             startActivity(intent3)
             finish()
+        }
+
+        rules.setOnClickListener {
+            val dialogView = layoutInflater.inflate(R.layout.terms_of_use, null)
+            val cross: ImageView = dialogView.findViewById(R.id.imageView_cross3)
+
+            val dialog = AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create()
+            cross.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialog.show()
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

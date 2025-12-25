@@ -13,7 +13,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 
 class HomeFragment : Fragment() {
-
     private lateinit var addTarget: ImageView
     private lateinit var removeTarget: ImageView
     private lateinit var updatePage: ImageView

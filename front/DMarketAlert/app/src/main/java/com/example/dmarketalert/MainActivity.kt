@@ -60,6 +60,15 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
 
+        val fragment = ProfileFragment()
+        val bundle = Bundle()
+        bundle.putString("nickname_key", intent.getStringExtra("nickname_key"))
+        bundle.putString("password_key", intent.getStringExtra("password_key"))
+        bundle.putString("api_key", intent.getStringExtra("api_key"))
+        fragment.arguments = bundle
+
+        replaceFragments(fragment)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
