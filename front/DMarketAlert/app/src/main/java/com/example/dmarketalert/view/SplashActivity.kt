@@ -1,4 +1,4 @@
-package com.example.dmarketalert
+package com.example.dmarketalert.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,8 +8,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.os.Handler
 import android.os.Looper
-import android.view.animation.AnimationUtils // ✅ ВИПРАВЛЕНО: Правильний імпорт
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import com.example.dmarketalert.R
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

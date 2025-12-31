@@ -12,7 +12,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DMarketAlert">
         <activity
-            android:name=".SplashActivity"
+            android:name=".view.ChangeAPI"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.ChangePassword"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.ChangeNickname"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.Terms_of_use_and_privacy_police"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.License"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -22,15 +42,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegistrationActivity"
+            android:name=".view.RegistrationActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".EnterActivity"
+            android:name=".view.EnterActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
 

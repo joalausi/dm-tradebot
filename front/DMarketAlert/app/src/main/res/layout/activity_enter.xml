@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#17181A"
-    tools:context=".EnterActivity">
+    tools:context=".view.EnterActivity">
 
     <TextView
         android:id="@+id/textView_create_account"

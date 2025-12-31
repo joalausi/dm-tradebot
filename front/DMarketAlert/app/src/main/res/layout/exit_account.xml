@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/view27"
+            android:layout_width="350dp"
+            android:layout_height="275dp"
+            android:background="@drawable/bg_for_alertdialog2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.375"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView121"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/noto_sans_nko_unjoined_medium"
+            android:text="Exit account"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/view27"
+            app:layout_constraintStart_toStartOf="@+id/view27"
+            app:layout_constraintTop_toTopOf="@+id/view27" />
+
+        <TextView
+            android:id="@+id/textView122"
+            android:layout_width="235dp"
+            android:layout_height="65dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/noto_sans_nko_unjoined_medium"
+            android:gravity="center"
+            android:text="Do you want to exit from your current account?"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/view27"
+            app:layout_constraintStart_toStartOf="@+id/view27"
+            app:layout_constraintTop_toBottomOf="@+id/textView121" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_cancel2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_for_button2"
+            android:fontFamily="@font/noto_sans_nko_unjoined_medium"
+            android:text="Cancel"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="@+id/view27"
+            app:layout_constraintHeight_percent="0.065"
+            app:layout_constraintStart_toStartOf="@+id/view27"
+            app:layout_constraintTop_toBottomOf="@+id/textView122"
+            app:layout_constraintWidth_percent="0.325" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_apply2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="38dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_for_button"
+            android:fontFamily="@font/noto_sans_nko_unjoined_medium"
+            android:text="Apply"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="@+id/view27"
+            app:layout_constraintEnd_toEndOf="@+id/view27"
+            app:layout_constraintHeight_percent="0.065"
+            app:layout_constraintTop_toBottomOf="@+id/textView122"
+            app:layout_constraintWidth_percent="0.325" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

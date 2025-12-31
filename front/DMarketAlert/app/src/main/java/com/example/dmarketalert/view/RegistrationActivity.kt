@@ -1,4 +1,4 @@
-package com.example.dmarketalert
+package com.example.dmarketalert.view
 
 import androidx.appcompat.app.AlertDialog
 import android.content.Intent
@@ -12,16 +12,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import android.view.View
 import android.widget.CheckBox
-import android.widget.Checkable
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.view.WindowInsetsCompat
-import java.util.zip.Inflater
-import android.text.Editable
-import android.text.TextWatcher
-import kotlinx.coroutines.CoroutineStart
+import com.example.dmarketalert.R
+import com.example.dmarketalert.view.Terms_of_use_and_privacy_police
+import com.example.dmarketalert.viewModel.UserViewModel
+import com.example.dmarketalert.viewModel.ViewModelFactory
 
 class RegistrationActivity : AppCompatActivity() {
+    private val viewModel: UserViewModel by viewModels {
+        ViewModelFactory(this)
+    }
     private lateinit var url: TextView
     private lateinit var nickname_edit: EditText
     private lateinit var error_nickname: TextView
@@ -127,14 +130,16 @@ class RegistrationActivity : AppCompatActivity() {
             }
 
             if (nickname_edit.text.isNotEmpty() && password_edit.text.isNotEmpty() && api_edit.text.isNotEmpty()){
+                viewModel.registerUser(
+                    nickname_edit.text.toString(),
+                    password_edit.text.toString(),
+                    api_edit.text.toString()
+                )
+
                 val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
                 prefs.edit().putBoolean("isLoggedIn", true).apply()
 
-                val intent2 = Intent(this, MainActivity::class.java)
-                intent2.putExtra("nickname_key", nickname_edit.text.toString())
-                intent2.putExtra("password_key", password_edit.text.toString())
-                intent2.putExtra("api_key", api_edit.text.toString())
-                startActivity(intent2)
+                startActivity(Intent(this, MainActivity::class.java))
                 finish()
             } else {
                 validEdit()
@@ -148,16 +153,7 @@ class RegistrationActivity : AppCompatActivity() {
         }
 
         rules.setOnClickListener {
-            val dialogView = layoutInflater.inflate(R.layout.terms_of_use, null)
-            val cross: ImageView = dialogView.findViewById(R.id.imageView_cross3)
-
-            val dialog = AlertDialog.Builder(this)
-                .setView(dialogView)
-                .create()
-            cross.setOnClickListener {
-                dialog.dismiss()
-            }
-            dialog.show()
+            startActivity(Intent(this, Terms_of_use_and_privacy_police::class.java))
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

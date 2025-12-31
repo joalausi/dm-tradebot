@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#17181A"
+    tools:context=".view.ChangeNickname">
+
+    <View
+        android:id="@+id/view18"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_for_edittext"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.059"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView35"
+        app:layout_constraintWidth_percent="0.75" />
+
+    <TextView
+        android:id="@+id/textView_current_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/sora_medium"
+        android:text="User"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view18"
+        app:layout_constraintEnd_toEndOf="@+id/view18"
+        app:layout_constraintStart_toStartOf="@+id/view18"
+        app:layout_constraintTop_toTopOf="@+id/view18" />
+
+    <View
+        android:id="@+id/view19"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#1D1F20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.07"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/sora_medium"
+        android:text="Change nickname"
+        android:textColor="#FFFDFD"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view19"
+        app:layout_constraintEnd_toEndOf="@+id/view19"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageView_back3"
+        app:layout_constraintTop_toTopOf="@+id/view19" />
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="76dp"
+        android:fontFamily="@font/noto_sans_nko_unjoined_medium"
+        android:text="Change nickname"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view19" />
+
+    <ImageView
+        android:id="@+id/imageView_back3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/view19"
+        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintStart_toStartOf="@+id/view19"
+        app:layout_constraintTop_toTopOf="@+id/view19"
+        app:layout_constraintWidth_percent="0.11"
+        app:srcCompat="@drawable/icons_left_arrow" />
+
+    <TextView
+        android:id="@+id/textView35"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/noto_sans_nko_unjoined_medium"
+        android:text="Current nickname"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView27" />
+
+    <TextView
+        android:id="@+id/textView48"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/noto_sans_nko_unjoined_medium"
+        android:text="New nickname"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view18" />
+
+    <EditText
+        android:id="@+id/editText_change_nickname"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_for_edittext"
+        android:ems="10"
+        android:hint="Enter nickname"
+        android:inputType="text"
+        android:paddingLeft="15dp"
+        android:textColorHint="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView48"
+        app:layout_constraintWidth_percent="0.75" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_change_nickname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/bg_for_button"
+        android:fontFamily="@font/sora_medium"
+        android:text="Apply"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_change_nickname"
+        app:layout_constraintWidth_percent="0.75" />
+</androidx.constraintlayout.widget.ConstraintLayout>

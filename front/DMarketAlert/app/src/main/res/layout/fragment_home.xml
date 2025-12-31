@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#17181A"
-    tools:context=".HomeFragment">
+    tools:context=".view.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -51,10 +51,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="64dp"
-                        android:fontFamily="@font/sora_medium"
+                        android:fontFamily="@font/noto_sans_nko_unjoined_medium"
                         android:text="Current targets"
                         android:textColor="#FDFCFC"
-                        android:textSize="16sp"
+                        android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
@@ -66,10 +66,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="16dp"
-                        android:fontFamily="@font/sora_medium"
+                        android:fontFamily="@font/noto_sans_nko_unjoined_medium"
                         android:text="Quick menu"
                         android:textColor="#FDFCFC"
-                        android:textSize="16sp"
+                        android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
@@ -81,10 +81,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="16dp"
-                        android:fontFamily="@font/sora_medium"
-                        android:text="Details of the app"
+                        android:fontFamily="@font/noto_sans_nko_unjoined_medium"
+                        android:text="Targets statistic"
                         android:textColor="#FDFCFC"
-                        android:textSize="16sp"
+                        android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
@@ -173,29 +173,29 @@
                         android:id="@+id/imageView_remove_target"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        app:layout_constraintWidth_percent="0.11"
-                        app:layout_constraintHeight_percent="0.05"
                         android:layout_marginTop="8dp"
                         android:src="@drawable/icon_remove"
                         app:layout_constraintBottom_toBottomOf="@+id/view5"
                         app:layout_constraintEnd_toEndOf="@+id/view5"
+                        app:layout_constraintHeight_percent="0.05"
                         app:layout_constraintStart_toStartOf="@+id/view5"
                         app:layout_constraintTop_toTopOf="@+id/view5"
-                        app:layout_constraintVertical_bias="0.0" />
+                        app:layout_constraintVertical_bias="0.0"
+                        app:layout_constraintWidth_percent="0.11" />
 
                     <ImageView
                         android:id="@+id/imageView_update_page"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        app:layout_constraintWidth_percent="0.11"
-                        app:layout_constraintHeight_percent="0.05"
                         android:layout_marginTop="8dp"
                         android:src="@drawable/icon_uptade"
                         app:layout_constraintBottom_toBottomOf="@+id/view6"
                         app:layout_constraintEnd_toEndOf="@+id/view6"
+                        app:layout_constraintHeight_percent="0.05"
                         app:layout_constraintStart_toStartOf="@+id/view6"
                         app:layout_constraintTop_toTopOf="@+id/view6"
-                        app:layout_constraintVertical_bias="0.0" />
+                        app:layout_constraintVertical_bias="0.0"
+                        app:layout_constraintWidth_percent="0.11" />
 
                     <ImageView
                         android:id="@+id/imageView_check_API"
@@ -262,42 +262,6 @@
                         app:layout_constraintEnd_toEndOf="@+id/view7"
                         app:layout_constraintStart_toStartOf="@+id/view7"
                         app:layout_constraintTop_toBottomOf="@+id/imageView_check_API" />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/button_about_app"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="32dp"
-                        android:background="@drawable/bg_for_button"
-                        android:fontFamily="@font/sora_medium"
-                        android:text="About app"
-                        android:textAllCaps="false"
-                        android:textColor="#FDFCFC"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHeight_percent="0.05"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView18"
-                        app:layout_constraintVertical_bias="0.0"
-                        app:layout_constraintWidth_percent="0.5" />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/button_about_developers"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/bg_for_button"
-                        android:fontFamily="@font/sora_medium"
-                        android:text="About developers"
-                        android:textAllCaps="false"
-                        android:textColor="#FBFAFA"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHeight_percent="0.05"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/button_about_app"
-                        app:layout_constraintVertical_bias="0.0"
-                        app:layout_constraintWidth_percent="0.5" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>

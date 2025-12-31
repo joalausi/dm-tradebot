@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#17181A"
-    tools:context=".ProfileFragment" >
+    tools:context=".view.ProfileFragment" >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -929,7 +929,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/CardView_gitHub"
+                        android:id="@+id/CardView_license"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="16dp"
@@ -1009,7 +1009,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHeight_percent="0.0375"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/CardView_gitHub"
+                        app:layout_constraintTop_toBottomOf="@+id/CardView_license"
                         app:layout_constraintWidth_percent="0.9">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
