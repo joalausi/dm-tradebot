@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.dmarketalert" />
+                  <option name="mobileSdkAppId" value="1:162916076488:android:ba81b17b4680dda1ae0efd" />
+                  <option name="projectId" value="dmarketalert" />
+                  <option name="projectNumber" value="162916076488" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

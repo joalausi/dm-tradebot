@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "162916076488",
+    "project_id": "dmarketalert",
+    "storage_bucket": "dmarketalert.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:162916076488:android:ba81b17b4680dda1ae0efd",
+        "android_client_info": {
+          "package_name": "com.example.dmarketalert"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRXfuhtX0H5GH3RjEvVeLlSttfqS2PE_g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -18,13 +18,8 @@ import androidx.activity.viewModels
 import androidx.core.view.WindowInsetsCompat
 import com.example.dmarketalert.R
 import com.example.dmarketalert.view.Terms_of_use_and_privacy_police
-import com.example.dmarketalert.viewModel.UserViewModel
-import com.example.dmarketalert.viewModel.ViewModelFactory
 
 class RegistrationActivity : AppCompatActivity() {
-    private val viewModel: UserViewModel by viewModels {
-        ViewModelFactory(this)
-    }
     private lateinit var url: TextView
     private lateinit var nickname_edit: EditText
     private lateinit var error_nickname: TextView
@@ -130,16 +125,11 @@ class RegistrationActivity : AppCompatActivity() {
             }
 
             if (nickname_edit.text.isNotEmpty() && password_edit.text.isNotEmpty() && api_edit.text.isNotEmpty()){
-                viewModel.registerUser(
-                    nickname_edit.text.toString(),
-                    password_edit.text.toString(),
-                    api_edit.text.toString()
-                )
-
                 val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
                 prefs.edit().putBoolean("isLoggedIn", true).apply()
 
-                startActivity(Intent(this, MainActivity::class.java))
+                val intent2 = Intent(this, MainActivity::class.java)
+                startActivity(intent2)
                 finish()
             } else {
                 validEdit()
