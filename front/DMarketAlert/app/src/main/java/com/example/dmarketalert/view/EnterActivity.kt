@@ -7,13 +7,18 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.dmarketalert.R
+import com.example.dmarketalert.viewModel.AuthenticationViewModel
+import com.google.firebase.messaging.FirebaseMessaging
 
 class EnterActivity : AppCompatActivity() {
+    private val viewModel: AuthenticationViewModel by viewModels()
     private lateinit var url: TextView
     private lateinit var nickname_edit: EditText
     private lateinit var error_nickname: TextView
@@ -80,16 +85,32 @@ class EnterActivity : AppCompatActivity() {
             return isValid
         }
 
-        logIn.setOnClickListener {
-            if (nickname_edit.text.isNotEmpty() && password_edit.text.isNotEmpty()) {
-                val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
-                prefs.edit().putBoolean("isLoggedIn", true).apply()
+        viewModel.loginResult.observe(this) { (success, user) ->
+            if (success && user != null) {
 
-                val intent2 = Intent(this, MainActivity::class.java)
-                startActivity(intent2)
+                getSharedPreferences("app_prefs", MODE_PRIVATE)
+                    .edit()
+                    .putBoolean("isLoggedIn", true)
+                    .putString("nickname", user.nickname)
+                    .apply()
+
+                FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+                    viewModel.saveFcmToken(user.nickname!!, token)
+                }
+
+                startActivity(Intent(this, MainActivity::class.java))
                 finish()
             } else {
-                validEdit()
+                Toast.makeText(this, "Invalid nickname or password", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        logIn.setOnClickListener {
+            val nickname = nickname_edit.text.toString().trim()
+            val password = password_edit.text.toString().trim()
+
+            if (nickname.isNotEmpty() && password.isNotEmpty()) {
+                viewModel.login(nickname, password)
             }
         }
 

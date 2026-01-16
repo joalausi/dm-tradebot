@@ -1,5 +1,6 @@
 package com.example.dmarketalert.view
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -9,18 +10,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import com.example.dmarketalert.R
 import androidx.fragment.app.activityViewModels
+import com.example.dmarketalert.viewModel.AuthenticationViewModel
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
+import kotlin.math.E
 
 class ProfileFragment : Fragment() {
     private lateinit var nickname_text: TextView
     private lateinit var user_nickname: TextView
     private lateinit var password_text: TextView
-    private lateinit var nickname: CardView
-    private lateinit var password: CardView
-    private lateinit var api: CardView
+    private lateinit var nickname_button: CardView
+    private lateinit var password_button: CardView
+    private lateinit var api_button: CardView
     private lateinit var api_text: TextView
     private lateinit var remove_target_statistic: CardView
     private lateinit var exit_account: CardView
@@ -28,6 +34,8 @@ class ProfileFragment : Fragment() {
     private lateinit var ask_questions: CardView
     private lateinit var license: CardView
     private lateinit var rules: CardView
+
+    private val viewModel: AuthenticationViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,9 +47,9 @@ class ProfileFragment : Fragment() {
         nickname_text = view.findViewById(R.id.textView_nickname)
         user_nickname = view.findViewById(R.id.textView_user_nickname)
         password_text = view.findViewById(R.id.textView_password)
-        nickname = view.findViewById(R.id.CardView_nickname)
-        password = view.findViewById(R.id.CardView_password)
-        api = view.findViewById(R.id.CardView_API)
+        nickname_button = view.findViewById(R.id.CardView_nickname)
+        password_button = view.findViewById(R.id.CardView_password)
+        api_button = view.findViewById(R.id.CardView_API)
         api_text = view.findViewById(R.id.textView_API)
         remove_target_statistic = view.findViewById(R.id.CardView_remove_target_statistic)
         exit_account = view.findViewById(R.id.CardView_exit_account)
@@ -50,16 +58,42 @@ class ProfileFragment : Fragment() {
         license = view.findViewById(R.id.CardView_gitHub)
         rules = view.findViewById(R.id.CardView_terms_of_use)
 
+        val prefs = requireContext()
+            .getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
-        nickname.setOnClickListener {
+        val nickname = prefs.getString("nickname", null)
+        if (nickname.isNullOrEmpty()) {
+            startActivity(Intent(requireContext(), EnterActivity::class.java))
+            requireActivity().finish()
+            return view
+        }
+
+        FirebaseFirestore.getInstance()
+            .collection("users")
+            .document(nickname)
+            .get()
+            .addOnSuccessListener { doc ->
+                val user = doc.toObject(com.example.dmarketalert.model.User::class.java)
+                if (user != null) {
+                    user_nickname. text = user.nickname ?: ""
+                    nickname_text.text = user.nickname ?: ""
+                    password_text.text = user.password ?: ""
+                    api_text.text = user.api ?: ""
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed to load profile", Toast.LENGTH_SHORT).show()
+            }
+
+        nickname_button.setOnClickListener {
             startActivity(Intent(requireContext(), ChangeNickname::class.java))
         }
 
-        password.setOnClickListener {
+        password_button.setOnClickListener {
             startActivity(Intent(requireContext(), ChangePassword::class.java))
         }
 
-        api.setOnClickListener {
+        api_button.setOnClickListener {
             startActivity(Intent(requireContext(), ChangeAPI::class.java))
         }
 
@@ -98,8 +132,10 @@ class ProfileFragment : Fragment() {
             }
 
             apply2.setOnClickListener {
-                val intent = Intent(requireContext(), EnterActivity::class.java)
-                startActivity(intent)
+                val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+                prefs.edit().putBoolean("isLoggedIn", false).remove("nickname").apply()
+
+                startActivity(Intent(requireContext(), EnterActivity::class.java))
                 requireActivity().finish()
                 dialog2.dismiss()
             }
@@ -122,9 +158,18 @@ class ProfileFragment : Fragment() {
             }
 
             apply3.setOnClickListener {
-                val intent2 = Intent(requireContext(), RegistrationActivity::class.java)
-                startActivity(intent2)
-                requireActivity().finish()
+                val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+                val nickname = prefs.getString("nickname", "") ?: ""
+
+                FirebaseFirestore.getInstance().collection("users").document(nickname).delete()
+                    .addOnSuccessListener {
+                        prefs.edit().putBoolean("isLoggedIn", false).remove("nickname").apply()
+                        startActivity(Intent(requireContext(), RegistrationActivity::class.java))
+                        requireActivity().finish()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(requireContext(), "Failed to delete account", Toast.LENGTH_SHORT).show()
+                    }
                 dialog3.dismiss()
             }
 

@@ -6,6 +6,10 @@ plugins {
     id("com.google.gms.google-services")
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 android {
     namespace = "com.example.dmarketalert"
     compileSdk = 36
@@ -31,14 +35,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
-        }
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildToolsVersion = "36.1.0"
