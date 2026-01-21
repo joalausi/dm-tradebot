@@ -4,21 +4,22 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Button
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.dmarketalert.R
+import com.example.dmarketalert.util.ValidationUtil
 import com.example.dmarketalert.viewModel.AuthenticationViewModel
+import com.example.dmarketalert.viewModel.state.AuthState
 import com.google.firebase.messaging.FirebaseMessaging
 
 class EnterActivity : AppCompatActivity() {
+
     private val viewModel: AuthenticationViewModel by viewModels()
+
     private lateinit var url: TextView
     private lateinit var nickname_edit: EditText
     private lateinit var error_nickname: TextView
@@ -26,12 +27,20 @@ class EnterActivity : AppCompatActivity() {
     private lateinit var error_password: TextView
     private lateinit var logIn: Button
     private lateinit var create_account: TextView
+    private lateinit var progressBar: ProgressBar // ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_enter)
 
+        initViews()
+        setupListeners()
+        observeAuthState()
+        setupInsets()
+    }
+
+    private fun initViews() {
         url = findViewById(R.id.textView_URL2)
         nickname_edit = findViewById(R.id.editText_nickname2)
         error_nickname = findViewById(R.id.textView_error_nickname)
@@ -39,90 +48,126 @@ class EnterActivity : AppCompatActivity() {
         error_password = findViewById(R.id.textView_error_password)
         logIn = findViewById(R.id.button_logIn)
         create_account = findViewById(R.id.textView_create_account)
+        // progressBar = findViewById(R.id.progressBar2) // ProgressBar
+    }
 
+    private fun setupListeners() {
         url.setOnClickListener {
-            val intent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("https://dmarket.com/faq#startUsingTradingAPI")
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://dmarket.com/faq#startUsingTradingAPI")
+                )
             )
-            startActivity(intent)
-        }
-
-        fun validEdit(): Boolean {
-            var isValid = true
-
-            // check nickname
-            if (nickname_edit.text.isNullOrEmpty()) {
-                isValid = false
-                error_nickname.visibility = View.VISIBLE
-                error_nickname.alpha = 0f
-                error_nickname.animate().alpha(1f).setDuration(600).start()
-            } else {
-                error_nickname.animate()
-                    .alpha(0f)
-                    .setDuration(300)
-                    .withEndAction {
-                        error_nickname.visibility = View.GONE
-                    }
-                    .start()
-            }
-
-            // check password
-            if (password_edit.text.isNullOrEmpty()) {
-                isValid = false
-                error_password.visibility = View.VISIBLE
-                error_password.alpha = 0f
-                error_password.animate().alpha(1f).setDuration(600).start()
-            } else {
-                error_password.animate()
-                    .alpha(0f)
-                    .setDuration(300)
-                    .withEndAction {
-                        error_password.visibility = View.GONE
-                    }
-                    .start()
-            }
-            return isValid
-        }
-
-        viewModel.loginResult.observe(this) { (success, user) ->
-            if (success && user != null) {
-
-                getSharedPreferences("app_prefs", MODE_PRIVATE)
-                    .edit()
-                    .putBoolean("isLoggedIn", true)
-                    .putString("nickname", user.nickname)
-                    .apply()
-
-                FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
-                    viewModel.saveFcmToken(user.nickname!!, token)
-                }
-
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
-            } else {
-                Toast.makeText(this, "Invalid nickname or password", Toast.LENGTH_SHORT).show()
-            }
         }
 
         logIn.setOnClickListener {
+            if (!validateInputs()) return@setOnClickListener
+
             val nickname = nickname_edit.text.toString().trim()
             val password = password_edit.text.toString().trim()
 
-            if (nickname.isNotEmpty() && password.isNotEmpty()) {
-                viewModel.login(nickname, password)
-            }
+            viewModel.login(nickname, password)
         }
 
         create_account.setOnClickListener {
-            val intent3 = Intent(this, RegistrationActivity::class.java)
-            startActivity(intent3)
+            startActivity(Intent(this, RegistrationActivity::class.java))
             finish()
         }
+    }
 
+    private fun observeAuthState() {
+        viewModel.authState.observe(this) { state ->
+            when (state) {
+                is AuthState.Loading -> {
+                    setLoading(true)
+                }
+
+                is AuthState.Success -> {
+                    val user = state.user ?: return@observe
+
+                    getSharedPreferences("app_prefs", MODE_PRIVATE)
+                        .edit()
+                        .putBoolean("isLoggedIn", true)
+                        .putString("nickname", user.nickname)
+                        .apply()
+
+                    // Update FCM token, when user entering again
+                    FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+                        viewModel.saveFcmToken(user.nickname, token)
+                    }
+
+                    setLoading(false)
+
+                    Toast.makeText(
+                        this,
+                        "Welcome back, ${user.nickname}!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                }
+
+                is AuthState.Error -> {
+                    setLoading(false)
+                    Toast.makeText(
+                        this,
+                        state.message,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+                else -> {
+                    setLoading(false)
+                }
+            }
+        }
+    }
+
+    //Validate of fields for entering
+    private fun validateInputs(): Boolean {
+        var isValid = true
+
+        // Checking fields
+        if (nickname_edit.text.isNullOrBlank()) {
+            error_nickname.text = "Please enter your nickname"
+            ValidationUtil.showError(error_nickname)
+            isValid = false
+        } else {
+            ValidationUtil.hideError(error_nickname)
+        }
+
+        if (password_edit.text.isNullOrBlank()) {
+            error_password.text = "Please enter your password"
+            ValidationUtil.showError(error_password)
+            isValid = false
+        } else {
+            ValidationUtil.hideError(error_password)
+        }
+
+        return isValid
+    }
+
+    //Showing of loading indicators
+    private fun setLoading(isLoading: Boolean) {
+        // progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        logIn.isEnabled = !isLoading
+        nickname_edit.isEnabled = !isLoading
+        password_edit.isEnabled = !isLoading
+
+        logIn.text = if (isLoading) "Logging in..." else "Log In"
+    }
+
+    private fun setupInsets() {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                systemBars.bottom
+            )
             insets
         }
     }

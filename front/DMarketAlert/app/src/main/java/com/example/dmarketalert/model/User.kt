@@ -1,9 +1,14 @@
 package com.example.dmarketalert.model
 
+/**
+ * General model of user data, saving in FireStore Database.
+ * Password&API - is hash, not real values.
+ */
 data class User(
-    val nickname: String? = null,
-    val password: String? = null,
-    val api: String? = null,
+    val nickname: String = "",
+    val passwordHash: String = "",
+    val apiHash: String = "",
     val fcmToken: String = "",
-    val createdAt: Long = 0L
+    val createdAt: Long = System.currentTimeMillis(),
+    val updatedAt: Long = System.currentTimeMillis()
 )
