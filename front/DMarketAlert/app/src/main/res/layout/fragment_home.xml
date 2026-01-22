@@ -27,7 +27,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1050dp">
+                    android:layout_height="1300dp">
 
                     <View
                         android:id="@+id/view4"
@@ -38,7 +38,7 @@
                         android:background="@drawable/bg_for_edittext"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHeight_percent="0.08"
+                        app:layout_constraintHeight_percent="0.0675"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView17"
@@ -101,7 +101,7 @@
                         android:paddingEnd="10dp"
                         android:paddingRight="10dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHeight_percent="0.45"
+                        app:layout_constraintHeight_percent="0.35"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView16"
                         app:layout_constraintWidth_percent="0.9" />
@@ -115,7 +115,7 @@
                         android:background="@drawable/bg_for_edittext"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHeight_percent="0.08"
+                        app:layout_constraintHeight_percent="0.0675"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/view4"
                         app:layout_constraintTop_toBottomOf="@+id/textView17"
@@ -131,7 +131,7 @@
                         android:background="@drawable/bg_for_edittext"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHeight_percent="0.08"
+                        app:layout_constraintHeight_percent="0.0675"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/view5"
                         app:layout_constraintTop_toBottomOf="@+id/textView17"
@@ -148,7 +148,7 @@
                         android:background="@drawable/bg_for_edittext"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHeight_percent="0.08"
+                        app:layout_constraintHeight_percent="0.0675"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/view6"
                         app:layout_constraintTop_toBottomOf="@+id/textView17"
@@ -157,17 +157,17 @@
 
                     <ImageView
                         android:id="@+id/imageView_add_target"
-                        app:layout_constraintWidth_percent="0.11"
-                        app:layout_constraintHeight_percent="0.05"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="8dp"
                         android:src="@drawable/icon_add"
                         app:layout_constraintBottom_toBottomOf="@+id/view4"
                         app:layout_constraintEnd_toEndOf="@+id/view4"
+                        app:layout_constraintHeight_percent="0.038"
                         app:layout_constraintStart_toStartOf="@+id/view4"
                         app:layout_constraintTop_toTopOf="@+id/view4"
-                        app:layout_constraintVertical_bias="0.0" />
+                        app:layout_constraintVertical_bias="0.0"
+                        app:layout_constraintWidth_percent="0.12" />
 
                     <ImageView
                         android:id="@+id/imageView_remove_target"
@@ -177,11 +177,11 @@
                         android:src="@drawable/icon_remove"
                         app:layout_constraintBottom_toBottomOf="@+id/view5"
                         app:layout_constraintEnd_toEndOf="@+id/view5"
-                        app:layout_constraintHeight_percent="0.05"
+                        app:layout_constraintHeight_percent="0.038"
                         app:layout_constraintStart_toStartOf="@+id/view5"
                         app:layout_constraintTop_toTopOf="@+id/view5"
                         app:layout_constraintVertical_bias="0.0"
-                        app:layout_constraintWidth_percent="0.11" />
+                        app:layout_constraintWidth_percent="0.12" />
 
                     <ImageView
                         android:id="@+id/imageView_update_page"
@@ -191,25 +191,25 @@
                         android:src="@drawable/icon_uptade"
                         app:layout_constraintBottom_toBottomOf="@+id/view6"
                         app:layout_constraintEnd_toEndOf="@+id/view6"
-                        app:layout_constraintHeight_percent="0.05"
+                        app:layout_constraintHeight_percent="0.038"
                         app:layout_constraintStart_toStartOf="@+id/view6"
                         app:layout_constraintTop_toTopOf="@+id/view6"
                         app:layout_constraintVertical_bias="0.0"
-                        app:layout_constraintWidth_percent="0.11" />
+                        app:layout_constraintWidth_percent="0.12" />
 
                     <ImageView
                         android:id="@+id/imageView_check_API"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        app:layout_constraintWidth_percent="0.11"
-                        app:layout_constraintHeight_percent="0.05"
                         android:layout_marginTop="8dp"
                         android:src="@drawable/icon_api"
                         app:layout_constraintBottom_toBottomOf="@+id/view7"
                         app:layout_constraintEnd_toEndOf="@+id/view7"
+                        app:layout_constraintHeight_percent="0.038"
                         app:layout_constraintStart_toStartOf="@+id/view7"
                         app:layout_constraintTop_toTopOf="@+id/view7"
-                        app:layout_constraintVertical_bias="0.0" />
+                        app:layout_constraintVertical_bias="0.0"
+                        app:layout_constraintWidth_percent="0.12" />
 
                     <TextView
                         android:id="@+id/textView5"
@@ -262,6 +262,33 @@
                         app:layout_constraintEnd_toEndOf="@+id/view7"
                         app:layout_constraintStart_toStartOf="@+id/view7"
                         app:layout_constraintTop_toBottomOf="@+id/imageView_check_API" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/CardView_pirChart"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="16dp"
+                        app:cardBackgroundColor="#17181A"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHeight_percent="0.35"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView18"
+                        app:layout_constraintVertical_bias="0.0"
+                        app:layout_constraintWidth_percent="0.9">
+
+                        <com.github.mikephil.charting.charts.PieChart
+                            android:id="@+id/piechart"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:layout_constraintBottom_toBottomOf="@+id/CardView_pirChart"
+                            app:layout_constraintEnd_toEndOf="@+id/CardView_pirChart"
+                            app:layout_constraintStart_toStartOf="@+id/CardView_pirChart"
+                            app:layout_constraintTop_toBottomOf="@+id/CardView_pirChart">
+
+                        </com.github.mikephil.charting.charts.PieChart>
+                    </androidx.cardview.widget.CardView>
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>

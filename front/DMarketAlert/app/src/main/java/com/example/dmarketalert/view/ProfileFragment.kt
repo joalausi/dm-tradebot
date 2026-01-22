@@ -2,6 +2,7 @@ package com.example.dmarketalert.view
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -114,6 +115,8 @@ class ProfileFragment : Fragment() {
             .setView(dialogView)
             .create()
 
+        dialogView.setBackgroundColor(Color.TRANSPARENT)
+
         dialogView.findViewById<Button>(R.id.button_cancel2).setOnClickListener {
             dialog.dismiss()
         }
@@ -137,6 +140,8 @@ class ProfileFragment : Fragment() {
         dialogView.findViewById<Button>(R.id.button_cancel3).setOnClickListener {
             dialog.dismiss()
         }
+
+        dialogView.setBackgroundColor(Color.TRANSPARENT)
 
         dialogView.findViewById<Button>(R.id.button_apply3).setOnClickListener {
             viewModel.deleteAccount(nickname) { result ->

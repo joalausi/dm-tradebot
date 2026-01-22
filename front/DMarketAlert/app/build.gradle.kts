@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.fragment.ktx)
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
     // Tests
     testImplementation(libs.junit)
