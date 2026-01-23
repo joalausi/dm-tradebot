@@ -68,14 +68,14 @@ class HomeFragment : Fragment() {
 
         val list: ArrayList<PieEntry> = ArrayList()
 
-        list.add(PieEntry(127f, "20"))
-        list.add(PieEntry(115f, "12"))
-        list.add(PieEntry(102f, "5"))
+        val outbidTargets = list.add(PieEntry(3f, "Outbid targets"))
+        val currentTargets = list.add(PieEntry(10f, "Current targets"))
+        val allTimeTargets = list.add(PieEntry(50f, "All time targets"))
 
         val setPieData = PieDataSet(list, "Targets")
 
-        setPieData.setColors(Color.BLUE, Color.RED, Color.GREEN)
-        setPieData.valueTextSize = 14f
+        setPieData.setColors(Color.parseColor("#D17575"), Color.parseColor("#8DD294"), Color.parseColor("#6372CC"))
+        setPieData.valueTextSize = 10f
         setPieData.valueTextColor = Color.WHITE
 
         val pieData = PieData(setPieData)

@@ -38,7 +38,7 @@
                         android:background="@drawable/bg_for_edittext"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHeight_percent="0.0675"
+                        app:layout_constraintHeight_percent="0.065"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView17"
@@ -53,7 +53,7 @@
                         android:layout_marginTop="64dp"
                         android:fontFamily="@font/noto_sans_nko_unjoined_medium"
                         android:text="Current targets"
-                        android:textColor="#FDFCFC"
+                        android:textColor="@color/white"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -68,7 +68,7 @@
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/noto_sans_nko_unjoined_medium"
                         android:text="Quick menu"
-                        android:textColor="#FDFCFC"
+                        android:textColor="@color/white"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -83,7 +83,7 @@
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/noto_sans_nko_unjoined_medium"
                         android:text="Targets statistic"
-                        android:textColor="#FDFCFC"
+                        android:textColor="@color/white"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -115,7 +115,7 @@
                         android:background="@drawable/bg_for_edittext"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHeight_percent="0.0675"
+                        app:layout_constraintHeight_percent="0.065"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/view4"
                         app:layout_constraintTop_toBottomOf="@+id/textView17"
@@ -131,7 +131,7 @@
                         android:background="@drawable/bg_for_edittext"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHeight_percent="0.0675"
+                        app:layout_constraintHeight_percent="0.065"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/view5"
                         app:layout_constraintTop_toBottomOf="@+id/textView17"
@@ -148,7 +148,7 @@
                         android:background="@drawable/bg_for_edittext"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHeight_percent="0.0675"
+                        app:layout_constraintHeight_percent="0.065"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/view6"
                         app:layout_constraintTop_toBottomOf="@+id/textView17"
@@ -217,7 +217,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/sora_medium"
                         android:text="Add target"
-                        android:textColor="#FDFBFB"
+                        android:textColor="@color/white"
                         android:textSize="10sp"
                         app:layout_constraintBottom_toBottomOf="@+id/view4"
                         app:layout_constraintEnd_toEndOf="@+id/view4"
@@ -230,7 +230,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/sora_medium"
                         android:text="Remove target"
-                        android:textColor="#FDFBFB"
+                        android:textColor="@color/white"
                         android:textSize="10sp"
                         app:layout_constraintBottom_toBottomOf="@+id/view5"
                         app:layout_constraintEnd_toEndOf="@+id/view5"
@@ -243,7 +243,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/sora_medium"
                         android:text="Update page"
-                        android:textColor="#FDFBFB"
+                        android:textColor="@color/white"
                         android:textSize="10sp"
                         app:layout_constraintBottom_toBottomOf="@+id/view6"
                         app:layout_constraintEnd_toEndOf="@+id/view6"
@@ -256,7 +256,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/sora_medium"
                         android:text="Check API"
-                        android:textColor="#FDFBFB"
+                        android:textColor="@color/white"
                         android:textSize="10sp"
                         app:layout_constraintBottom_toBottomOf="@+id/view7"
                         app:layout_constraintEnd_toEndOf="@+id/view7"
@@ -267,15 +267,17 @@
                         android:id="@+id/CardView_pirChart"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
+                        android:layout_marginStart="20dp"
                         android:layout_marginTop="16dp"
                         app:cardBackgroundColor="#17181A"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHeight_percent="0.35"
+                        app:layout_constraintHeight_percent="0.21"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView18"
                         app:layout_constraintVertical_bias="0.0"
-                        app:layout_constraintWidth_percent="0.9">
+                        app:layout_constraintWidth_percent="0.55">
 
                         <com.github.mikephil.charting.charts.PieChart
                             android:id="@+id/piechart"
@@ -288,6 +290,220 @@
 
                         </com.github.mikephil.charting.charts.PieChart>
                     </androidx.cardview.widget.CardView>
+
+                    <View
+                        android:id="@+id/view8"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/bg_for_current_targets"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHeight_percent="0.065"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toEndOf="@+id/CardView_pirChart"
+                        app:layout_constraintTop_toBottomOf="@+id/textView18"
+                        app:layout_constraintWidth_percent="0.3" />
+
+                    <TextView
+                        android:id="@+id/textView19"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/sora_medium"
+                        android:text="Current targets"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="@+id/view8"
+                        app:layout_constraintStart_toStartOf="@+id/view8"
+                        app:layout_constraintTop_toTopOf="@+id/view8" />
+
+                    <TextView
+                        android:id="@+id/textView20"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/sora_medium"
+                        android:text="Active"
+                        android:textColor="@android:color/holo_green_dark"
+                        android:textSize="10sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/view8"
+                        app:layout_constraintEnd_toEndOf="@+id/textView_current_targets_inBox"
+                        app:layout_constraintStart_toStartOf="@+id/textView_current_targets_inBox"
+                        app:layout_constraintTop_toBottomOf="@+id/textView_current_targets_inBox"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <TextView
+                        android:id="@+id/textView_current_targets_inBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="4dp"
+                        android:fontFamily="@font/sora_medium"
+                        android:text="10"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/view8"
+                        app:layout_constraintEnd_toStartOf="@+id/imageView4"
+                        app:layout_constraintStart_toStartOf="@+id/view8"
+                        app:layout_constraintTop_toBottomOf="@+id/textView19"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <View
+                        android:id="@+id/view9"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/bg_for_outbid_targets"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHeight_percent="0.065"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toEndOf="@+id/CardView_pirChart"
+                        app:layout_constraintTop_toBottomOf="@+id/view8"
+                        app:layout_constraintWidth_percent="0.3" />
+
+                    <TextView
+                        android:id="@+id/textView21"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/sora_medium"
+                        android:text="Overbid"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="10sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/view9"
+                        app:layout_constraintEnd_toEndOf="@+id/textView_current_targets_inBox2"
+                        app:layout_constraintStart_toStartOf="@+id/textView_current_targets_inBox2"
+                        app:layout_constraintTop_toBottomOf="@+id/textView_current_targets_inBox2"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <ImageView
+                        android:id="@+id/imageView5"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/icon_block_targets"
+                        app:layout_constraintBottom_toBottomOf="@+id/view9"
+                        app:layout_constraintEnd_toEndOf="@+id/view9"
+                        app:layout_constraintHeight_percent="0.025"
+                        app:layout_constraintTop_toBottomOf="@+id/textView22"
+                        app:layout_constraintVertical_bias="0.0"
+                        app:layout_constraintWidth_percent="0.075" />
+
+                    <TextView
+                        android:id="@+id/textView_current_targets_inBox2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="4dp"
+                        android:fontFamily="@font/sora_medium"
+                        android:text="3"
+                        android:textColor="#FDFBFB"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/view9"
+                        app:layout_constraintEnd_toStartOf="@+id/imageView5"
+                        app:layout_constraintStart_toStartOf="@+id/view9"
+                        app:layout_constraintTop_toBottomOf="@+id/textView22"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <TextView
+                        android:id="@+id/textView22"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/sora_medium"
+                        android:text="Outbid targets"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="@+id/view9"
+                        app:layout_constraintStart_toStartOf="@+id/view9"
+                        app:layout_constraintTop_toTopOf="@+id/view9" />
+
+                    <View
+                        android:id="@+id/view10"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/bg_for_all_time_targets"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHeight_percent="0.065"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toEndOf="@+id/CardView_pirChart"
+                        app:layout_constraintTop_toBottomOf="@+id/view9"
+                        app:layout_constraintWidth_percent="0.3" />
+
+                    <TextView
+                        android:id="@+id/textView_current_targets_inBox3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="4dp"
+                        android:fontFamily="@font/sora_medium"
+                        android:text="50"
+                        android:textColor="#FDFBFB"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/view10"
+                        app:layout_constraintEnd_toStartOf="@+id/imageView6"
+                        app:layout_constraintStart_toStartOf="@+id/view10"
+                        app:layout_constraintTop_toBottomOf="@+id/textView24"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <ImageView
+                        android:id="@+id/imageView6"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/icon_all_targets"
+                        app:layout_constraintBottom_toBottomOf="@+id/view10"
+                        app:layout_constraintEnd_toEndOf="@+id/view10"
+                        app:layout_constraintHeight_percent="0.025"
+                        app:layout_constraintTop_toBottomOf="@+id/textView24"
+                        app:layout_constraintVertical_bias="0.0"
+                        app:layout_constraintWidth_percent="0.075" />
+
+                    <TextView
+                        android:id="@+id/textView24"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/sora_medium"
+                        android:text="All time targets"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="@+id/view10"
+                        app:layout_constraintStart_toStartOf="@+id/view10"
+                        app:layout_constraintTop_toTopOf="@+id/view10" />
+
+                    <View
+                        android:id="@+id/view11"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="24dp"
+                        android:background="@drawable/bg_for_edittext"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHeight_percent="0.065"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/CardView_pirChart"
+                        app:layout_constraintWidth_percent="0.9" />
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/icon_targets"
+                        app:layout_constraintBottom_toBottomOf="@+id/view8"
+                        app:layout_constraintEnd_toEndOf="@+id/view8"
+                        app:layout_constraintHeight_percent="0.025"
+                        app:layout_constraintTop_toBottomOf="@+id/textView19"
+                        app:layout_constraintVertical_bias="0.0"
+                        app:layout_constraintWidth_percent="0.075" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

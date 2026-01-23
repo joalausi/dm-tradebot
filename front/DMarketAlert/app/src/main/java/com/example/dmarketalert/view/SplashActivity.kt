@@ -28,7 +28,7 @@ class SplashActivity : AppCompatActivity() {
         arrows.startAnimation(animArrows)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val prefs = getSharedPreferences("app_preft", MODE_PRIVATE)
+            val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
             val loggedIn = prefs.getBoolean("isLoggedIn", false)
 
             val nextScreen = if (loggedIn) {
@@ -38,6 +38,7 @@ class SplashActivity : AppCompatActivity() {
             }
             startActivity(Intent(this, nextScreen))
             finish()
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
 
         }, 1500)
 
