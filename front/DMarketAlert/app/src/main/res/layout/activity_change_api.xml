@@ -8,6 +8,24 @@
     android:background="#17181A"
     tools:context=".view.ChangeAPI">
 
+    <EditText
+        android:id="@+id/editText_change_API"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_for_edittext"
+        android:ems="10"
+        android:hint="Enter API"
+        android:inputType="textPassword"
+        android:paddingLeft="15dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView81"
+        app:layout_constraintWidth_percent="0.75" />
+
     <View
         android:id="@+id/view22"
         android:layout_width="0dp"
@@ -50,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="76dp"
-        android:fontFamily="@font/noto_sans_nko_unjoined_medium"
+        android:fontFamily="@font/dela_gothic_one"
         android:text="Change API"
         android:textColor="@color/white"
         android:textSize="20sp"
@@ -111,28 +129,11 @@
         app:layout_constraintStart_toStartOf="@+id/view23"
         app:layout_constraintTop_toTopOf="@+id/view23" />
 
-    <EditText
-        android:id="@+id/editText_change_api"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/bg_for_edittext"
-        android:ems="10"
-        android:hint="Enter API"
-        android:inputType="text"
-        android:paddingLeft="15dp"
-        android:textColorHint="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView81"
-        app:layout_constraintWidth_percent="0.75" />
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_change_api"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/bg_for_button"
         android:fontFamily="@font/sora_medium"
         android:text="Apply"
@@ -140,6 +141,23 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_change_api"
+        app:layout_constraintTop_toBottomOf="@+id/textView_error_api_change"
         app:layout_constraintWidth_percent="0.75" />
+
+    <TextView
+        android:id="@+id/textView_error_api_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="sans-serif-light"
+        android:text="Please, enter correct API"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_change_API" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

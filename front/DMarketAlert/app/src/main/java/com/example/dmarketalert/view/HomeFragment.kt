@@ -9,82 +9,131 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.fragment.app.activityViewModels
 import com.example.dmarketalert.R
+import com.example.dmarketalert.viewModel.TargetStatisticsViewModel
 import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.utils.ColorTemplate
 
 class HomeFragment : Fragment() {
+
     private lateinit var addTarget: ImageView
     private lateinit var removeTarget: ImageView
     private lateinit var updatePage: ImageView
     private lateinit var checkAPI: ImageView
     private lateinit var pieChart: PieChart
+    private lateinit var currentTargetsText: TextView
+    private lateinit var outbidTargetsText: TextView
+    private lateinit var allTargetsText: TextView
+    private val statisticsViewModel: TargetStatisticsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
+    ): View {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        // inizializaton of an elements of the home screen
+        initViews(view)
+        observeStatistics()
+        setupClickListeners()
+
+        return view
+    }
+
+    private fun initViews(view: View) {
         addTarget = view.findViewById(R.id.imageView_add_target)
         removeTarget = view.findViewById(R.id.imageView_remove_target)
         updatePage = view.findViewById(R.id.imageView_update_page)
         checkAPI = view.findViewById(R.id.imageView_check_API)
         pieChart = view.findViewById(R.id.piechart)
+        currentTargetsText = view.findViewById(R.id.textView_current_targets_inBox)
+        outbidTargetsText = view.findViewById(R.id.textView_outbid_targets_inBox)
+        allTargetsText = view.findViewById(R.id.textView_all_targets_inBox)
+    }
 
+    private fun observeStatistics() {
+        statisticsViewModel.statistics.observe(viewLifecycleOwner) { stats ->
+            updateUI(stats.currentTargets, stats.outbidTargets, stats.allTimeTargets)
+        }
+    }
+
+    private fun setupClickListeners() {
         addTarget.setOnClickListener {
-            val intent1 = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("https://dmarket.com/ingame-items/item-list/csgo-skins?exchangeTab=myTargets"))
-            startActivity(intent1)
+            openDMarketTargets()
         }
 
         removeTarget.setOnClickListener {
-            val intent2 = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("https://dmarket.com/ingame-items/item-list/csgo-skins?exchangeTab=myTargets"))
-            startActivity(intent2)
+            openDMarketTargets()
         }
 
         updatePage.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, HomeFragment())
-                .commit()
+            refreshFragment()
         }
 
         checkAPI.setOnClickListener {
-            val intent3 = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("https://dmarket.com/ru/ingame-items/item-list/csgo-skins?utm_source=google&utm_medium=cpc&utm_campaign=dm_new_brand-ua_s&gclid=Cj0KCQiAubrJBhCbARIsAHIdxD9iQgymE9e0Xf1OyoNVeUuAmbHiM7ecPEBO_oniDF8EqwVkkQVi-QsaAq1yEALw_wcB&cheapestBySteamAnalyst=true"))
-            startActivity(intent3)
+            openDMarketHome()
+        }
+    }
+
+    private fun updateUI(current: Float, outbid: Float, allTime: Float) {
+        currentTargetsText.text = current.toInt().toString()
+        outbidTargetsText.text = outbid.toInt().toString()
+        allTargetsText.text = allTime.toInt().toString()
+
+        setupPieChart(current, outbid, allTime)
+    }
+
+    private fun setupPieChart(current: Float, outbid: Float, allTime: Float) {
+        val entries = arrayListOf(
+            PieEntry(current, "Current targets"),
+            PieEntry(outbid, "Outbid targets"),
+            PieEntry(allTime, "All time targets")
+        )
+
+        val dataSet = PieDataSet(entries, "Targets").apply {
+            colors = listOf(
+                Color.parseColor("#8DD294"),
+                Color.parseColor("#D17575"),
+                Color.parseColor("#6372CC")
+            )
+            valueTextSize = 10f
+            valueTextColor = Color.WHITE
         }
 
-        val list: ArrayList<PieEntry> = ArrayList()
+        val pieData = PieData(dataSet)
 
-        val outbidTargets = list.add(PieEntry(3f, "Outbid targets"))
-        val currentTargets = list.add(PieEntry(10f, "Current targets"))
-        val allTimeTargets = list.add(PieEntry(50f, "All time targets"))
+        pieChart.apply {
+            data = pieData
+            description.text = "Targets detail statistic"
+            centerText = "Targets statistic"
+            animateY(2500)
+            invalidate()
+        }
+    }
 
-        val setPieData = PieDataSet(list, "Targets")
+    private fun openDMarketTargets() {
+        val intent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("https://dmarket.com/ingame-items/item-list/csgo-skins?exchangeTab=myTargets")
+        )
+        startActivity(intent)
+    }
 
-        setPieData.setColors(Color.parseColor("#D17575"), Color.parseColor("#8DD294"), Color.parseColor("#6372CC"))
-        setPieData.valueTextSize = 10f
-        setPieData.valueTextColor = Color.WHITE
+    private fun openDMarketHome() {
+        val intent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("https://dmarket.com/ingame-items/item-list/csgo-skins?cheapestBySteamAnalyst=true")
+        )
+        startActivity(intent)
+    }
 
-        val pieData = PieData(setPieData)
-        pieChart.data = pieData
-
-        pieChart.description.text = "Targets detail statistic"
-        pieChart.centerText = "Targets statistic"
-        pieChart.animateY(2500)
-
-        return view
+    private fun refreshFragment() {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, HomeFragment())
+            .commit()
     }
 }

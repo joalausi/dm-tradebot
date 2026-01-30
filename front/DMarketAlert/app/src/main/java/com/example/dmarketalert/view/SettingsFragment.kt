@@ -22,7 +22,7 @@ class SettingsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
 
-        gitHub = view.findViewById(R.id.CardView_gitHub)
+        gitHub = view.findViewById(R.id.CardView_license_in_profile)
         disclaimer = view.findViewById(R.id.CardView_disclamer)
 
         tech_support = view.findViewById(R.id.CardView_tech_support)

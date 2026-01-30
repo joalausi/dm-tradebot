@@ -129,6 +129,33 @@ class AuthenticationViewModel : ViewModel() {
         }
     }
 
+    // Updating of nickname
+    fun updateNickname(
+        oldNickname: String,
+        newNickname: String,
+        onResult: (Result<Unit>) -> Unit
+    ) {
+        viewModelScope.launch {
+            val result = repository.updateNickname(oldNickname, newNickname)
+            onResult(result)
+        }
+    }
+
+    // Verify password
+    fun verifyPassword(
+        nickname: String,
+        password: String,
+        onResult: (Result<Boolean>) -> Unit
+    ) {
+        viewModelScope.launch {
+            val result = repository.verifyPassword(
+                nickname,
+                SecurityUtil.sha256(password)
+            )
+            onResult(result)
+        }
+    }
+
     // Exit from an account
     fun logout() {
         authState.value = AuthState.Idle

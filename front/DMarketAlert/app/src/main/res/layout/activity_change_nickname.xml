@@ -63,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="76dp"
-        android:fontFamily="@font/noto_sans_nko_unjoined_medium"
+        android:fontFamily="@font/dela_gothic_one"
         android:text="Change nickname"
         android:textColor="@color/white"
         android:textSize="20sp"
@@ -131,7 +131,7 @@
         android:id="@+id/button_change_nickname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/bg_for_button"
         android:fontFamily="@font/sora_medium"
         android:text="Apply"
@@ -139,6 +139,22 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_change_nickname"
+        app:layout_constraintTop_toBottomOf="@+id/textView_error_nickname_change"
         app:layout_constraintWidth_percent="0.75" />
+
+    <TextView
+        android:id="@+id/textView_error_nickname_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="sans-serif-light"
+        android:text="Please, write nickname"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_change_nickname" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:backgroundTint="@android:color/transparent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:backgroundTint="@android:color/transparent">
 
         <View
             android:id="@+id/view30"
@@ -24,29 +29,28 @@
             android:id="@+id/button_cancel3"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="38dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/bg_for_button2"
+            android:background="@drawable/bg_for_view"
             android:fontFamily="@font/noto_sans_nko_unjoined_medium"
             android:text="Cancel"
             android:textAllCaps="false"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/view30"
-            app:layout_constraintHeight_percent="0.065"
+            app:layout_constraintEnd_toEndOf="@+id/view30"
+            app:layout_constraintHeight_percent="0.06"
             app:layout_constraintStart_toStartOf="@+id/view30"
-            app:layout_constraintTop_toBottomOf="@+id/textView119"
-            app:layout_constraintWidth_percent="0.325" />
+            app:layout_constraintTop_toBottomOf="@+id/button_apply3"
+            app:layout_constraintWidth_percent="0.8" />
 
         <TextView
             android:id="@+id/textView119"
-            android:layout_width="235dp"
-            android:layout_height="100dp"
+            android:layout_width="250dp"
+            android:layout_height="70dp"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/noto_sans_nko_unjoined_medium"
             android:gravity="center"
             android:text="Are you sure you want to delete your account with all statistic and more?"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@+id/view30"
             app:layout_constraintStart_toStartOf="@+id/view30"
             app:layout_constraintTop_toBottomOf="@+id/textView101" />
@@ -55,25 +59,24 @@
             android:id="@+id/button_apply3"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="38dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/bg_for_button"
             android:fontFamily="@font/noto_sans_nko_unjoined_medium"
             android:text="Apply"
             android:textAllCaps="false"
-            app:layout_constraintBottom_toBottomOf="@+id/view30"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/view30"
-            app:layout_constraintHeight_percent="0.065"
+            app:layout_constraintHeight_percent="0.06"
+            app:layout_constraintStart_toStartOf="@+id/view30"
             app:layout_constraintTop_toBottomOf="@+id/textView119"
-            app:layout_constraintWidth_percent="0.325" />
+            app:layout_constraintWidth_percent="0.8" />
 
         <TextView
             android:id="@+id/textView101"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/noto_sans_nko_unjoined_medium"
+            android:fontFamily="@font/dela_gothic_one"
             android:text="Delete account"
             android:textColor="@color/white"
             android:textSize="20sp"

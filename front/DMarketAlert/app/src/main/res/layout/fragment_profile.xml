@@ -47,7 +47,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/sora_medium"
-                        android:text="User"
                         android:textColor="#FDFBFB"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -97,7 +96,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/CardView_outbid_targets" />
+                        app:layout_constraintTop_toBottomOf="@+id/CardView_all_targets" />
 
                     <TextView
                         android:id="@+id/textView52"
@@ -174,7 +173,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="6dp"
                                 android:fontFamily="@font/sora_medium"
-                                android:text="User"
                                 android:textColor="@color/white"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -302,7 +300,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="6dp"
                                 android:fontFamily="@font/sora_medium"
-                                android:text="******************"
                                 android:textColor="@color/white"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -383,7 +380,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/CardView_all_targets"
+                        android:id="@+id/CardView_outbid_targets"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="16dp"
@@ -399,12 +396,24 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
+                            <TextView
+                                android:id="@+id/textView_outbid_targets"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/sora_medium"
+                                android:text="0"
+                                android:textColor="@color/white"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/textView53" />
+
                             <ImageView
                                 android:id="@+id/imageView7"
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
                                 android:layout_marginStart="13dp"
-                                android:src="@drawable/icon_all_targets"
+                                android:src="@drawable/icon_block_targets"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintHeight_percent="0.7"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -417,32 +426,18 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="6dp"
                                 android:fontFamily="@font/sora_medium"
-                                android:text="All targets"
+                                android:text="Outbid targets"
                                 android:textColor="@color/white"
                                 android:textSize="16sp"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
-                            <TextView
-                                android:id="@+id/textView_all_targets"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="6dp"
-                                android:fontFamily="@font/sora_medium"
-                                android:text="0"
-                                android:textColor="@color/white"
-                                android:textSize="14sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/textView53"
-                                app:layout_constraintVertical_bias="1.0" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/CardView_outbid_targets"
+                        android:id="@+id/CardView_all_targets"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="16dp"
@@ -451,19 +446,31 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHeight_percent="0.0375"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/CardView_all_targets"
+                        app:layout_constraintTop_toBottomOf="@+id/CardView_outbid_targets"
                         app:layout_constraintWidth_percent="0.9">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
+                            <TextView
+                                android:id="@+id/textView_all_targets"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/sora_medium"
+                                android:text="0"
+                                android:textColor="@color/white"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/textView56" />
+
                             <ImageView
                                 android:id="@+id/imageView12"
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
                                 android:layout_marginStart="14dp"
-                                android:src="@drawable/icon_block_targets"
+                                android:src="@drawable/icon_all_targets"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintHeight_percent="0.7"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -471,27 +478,12 @@
                                 app:layout_constraintWidth_percent="0.1" />
 
                             <TextView
-                                android:id="@+id/textView_outbid_targets"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="6dp"
-                                android:fontFamily="@font/sora_medium"
-                                android:text="0"
-                                android:textColor="@color/white"
-                                android:textSize="14sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/textView56"
-                                app:layout_constraintVertical_bias="1.0" />
-
-                            <TextView
                                 android:id="@+id/textView56"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="6dp"
                                 android:fontFamily="@font/sora_medium"
-                                android:text="Outbid targets"
+                                android:text="All targets"
                                 android:textColor="@color/white"
                                 android:textSize="16sp"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -929,7 +921,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/CardView_gitHub"
+                        android:id="@+id/CardView_license_in_profile"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="16dp"
@@ -1009,7 +1001,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHeight_percent="0.0375"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/CardView_gitHub"
+                        app:layout_constraintTop_toBottomOf="@+id/CardView_license_in_profile"
                         app:layout_constraintWidth_percent="0.9">
 
                         <androidx.constraintlayout.widget.ConstraintLayout

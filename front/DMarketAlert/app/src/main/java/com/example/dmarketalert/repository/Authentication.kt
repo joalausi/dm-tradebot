@@ -17,7 +17,7 @@ class Authentication {
                 return Result.failure(Exception("Invalid nickname"))
             }
 
-            // Перевірка чи існує користувач
+            // Checking, is user created
             val doc = users.document(nickname).get().await()
 
             if (doc.exists()) {
@@ -139,6 +139,49 @@ class Authentication {
                     Result.success(Unit)
                 }
             }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    // Updating of nickname
+    suspend fun updateNickname(oldNickname: String, newNickname: String): Result<Unit> {
+        return try {
+            // Check if new nickname is already taken
+            val existingDoc = users.document(newNickname).get().await()
+            if (existingDoc.exists()) {
+                return Result.failure(Exception("Nickname already taken"))
+            }
+
+            // Get old user data
+            val oldDoc = users.document(oldNickname).get().await()
+            val userData = oldDoc.toObject(User::class.java)
+                ?: return Result.failure(Exception("User not found"))
+
+            // Create new document with new nickname
+            val updatedUser = userData.copy(
+                nickname = newNickname,
+                updatedAt = System.currentTimeMillis()
+            )
+
+            // Save to new document and delete old one
+            users.document(newNickname).set(updatedUser).await()
+            users.document(oldNickname).delete().await()
+
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    // Verify password
+    suspend fun verifyPassword(nickname: String, passwordHash: String): Result<Boolean> {
+        return try {
+            val doc = users.document(nickname).get().await()
+            val user = doc.toObject(User::class.java)
+                ?: return Result.failure(Exception("User not found"))
+
+            Result.success(user.passwordHash == passwordHash)
         } catch (e: Exception) {
             Result.failure(e)
         }

@@ -12,25 +12,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DMarketAlert">
         <activity
+            android:name=".view.CheckPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.ChangeAPI"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.ChangePassword"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.ChangeNickname"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.Terms_of_use_and_privacy_police"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.License"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.SplashActivity"
             android:exported="true"
