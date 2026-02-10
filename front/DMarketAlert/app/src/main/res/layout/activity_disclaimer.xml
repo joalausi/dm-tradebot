@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#17181A"
+    tools:context=".view.DisclaimerActivity">
+
+    <TextView
+        android:id="@+id/textView108"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingLeft="8dp"
+        android:text="DMarket Alert is an independent third-party application and is NOT affiliated with, endorsed by, or associated with DMarket or any of its parent companies, subsidiaries, or affiliates.\n\nThis application is provided \&quot;as is\&quot; without warranty of any kind, either express or implied. We make no guarantees regarding the accuracy, reliability, or availability of the information provided through this app.\n\nKEY POINTS:\n  - NOT OFFICIAL: This is an unofficial tool created by independent developers\n  - NO AFFILIATION: We have no relationship with DMarket\n  - USE AT YOUR OWN RISK: We are not responsible for any losses, damages, or issues arising from the use of this application\n  - NO GUARANTEES: We do not guarantee the accuracy of pricing data, notifications, or any other information\n  - API USAGE: This app uses publicly available APIs and may stop working if access is restricted\n  - TERMS OF SERVICE: By using this app, you agree to comply with DMarket\'s Terms of Service\n  - ACCOUNT SECURITY: Keep your API keys secure - we are not responsible for any unauthorized access to your account\n  - DATA PRIVACY: We do not collect or share your personal information beyond what is necessary for the app to function\n\nDMarket is a trademark of DMarket LLC. All trademarks, service marks, and company names are the property of their respective owners.\n\nFor issues related to your DMarket account, please contact DMarket support directly."
+        android:textColor="#FDFDFD"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view25"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imageView_back6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.045"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.1"
+        app:srcCompat="@drawable/icons_left_arrow" />
+
+    <View
+        android:id="@+id/view25"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_for_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.003"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView92"
+        app:layout_constraintWidth_percent="0.5" />
+
+    <TextView
+        android:id="@+id/textView92"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/dela_gothic_one"
+        android:text="Disclaimer"
+        android:textColor="#FDFCFC"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

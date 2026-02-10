@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DMarketAlert">
         <activity
+            android:name=".view.DisclaimerActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.CheckPasswordActivity"
             android:exported="false" />
         <activity

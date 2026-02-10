@@ -59,7 +59,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/CardView_clear_all_statitistic" />
 
                     <SearchView
-                        android:id="@+id/searchView"
+                        android:id="@+id/Search_view"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="72dp"
@@ -83,7 +83,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+                        app:layout_constraintTop_toBottomOf="@+id/Search_view" />
 
                     <TextView
                         android:id="@+id/textView38"
@@ -585,7 +585,7 @@
                                 app:layout_constraintWidth_percent="0.2" />
 
                             <TextView
-                                android:id="@+id/textView91"
+                                android:id="@+id/textView_notification_mode"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="6dp"
@@ -656,7 +656,7 @@
                                 app:layout_constraintWidth_percent="0.2" />
 
                             <TextView
-                                android:id="@+id/textView92"
+                                android:id="@+id/textView_notification_delay"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="6dp"
@@ -1173,7 +1173,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="6dp"
                                 android:fontFamily="@font/sora_medium"
-                                android:text="Remove all statistic"
+                                android:text="Remove all statistics"
                                 android:textColor="@color/white"
                                 android:textSize="16sp"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -1271,7 +1271,7 @@
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/textView108"
+                                android:id="@+id/textView_LastUpdate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="6dp"
@@ -1313,7 +1313,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/CardView_license_in_profile"
+                        android:id="@+id/CardView_gitHub"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="16dp"
@@ -1393,7 +1393,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHeight_percent="0.0275"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/CardView_license_in_profile"
+                        app:layout_constraintTop_toBottomOf="@+id/CardView_gitHub"
                         app:layout_constraintWidth_percent="0.9">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -1634,7 +1634,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="6dp"
                                 android:fontFamily="@font/sora_medium"
-                                android:text="Terms of Use and Privacy Police"
+                                android:text="Terms of Use and Privacy Policy"
                                 android:textColor="@color/white"
                                 android:textSize="13sp"
                                 app:layout_constraintEnd_toEndOf="parent"

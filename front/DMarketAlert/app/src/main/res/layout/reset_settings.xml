@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:backgroundTint="@android:color/transparent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:backgroundTint="@android:color/transparent">
+
+        <View
+            android:id="@+id/view14"
+            android:layout_width="350dp"
+            android:layout_height="275dp"
+            android:background="@drawable/bg_for_alertdialog2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_cancel4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_for_view"
+            android:fontFamily="@font/noto_sans_nko_unjoined_medium"
+            android:text="Cancel"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/view14"
+            app:layout_constraintEnd_toEndOf="@+id/view14"
+            app:layout_constraintHeight_percent="0.06"
+            app:layout_constraintStart_toStartOf="@+id/view14"
+            app:layout_constraintTop_toBottomOf="@+id/button_apply4"
+            app:layout_constraintWidth_percent="0.8" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_apply4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_for_button"
+            android:fontFamily="@font/noto_sans_nko_unjoined_medium"
+            android:text="Apply"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/view14"
+            app:layout_constraintHeight_percent="0.06"
+            app:layout_constraintStart_toStartOf="@+id/view14"
+            app:layout_constraintTop_toBottomOf="@+id/textView58"
+            app:layout_constraintWidth_percent="0.8" />
+
+        <TextView
+            android:id="@+id/textView58"
+            android:layout_width="250dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/noto_sans_nko_unjoined_medium"
+            android:gravity="center"
+            android:text="Are you sure you want to reset the app settings to their original state?"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/view14"
+            app:layout_constraintStart_toStartOf="@+id/view14"
+            app:layout_constraintTop_toBottomOf="@+id/textView55" />
+
+        <TextView
+            android:id="@+id/textView55"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/dela_gothic_one"
+            android:text="Reset settings"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/view14"
+            app:layout_constraintStart_toStartOf="@+id/view14"
+            app:layout_constraintTop_toTopOf="@+id/view14" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

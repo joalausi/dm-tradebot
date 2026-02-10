@@ -16,12 +16,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.dmarketalert.view.CheckPasswordActivity
 import com.example.dmarketalert.R
 import com.example.dmarketalert.viewModel.AuthenticationViewModel
 import com.example.dmarketalert.viewModel.TargetStatisticsViewModel
 import com.example.dmarketalert.viewModel.state.AuthState
-import kotlin.coroutines.Continuation
 
 class ProfileFragment : Fragment() {
 
@@ -85,7 +83,7 @@ class ProfileFragment : Fragment() {
         exitAccount = view.findViewById(R.id.CardView_exit_account)
         deleteAccount = view.findViewById(R.id.CardView_delete_account)
         askQuestions = view.findViewById(R.id.CardView_ask_questions)
-        license = view.findViewById(R.id.CardView_license_in_profile)
+        license = view.findViewById(R.id.CardView_gitHub)
         termsOfUse = view.findViewById(R.id.CardView_terms_of_use)
     }
 
@@ -154,7 +152,7 @@ class ProfileFragment : Fragment() {
         }
 
         askQuestions.setOnClickListener {
-            openUrl("https://mail.google.com/")
+            openUrl("https://mail.google.com/mail/u/0/#inbox?compose=DmwnWtDpKkndvKVhKGbDfstxvdsPhRgsSjNZQpzxrpSTCpqpNkSnPxrFvBwlzNLnjsfRxNLgkvPq")
         }
 
         license.setOnClickListener {
