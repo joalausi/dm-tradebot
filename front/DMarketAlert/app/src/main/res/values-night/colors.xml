@@ -6,11 +6,10 @@
     <color name="light_red">#D17575</color>
     <color name="light_blue">#6372CC</color>
     <color name="gray">#2F3134</color>
-    <color name="light_gray">#565656</color>
 
-    <color name="background">#F8F8F8</color>
-    <color name="top_element">#AEB3B6</color>
-    <color name="text">@color/black</color>
-    <color name="edit_text">#AEB3B6</color>
-    <color name="dialogs">#AEB3B6</color>
+    <color name="background">#17181A</color>
+    <color name="top_element">#1D1F20</color>
+    <color name="text">#FFFFFFFF</color>
+    <color name="edit_text">#212324</color>
+    <color name="dialogs">#1D1F20</color>
 </resources>

@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#17181A"
+    android:background="@color/background"
     tools:context=".view.License">
 
     <TextView
@@ -15,7 +15,7 @@
         android:layout_marginTop="16dp"
         android:paddingLeft="8dp"
         android:text="@string/dmarket_alert_is_a_mobile_application_for_monitoring_targets_on_the_dmarket_platform_n_the_application_helps_the_user_to_monitor_price_changes_for_the_targets_he_has_set_and_receive_instant_notifications_about_any_changes_n_n_the_use_of_dmarket_data_is_carried_out_exclusively_for_educational_and_personal_purposes_n_our_team_is_not_dmarket_employees_and_all_trading_operations_take_place_directly_on_the_dmarket_platform_n_we_do_not_influence_the_operation_of_the_market_and_do_not_change_the_platform_data_n_n_application_functionality_n_monitoring_of_the_user_s_active_targets_n_history_of_all_set_targets_and_their_changes_n_list_of_notifications_about_new_prices_and_broken_targets_n_settings_of_notifications_and_personal_settings_n_user_profile_with_personal_data_n_n_license_and_rights_n_all_code_of_the_dmarketalert_application_is_developed_by_our_team_and_licensed_under_the_mit_license_n_use_of_the_dmarket_api_is_carried_out_within_the_limits_of_permission_for_educational_and_personal_use_n_all_rights_to_the_data_provided_by_dmarket_remain_with_the_platform_n_n_contact_information_n_developers_jozymont_and_joalausi_n_email_dmarketalert_team_gmail_com_n_github_https_github_com_joalausl_dm_tradebot_n_n_thank_you_for_using_marketalerti_we_are_always_happy_to_receive_your_feedback_and_suggestions_for_improving_the_application_text"
-        android:textColor="#FDFDFD"
+        android:textColor="@color/text"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +57,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/dela_gothic_one"
         android:text="@string/license_text"
-        android:textColor="#FDFCFC"
+        android:textColor="@color/text"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

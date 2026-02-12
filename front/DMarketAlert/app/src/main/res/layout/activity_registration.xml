@@ -5,25 +5,14 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#17181A"
+    android:background="@color/background"
     tools:context=".view.RegistrationActivity">
-
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </FrameLayout>
 
     <View
         android:id="@+id/view3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#1D1F20"
+        android:background="@color/top_element"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.07"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +25,7 @@
         android:layout_marginStart="24dp"
         android:fontFamily="@font/sora_medium"
         android:text="@string/sing_up_text"
-        android:textColor="#FFFDFD"
+        android:textColor="@color/text"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/view3"
         app:layout_constraintEnd_toEndOf="@+id/view3"
@@ -51,7 +40,7 @@
         android:layout_marginTop="32dp"
         android:fontFamily="@font/sora_medium"
         android:text="@string/enter_data2_text"
-        android:textColor="#FFFDFD"
+        android:textColor="@color/text"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,7 +53,7 @@
         android:layout_marginTop="76dp"
         android:fontFamily="@font/dela_gothic_one"
         android:text="DMARKET ALERT"
-        android:textColor="#FDFCFC"
+        android:textColor="@color/text"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.65"
@@ -95,12 +84,12 @@
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="@string/to_start_using_the_app_you_need_to_paste_your_trading_api_key_into_the_field_below_follow_the_link_to_get_more_information2_text"
-        android:textColor="#FFFDFD"
+        android:textColor="@color/text"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintWidth_percent="0.8"/>
+        app:layout_constraintWidth_percent="0.8" />
 
     <TextView
         android:id="@+id/textView_rules2"
@@ -111,7 +100,7 @@
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="@string/i_ve_read_and_accept_with_the_terms_of_use_and_the_privacy_police_text"
-        android:textColor="#FFFDFD"
+        android:textColor="@color/text"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -127,7 +116,7 @@
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="@string/log_in3_text"
-        android:textColor="#FFFDFD"
+        android:textColor="@color/text"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -143,7 +132,7 @@
         android:fontFamily="@font/sora_medium"
         android:gravity="center"
         android:text="@string/already_have_an_account_text"
-        android:textColor="#FFFDFD"
+        android:textColor="@color/text"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -167,12 +156,13 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
-        android:paddingStart="16dp"
         android:background="@drawable/bg_for_edittext"
         android:ems="10"
         android:hint="@string/nickname2_text"
         android:inputType="text"
-        android:textColorHint="#FAF8F8"
+        android:paddingStart="15dp"
+        android:textColor="@color/text"
+        android:textColorHint="@color/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6"
@@ -183,102 +173,84 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="@string/please_enter_a_nickname_text"
-        android:textColor="#FFFDFD"
+        android:textColor="@color/text"
         android:textSize="10sp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/editText_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_nickname"
-        app:layout_constraintVertical_bias="0.35000002" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_nickname" />
 
     <TextView
         android:id="@+id/textView_error_password2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="@string/please_enter_a_password_text"
-        android:textColor="#FFFDFD"
+        android:textColor="@color/text"
         android:textSize="10sp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/editText_API_key"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_password"
-        app:layout_constraintVertical_bias="0.35000002" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_password" />
 
     <TextView
         android:id="@+id/textView_error_API"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="@string/please_enter_a_valid_api_key_text"
-        android:textColor="#FFFDFD"
+        android:textColor="@color/text"
         android:textSize="10sp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/button_signUp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_API_key"
-        app:layout_constraintVertical_bias="0.060000002" />
-
-    <EditText
-        android:id="@+id/editText_API_key"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/bg_for_edittext"
-        android:ems="10"
-        android:hint="@string/api_key_text"
-        android:inputType="text"
-        android:paddingStart="16dp"
-        android:textColorHint="#FAF8F8"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_password"
-        app:layout_constraintWidth_percent="0.9" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_API_key" />
 
     <EditText
         android:id="@+id/editText_password"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/bg_for_edittext"
         android:ems="10"
         android:hint="@string/password2_text"
         android:inputType="textPassword"
-        android:paddingStart="16dp"
-        android:textColorHint="#FAF7F7"
+        android:paddingStart="15dp"
+        android:textColor="@color/text"
+        android:textColorHint="@color/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_nickname"
-        app:layout_constraintWidth_percent="0.9"/>
+        app:layout_constraintTop_toBottomOf="@+id/textView_error_nickname2"
+        app:layout_constraintWidth_percent="0.9" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_signUp"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/bg_for_button"
         android:fontFamily="@font/sora_medium"
         android:text="@string/sign_up_text"
         android:textAllCaps="false"
-        android:textColor="#FDFBFB"
+        android:textColor="@color/text"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_API_key"
+        app:layout_constraintTop_toBottomOf="@+id/textView_rules2"
         app:layout_constraintWidth_percent="0.9" />
 
     <CheckBox
@@ -294,5 +266,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_error_API"
         app:layout_constraintVertical_bias="0.25" />
+
+    <EditText
+        android:id="@+id/editText_API_key"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_for_edittext"
+        android:ems="10"
+        android:paddingLeft="15dp"
+        android:hint="@string/api_key_text"
+        android:inputType="textPassword"
+        android:textColor="@color/text"
+        android:textColorHint="@color/text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_error_password2"
+        app:layout_constraintWidth_percent="0.9" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

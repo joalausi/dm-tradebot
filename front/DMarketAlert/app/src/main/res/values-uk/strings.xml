@@ -49,6 +49,7 @@
     <string name="remove_text_settings">Видалити</string>
 
     <!-- Settings - About App -->
+    <string name="about_app_text">Про дадоток</string>
     <string name="version_text_settings">Версія</string>
     <string name="last_update_text_settings">Останнє оновлення</string>
     <string name="follow_the_link_text_settings">Перейти за посиланням</string>
@@ -65,6 +66,7 @@
     <string name="license2_text">Ліцензія</string>
     <string name="terms_of_use_and_privacy_policy_text_settings">Умови викор. та Політика конфід.</string>
     <string name="terms_of_use_and_privacy_policy_text">Умови викор. та Політика конфід.</string>
+    <string name="other2_text">Інше</string>
 
     <!-- Profile -->
     <string name="change_api_text">Змінити API</string>
@@ -122,6 +124,7 @@
     <string name="ask_questions_text">Задати питання</string>
     <string name="ask_text">Задати</string>
     <string name="open_text">Відкрити</string>
+    <string name="open2_text">Відкрити</string>
 
     <!-- Dialogs -->
     <string name="clear_history_text">Очистити історію</string>

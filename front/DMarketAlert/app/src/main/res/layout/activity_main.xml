@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#17181A"
+    android:background="@color/background"
     tools:context=".view.MainActivity">
 
     <FrameLayout
@@ -24,26 +24,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#1D1F20"
+        android:background="@color/top_element"
         app:itemActiveIndicatorStyle="@android:color/transparent"
         app:itemIconSize="25dp"
         app:itemIconTint="@color/nav_item_color"
         app:itemPaddingBottom="10dp"
         app:itemPaddingTop="10dp"
         app:itemRippleColor="@android:color/transparent"
-        app:itemTextColor="@color/white"
+        app:itemTextColor="@color/text"
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="1.0"
         app:menu="@menu/bottom_menu" />
 
     <View
         android:id="@+id/view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#1D1F20"
+        android:background="@color/top_element"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.07"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,7 +55,7 @@
         android:layout_marginStart="16dp"
         android:fontFamily="@font/sora_medium"
         android:text="DMarket Alert"
-        android:textColor="#FFFDFD"
+        android:textColor="@color/text"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="@+id/view"

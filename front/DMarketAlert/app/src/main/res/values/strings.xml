@@ -122,6 +122,7 @@
     <string name="ask_questions_text">Ask questions</string>
     <string name="ask_text">Ask</string>
     <string name="open_text">Open</string>
+    <string name="open2_text">Open</string>
 
     <!-- Dialogs -->
     <string name="clear_history_text">Clear history</string>

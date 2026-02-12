@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#17181A"
+    android:background="@color/background"
     tools:context=".view.DisclaimerActivity">
 
     <TextView
@@ -15,7 +15,7 @@
         android:layout_marginTop="16dp"
         android:paddingLeft="8dp"
         android:text="@string/dmarket_alert_is_an_independent_third_party_application_and_is_not_affiliated_with_endorsed_by_or_associated_with_dmarket_or_any_of_its_parent_companies_subsidiaries_or_affiliates_n_nthis_application_is_provided_quot_as_is_quot_without_warranty_of_any_kind_either_express_or_implied_we_make_no_guarantees_regarding_the_accuracy_reliability_or_availability_of_the_information_provided_through_this_app_n_nkey_points_n_not_official_this_is_an_unofficial_tool_created_by_independent_developers_n_no_affiliation_we_have_no_relationship_with_dmarket_n_use_at_your_own_risk_we_are_not_responsible_for_any_losses_damages_or_issues_arising_from_the_use_of_this_application_n_no_guarantees_we_do_not_guarantee_the_accuracy_of_pricing_data_notifications_or_any_other_information_n_api_usage_this_app_uses_publicly_available_apis_and_may_stop_working_if_access_is_restricted_n_terms_of_service_by_using_this_app_you_agree_to_comply_with_dmarket_s_terms_of_service_n_account_security_keep_your_api_keys_secure_we_are_not_responsible_for_any_unauthorized_access_to_your_account_n_data_privacy_we_do_not_collect_or_share_your_personal_information_beyond_what_is_necessary_for_the_app_to_function_n_ndmarket_is_a_trademark_of_dmarket_llc_all_trademarks_service_marks_and_company_names_are_the_property_of_their_respective_owners_n_nfor_issues_related_to_your_dmarket_account_please_contact_dmarket_support_directly_text"
-        android:textColor="#FDFDFD"
+        android:textColor="@color/text"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +56,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/dela_gothic_one"
         android:text="@string/disclaimer_text"
-        android:textColor="#FDFCFC"
+        android:textColor="@color/text"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
