@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DMarket Alert</string>
+
+    <!-- Bottom Navigation -->
+    <string name="history_text">Історія</string>
+    <string name="notification_text">Сповіщення</string>
+    <string name="home_text">Головна</string>
+    <string name="settings_text">Налаштування</string>
+    <string name="profile_text">Профіль</string>
+
+    <!-- Search -->
+    <string name="search_hint">Пошук налаштувань…</string>
+
+    <!-- Settings - General -->
+    <string name="general_text_settings">Головне</string>
+    <string name="language_text_settings">Мова</string>
+    <string name="english_text_settings">Англійська</string>
+    <string name="currency_text_settings">Валюта</string>
+    <string name="theme_text_settings">Тема</string>
+    <string name="system_text_settings">Системна</string>
+    <string name="reset_settings_text_settings">Відновити налаштування</string>
+    <string name="reset_text_settings">Відновити</string>
+
+    <!-- Settings - Notifications -->
+    <string name="notifications_options_text_settings">Налаштування сповіщень</string>
+    <string name="turn_on_off_text_settings">Увімк./вимк.</string>
+    <string name="on_text_settings">Увімкнено</string>
+    <string name="on2_text_settings">Увімкнено</string>
+    <string name="on3_text_settings">Увімкнено</string>
+    <string name="turn_on_off_outbid_text_settings">Увімк./вимк. перебиті</string>
+    <string name="turn_on_off_api_errors_text_settings">Увімк./вимк. помилки API</string>
+    <string name="notification_mode_text_settings">Режим сповіщень</string>
+    <string name="sound_text_settings">Звук</string>
+    <string name="notification_delay_text_settings">Затримка сповіщень</string>
+    <string name="_0_hours_text_settings">0 годин</string>
+
+    <!-- Settings - Application Options -->
+    <string name="application_options_text_settings">Налаштування додатка</string>
+    <string name="update_target_data_text_settings">Оновити дані таргетів</string>
+    <string name="update_text_settings">Оновити</string>
+    <string name="clear_notifications_text_settings">Очистити сповіщення</string>
+    <string name="clear_text_settings">Очистити</string>
+    <string name="clear2_text_settings">Очистити</string>
+    <string name="clear_history_text_settings">Очистити історію</string>
+    <string name="limit_of_notifications_text_settings">Ліміт сповіщень</string>
+    <string name="limit_of_history_text_settings">Ліміт історії</string>
+    <string name="remove_all_statistics_text_settings">Видалити усю статистику</string>
+    <string name="remove_text_settings">Видалити</string>
+
+    <!-- Settings - About App -->
+    <string name="version_text_settings">Версія</string>
+    <string name="last_update_text_settings">Останнє оновлення</string>
+    <string name="follow_the_link_text_settings">Перейти за посиланням</string>
+    <string name="disclaimer_text_settings">Дісклеймер</string>
+    <string name="open_text_settings">Відкрити</string>
+    <string name="open2_text_settings">Відкрити</string>
+    <string name="open3_text_settings">Відкрити</string>
+
+    <!-- Settings - Other -->
+    <string name="other_text">Інше</string>
+    <string name="tech_support_text_settings">Технічна підтримка</string>
+    <string name="send_report_text_settings">Надіслати звіт</string>
+    <string name="license_text_settings">Ліцензія</string>
+    <string name="license2_text">Ліцензія</string>
+    <string name="terms_of_use_and_privacy_policy_text_settings">Умови викор. та Політика конфід.</string>
+    <string name="terms_of_use_and_privacy_policy_text">Умови викор. та Політика конфід.</string>
+
+    <!-- Profile -->
+    <string name="change_api_text">Змінити API</string>
+    <string name="change_api2_text">Змінити API</string>
+    <string name="current_api_text">Поточний API</string>
+    <string name="new_api_text">Новий API</string>
+    <string name="enter_api_text">Ввести API</string>
+    <string name="apply_text">Застосувати</string>
+
+    <string name="change_nickname_text">Змінити нікнейм</string>
+    <string name="change_nickname2_text">Змінити нікнейм</string>
+    <string name="current_nickname_text">Поточний нікнейм</string>
+    <string name="new_nickname_text">Новий нікнейм</string>
+    <string name="enter_nickname_text">Ввести нікнейм</string>
+    <string name="apply2_text">Застосувати</string>
+
+    <string name="change_password_text">Змінити пароль</string>
+    <string name="change_password2_text">Змінити пароль</string>
+    <string name="current_password_text">Поточний пароль</string>
+    <string name="new_password_text">Новий пароль</string>
+    <string name="enter_password_text">Ввести пароль</string>
+    <string name="confirm_password_text">Підтвердити пароль</string>
+    <string name="confirm_new_password_text">Підтвердити новий пароль</string>
+    <string name="please_write_password_text">Будь ласка, введіть пароль</string>
+    <string name="please_write_correct_password_text">Будь ласка, введіть правильний пароль</string>
+    <string name="apply3_text">Застосувати</string>
+
+    <string name="check_password_text">Перевірити пароль</string>
+    <string name="enter_current_password_text">Введіть поточний пароль</string>
+    <string name="check_password2_text">Перевірити пароль</string>
+    <string name="password_is_wrong_text">Невірний пароль</string>
+    <string name="continue_text">Продовжити</string>
+    <string name="enter_current_password2_text">Ввести поточний пароль</string>
+
+    <string name="nickname3_text">Нікнейм</string>
+    <string name="password3_text">Пароль</string>
+    <string name="targets_statistic2_text">Статистика таргетів</string>
+    <string name="general_text">Головне</string>
+    <string name="current_targets3_text">Поточні таргети</string>
+    <string name="outbid_targets2_text">Перебиті таргети</string>
+    <string name="all_targets_text">Усі таргети</string>
+
+    <string name="actions_with_account_text">Дії з акаунтом</string>
+    <string name="valid_api_text">Дійсність API</string>
+    <string name="valid_text">Дійсний</string>
+    <string name="refresh_data_text">Оновити дані</string>
+    <string name="refresh_text">Оновити</string>
+    <string name="remove_target_statistics_text">Видалити статистику таргетів</string>
+    <string name="remove_text">Видалити</string>
+    <string name="exit_account2_text">Вийти з акаунта</string>
+    <string name="exit_text">Вийти</string>
+    <string name="delete_account2_text">Видалити акаунт</string>
+    <string name="delete_text">Видалити</string>
+
+    <string name="ask_questions_text">Задати питання</string>
+    <string name="ask_text">Задати</string>
+    <string name="open_text">Відкрити</string>
+
+    <!-- Dialogs -->
+    <string name="clear_history_text">Очистити історію</string>
+    <string name="do_you_really_want_to_clear_all_the_targets_history_text">Ви справді хочете очистити всю історію таргетів?</string>
+    <string name="apply4_text">Застосувати</string>
+    <string name="cancel_text">Скасувати</string>
+
+    <string name="clear_notifications_text">Очистити сповіщення</string>
+    <string name="do_you_really_want_to_clear_all_the_messages_you_received_text">Ви справді хочете очистити усі отримані сповіщення?</string>
+    <string name="apply5_text">Застосувати</string>
+    <string name="cancel2_text">Скасувати</string>
+
+    <string name="delete_account_text">Видалити акаунт</string>
+    <string name="are_you_sure_you_want_to_delete_your_account_with_all_statistic_and_more_text">Ви впевнені, що хочете видалити свій акаунт разом з усією статистикою?</string>
+    <string name="apply6_text">Застосувати</string>
+    <string name="cancel3_text">Скасувати</string>
+
+    <string name="exit_account_text">Вийти з акаунта</string>
+    <string name="do_you_want_to_exit_from_your_current_account_text">Ви справді хочете вийти зі свого поточного акаунта?</string>
+    <string name="apply7_text">Застосувати</string>
+    <string name="cancel4_text">Скасувати</string>
+
+    <string name="remove_target_statistic_text">Видалити статистику таргетів</string>
+    <string name="are_you_sure_you_want_to_remove_all_target_statistic_the_information_in_history_and_profile_text">Ви впевнені, що хочете видалити усю статистику таргетів (інформацію в історії та профілі)?</string>
+    <string name="apply8_text">Застосувати</string>
+    <string name="cancel5_text">Скасувати</string>
+
+    <string name="remove_target_statistic2_text">Видалити статистику таргетів</string>
+    <string name="are_you_sure_you_want_to_remove_the_target_statistic_all_the_time_text">Ви впевнені, що хочете видалити статистику таргетів за весь час?</string>
+    <string name="apply9_text">Застосувати</string>
+    <string name="cancel6_text">Скасувати</string>
+
+    <string name="reset_settings_text">Відновити налаштування</string>
+    <string name="are_you_sure_you_want_to_reset_the_app_settings_to_their_original_state_text">Ви впевнені, що хочете відновити налаштування застосунка до початкового стану?</string>
+    <string name="apply10_text">Застосувати</string>
+    <string name="cancel7_text">Скасувати</string>
+
+    <!-- Home Screen -->
+    <string name="current_targets_text">Поточні таргети</string>
+    <string name="quick_menu_text">Швидке меню</string>
+    <string name="add_target_text">Додати таргет</string>
+    <string name="remove_target_text">Видалити таргет</string>
+    <string name="update_page_text">Оновити сторінку</string>
+    <string name="check_api_text">Перевірити API</string>
+    <string name="targets_statistic_text">Статистика таргетів</string>
+    <string name="current_targets2_text">Поточні таргети</string>
+    <string name="active_text">Активні</string>
+    <string name="outbid_targets_text">Перебиті таргети</string>
+    <string name="overbid_text">Перевищені</string>
+    <string name="all_time_targets_text">За весь час</string>
+    <string name="all_text">Усі</string>
+
+    <!-- Login -->
+    <string name="log_in_text">Увійти</string>
+    <string name="to_start_using_the_app_you_need_to_paste_your_trading_api_key_into_the_field_below_follow_the_link_to_get_more_information_text">Щоб почати користуватися додатком, вам потрібно вставити свій торговий API-ключ у поле нижче. Перейдіть за посиланням, щоб отримати більше інформації.</string>
+    <string name="click_here_text">Натисніть тут</string>
+    <string name="enter_data_text">Введіть дані</string>
+    <string name="nickname_text">Нікнейм</string>
+    <string name="please_enter_a_valid_nickname_text">Будь ласка, введіть дійсний нікнейм</string>
+    <string name="password_text">Пароль</string>
+    <string name="please_enter_a_valid_password_text">Будь ласка, введіть дійсний пароль</string>
+    <string name="log_in2_text">Увійти</string>
+    <string name="don_t_have_an_account_text">Не маєте акаунта?</string>
+    <string name="create_an_account_text">Створити акаунт</string>
+
+    <!-- Sign Up -->
+    <string name="sing_up_text">Зареєструватися</string>
+    <string name="to_start_using_the_app_you_need_to_paste_your_trading_api_key_into_the_field_below_follow_the_link_to_get_more_information2_text">Щоб почати користуватися додатком, вам потрібно вставити свій торговий API-ключ у поле нижче. Перейдіть за посиланням, щоб отримати більше інформації.</string>
+    <string name="click_here2_text">Натисніть тут</string>
+    <string name="enter_data2_text">Введіть дані</string>
+    <string name="nickname2_text">Нікнейм</string>
+    <string name="please_enter_a_nickname_text">Будь ласка, введіть нікнейм</string>
+    <string name="password2_text">Пароль</string>
+    <string name="please_enter_a_password_text">Будь ласка, введіть пароль</string>
+    <string name="api_key_text">API ключ</string>
+    <string name="please_enter_a_valid_api_key_text">Будь ласка, введіть дійсний API ключ</string>
+    <string name="i_ve_read_and_accept_with_the_terms_of_use_and_the_privacy_police_text">Я прочитав(-ла) та приймаю Умови використання та Політику конфіденційності</string>
+    <string name="sign_up_text">Зареєструватися</string>
+    <string name="already_have_an_account_text">Вже маєте акаунт?</string>
+    <string name="log_in3_text">Увійти</string>
+
+    <!-- Long Texts -->
+    <string name="disclaimer_text">Дісклеймер</string>
+    <string name="dmarket_alert_is_an_independent_third_party_application_and_is_not_affiliated_with_endorsed_by_or_associated_with_dmarket_or_any_of_its_parent_companies_subsidiaries_or_affiliates_n_nthis_application_is_provided_quot_as_is_quot_without_warranty_of_any_kind_either_express_or_implied_we_make_no_guarantees_regarding_the_accuracy_reliability_or_availability_of_the_information_provided_through_this_app_n_nkey_points_n_not_official_this_is_an_unofficial_tool_created_by_independent_developers_n_no_affiliation_we_have_no_relationship_with_dmarket_n_use_at_your_own_risk_we_are_not_responsible_for_any_losses_damages_or_issues_arising_from_the_use_of_this_application_n_no_guarantees_we_do_not_guarantee_the_accuracy_of_pricing_data_notifications_or_any_other_information_n_api_usage_this_app_uses_publicly_available_apis_and_may_stop_working_if_access_is_restricted_n_terms_of_service_by_using_this_app_you_agree_to_comply_with_dmarket_s_terms_of_service_n_account_security_keep_your_api_keys_secure_we_are_not_responsible_for_any_unauthorized_access_to_your_account_n_data_privacy_we_do_not_collect_or_share_your_personal_information_beyond_what_is_necessary_for_the_app_to_function_n_ndmarket_is_a_trademark_of_dmarket_llc_all_trademarks_service_marks_and_company_names_are_the_property_of_their_respective_owners_n_nfor_issues_related_to_your_dmarket_account_please_contact_dmarket_support_directly_text">DMarket Alert – це незалежна стороння програма, яка НЕ пов\'язана, не схвалена та не асоційована з DMarket або будь-якою з її материнських компаній, дочірніх компаній чи афілійованих осіб.\\n\\nЦя програма надається «як є» без будь-яких гарантій, явних чи неявних. Ми не гарантуємо точність, надійність або доступність інформації, що надається через цей додаток.\\n\\nКЛЮЧОВІ МОМЕНТИ:\\n • НЕ ОФІЦІЙНО: Це неофіційний інструмент, створений незалежними розробниками\\n • БЕЗ ЗВ\'ЯЗКУ: Ми не маємо жодних стосунків з DMarket\\n • ВИКОРИСТОВУЙТЕ НА ВЛАСНИЙ РИЗИК: Ми не несемо відповідальності за будь-які втрати, збитки або проблеми, що виникають внаслідок використання цього додатка\\n • БЕЗ ГАРАНТІЙ: Ми не гарантуємо точність даних про ціни, сповіщень чи будь-якої іншої інформації\\n • ВИКОРИСТАННЯ API: Цей додаток використовує загальнодоступні API та може перестати працювати, якщо доступ обмежено\\n • УМОВИ ОБСЛУГОВУВАННЯ: Використовуючи цей додаток, ви погоджуєтеся дотримуватися Умов обслуговування DMarket\\n • БЕЗПЕКА ОБЛІКОВОГО ЗАПИСУ: Зберігайте ключі API в безпеці — ми не несемо відповідальності за будь-який несанкціонований доступ до вашого облікового запису\\n • КОНФІДЕНЦІЙНІСТЬ ДАНИХ: Ми не збираємо та не передаємо вашу особисту інформацію, окрім того, що необхідно для функціонування додатка\\n\\nDMarket є торговою маркою DMarket LLC. Усі торгові марки, знаки обслуговування та назви компаній є власністю їхніх відповідних власників.\\n\\nЯкщо у вас виникли проблеми, пов\'язані з вашим обліковим записом DMarket, зверніться безпосередньо до служби підтримки DMarket.</string>
+
+    <string name="license_text">Ліцензія</string>
+    <string name="dmarket_alert_is_a_mobile_application_for_monitoring_targets_on_the_dmarket_platform_n_the_application_helps_the_user_to_monitor_price_changes_for_the_targets_he_has_set_and_receive_instant_notifications_about_any_changes_n_n_the_use_of_dmarket_data_is_carried_out_exclusively_for_educational_and_personal_purposes_n_our_team_is_not_dmarket_employees_and_all_trading_operations_take_place_directly_on_the_dmarket_platform_n_we_do_not_influence_the_operation_of_the_market_and_do_not_change_the_platform_data_n_n_application_functionality_n_monitoring_of_the_user_s_active_targets_n_history_of_all_set_targets_and_their_changes_n_list_of_notifications_about_new_prices_and_broken_targets_n_settings_of_notifications_and_personal_settings_n_user_profile_with_personal_data_n_n_license_and_rights_n_all_code_of_the_dmarketalert_application_is_developed_by_our_team_and_licensed_under_the_mit_license_n_use_of_the_dmarket_api_is_carried_out_within_the_limits_of_permission_for_educational_and_personal_use_n_all_rights_to_the_data_provided_by_dmarket_remain_with_the_platform_n_n_contact_information_n_developers_jozymont_and_joalausi_n_email_dmarketalert_team_gmail_com_n_github_https_github_com_joalausl_dm_tradebot_n_n_thank_you_for_using_marketalerti_we_are_always_happy_to_receive_your_feedback_and_suggestions_for_improving_the_application_text">DMarket Alert – це мобільний застосунок для моніторингу цілей на платформі DMarket. Застосунок допомагає користувачеві відстежувати зміни цін на встановлені ним цілі та отримувати миттєві сповіщення про будь-які зміни. Використання даних DMarket здійснюється виключно в освітніх та особистих цілях. Наша команда не є співробітниками DMarket, і всі торгові операції відбуваються безпосередньо на платформі DMarket. Ми не впливаємо на роботу ринку та не змінюємо дані платформи. Функціональність застосунку: • Моніторинг активних цілей користувача; • Історія всіх встановлених цілей та їх змін; • Список сповіщень про нові ціни та пробиті цілі; • Налаштування сповіщень та особисті налаштування; • Профіль користувача з особистими даними. Ліцензія та права: • Весь код застосунку DMarketAlert розроблений нашою командою та ліцензований за ліцензією MIT; • Використання API DMarket здійснюється в межах дозволу на освітнє та особисте використання; • Всі права на дані, надані DMarket, залишаються за платформою. Контактна інформація: • Розробники: JozyMont та joalausi • Електронна пошта: dmarketalert.team@gmail.com • GitHub: https://github.com/joalausl/dm-tradebot Дякуємо за використання DMarket Alert! Ми завжди раді отримати ваші відгуки та пропозиції щодо покращення програми.</string>
+
+    <string name="terms_of_use_and_privacy_police_text">Умови викор. та Політика конфід.</string>
+
+    <!-- Arrays for Spinners -->
+    <string-array name="languages_array">
+        <item>English</item>
+        <item>Українська</item>
+        <item>Русский</item>
+    </string-array>
+
+    <string-array name="currencies_array">
+        <item>USD$</item>
+        <item>UAH₴</item>
+        <item>EUR€</item>
+    </string-array>
+
+    <string-array name="themes_array">
+        <item>Системна</item>
+        <item>Світла</item>
+        <item>Темна</item>
+    </string-array>
+
+    <string-array name="notification_modes_array">
+        <item>Звук</item>
+        <item>Вібрація</item>
+        <item>Беззвучний</item>
+    </string-array>
+
+    <string-array name="notification_delays_array">
+        <item>0 годин</item>
+        <item>1 година</item>
+        <item>5 годин</item>
+        <item>10 годин</item>
+        <item>1 день</item>
+        <item>3 дні</item>
+        <item>7 днів</item>
+    </string-array>
+
+    <string-array name="limits_array">
+        <item>0</item>
+        <item>10</item>
+        <item>25</item>
+        <item>50</item>
+        <item>100</item>
+    </string-array>
+</resources>

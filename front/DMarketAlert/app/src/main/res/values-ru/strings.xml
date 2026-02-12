@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DMarket Alert</string>
+
+    <!-- Bottom Navigation -->
+    <string name="history_text">История</string>
+    <string name="notification_text">Уведомления</string>
+    <string name="home_text">Главная</string>
+    <string name="settings_text">Настройки</string>
+    <string name="profile_text">Профиль</string>
+
+    <!-- Search -->
+    <string name="search_hint">Поиск настроек…</string>
+
+    <!-- Settings - General -->
+    <string name="general_text_settings">Основное</string>
+    <string name="language_text_settings">Язык</string>
+    <string name="english_text_settings">Английский</string>
+    <string name="currency_text_settings">Валюта</string>
+    <string name="theme_text_settings">Тема</string>
+    <string name="system_text_settings">Системная</string>
+    <string name="reset_settings_text_settings">Сбросить настройки</string>
+    <string name="reset_text_settings">Сбросить</string>
+
+    <!-- Settings - Notifications -->
+    <string name="notifications_options_text_settings">Настройки уведомлений</string>
+    <string name="turn_on_off_text_settings">Вкл./выкл.</string>
+    <string name="on_text_settings">Вкл.</string>
+    <string name="on2_text_settings">Вкл.</string>
+    <string name="on3_text_settings">Вкл.</string>
+    <string name="turn_on_off_outbid_text_settings">Вкл./выкл. перебитые</string>
+    <string name="turn_on_off_api_errors_text_settings">Вкл./выкл. ошибки API</string>
+    <string name="notification_mode_text_settings">Режим уведомлений</string>
+    <string name="sound_text_settings">Звук</string>
+    <string name="notification_delay_text_settings">Задержка уведомлений</string>
+    <string name="_0_hours_text_settings">0 часов</string>
+
+    <!-- Settings - Application Options -->
+    <string name="application_options_text_settings">Настройки приложения</string>
+    <string name="update_target_data_text_settings">Обновить данные целей</string>
+    <string name="update_text_settings">Обновить</string>
+    <string name="clear_notifications_text_settings">Очистить уведомления</string>
+    <string name="clear_text_settings">Очистить</string>
+    <string name="clear2_text_settings">Очистить</string>
+    <string name="clear_history_text_settings">Очистить историю</string>
+    <string name="limit_of_notifications_text_settings">Лимит уведомлений</string>
+    <string name="limit_of_history_text_settings">Лимит истории</string>
+    <string name="remove_all_statistics_text_settings">Удалить всю статистику</string>
+    <string name="remove_text_settings">Удалить</string>
+
+    <!-- Settings - About App -->
+    <string name="version_text_settings">Версия</string>
+    <string name="last_update_text_settings">Последнее обновление</string>
+    <string name="follow_the_link_text_settings">Перейти по ссылке</string>
+    <string name="disclaimer_text_settings">Дисклеймер</string>
+    <string name="open_text_settings">Открыть</string>
+    <string name="open2_text_settings">Открыть</string>
+    <string name="open3_text_settings">Открыть</string>
+
+    <!-- Settings - Other -->
+    <string name="other_text">Другое</string>
+    <string name="tech_support_text_settings">Техническая поддержка</string>
+    <string name="send_report_text_settings">Отправить отчёт</string>
+    <string name="license_text_settings">Лицензия</string>
+    <string name="license2_text">Лицензия</string>
+    <string name="terms_of_use_and_privacy_policy_text_settings">Условия испол. и Политика конфид.</string>
+    <string name="terms_of_use_and_privacy_policy_text">Условия испол. и Политика конфид.</string>
+
+    <!-- Profile -->
+    <string name="change_api_text">Изменить API</string>
+    <string name="change_api2_text">Изменить API</string>
+    <string name="current_api_text">Текущий API</string>
+    <string name="new_api_text">Новый API</string>
+    <string name="enter_api_text">Введите API</string>
+    <string name="apply_text">Применить</string>
+
+    <string name="change_nickname_text">Изменить никнейм</string>
+    <string name="change_nickname2_text">Изменить никнейм</string>
+    <string name="current_nickname_text">Текущий никнейм</string>
+    <string name="new_nickname_text">Новый никнейм</string>
+    <string name="enter_nickname_text">Введите никнейм</string>
+    <string name="apply2_text">Применить</string>
+
+    <string name="change_password_text">Изменить пароль</string>
+    <string name="change_password2_text">Изменить пароль</string>
+    <string name="current_password_text">Текущий пароль</string>
+    <string name="new_password_text">Новый пароль</string>
+    <string name="enter_password_text">Введите пароль</string>
+    <string name="confirm_password_text">Подтвердите пароль</string>
+    <string name="confirm_new_password_text">Подтвердите новый пароль</string>
+    <string name="please_write_password_text">Пожалуйста, введите пароль</string>
+    <string name="please_write_correct_password_text">Пожалуйста, введите правильный пароль</string>
+    <string name="apply3_text">Применить</string>
+
+    <string name="check_password_text">Проверить пароль</string>
+    <string name="enter_current_password_text">Введите текущий пароль</string>
+    <string name="check_password2_text">Проверить пароль</string>
+    <string name="password_is_wrong_text">Неверный пароль</string>
+    <string name="continue_text">Продолжить</string>
+    <string name="enter_current_password2_text">Введите текущий пароль</string>
+
+    <string name="nickname3_text">Никнейм</string>
+    <string name="password3_text">Пароль</string>
+    <string name="targets_statistic2_text">Статистика таргетов</string>
+    <string name="general_text">Основное</string>
+    <string name="current_targets3_text">Текущие таргеты</string>
+    <string name="outbid_targets2_text">Перебитые таргеты</string>
+    <string name="all_targets_text">Все таргеты</string>
+
+    <string name="actions_with_account_text">Действия с аккаунтом</string>
+    <string name="valid_api_text">Действительность API</string>
+    <string name="valid_text">Действителен</string>
+    <string name="refresh_data_text">Обновить данные</string>
+    <string name="refresh_text">Обновить</string>
+    <string name="remove_target_statistics_text">Удалить стат. таргетов</string>
+    <string name="remove_text">Удалить</string>
+    <string name="exit_account2_text">Выйти из аккаунта</string>
+    <string name="exit_text">Выйти</string>
+    <string name="delete_account2_text">Удалить аккаунт</string>
+    <string name="delete_text">Удалить</string>
+
+    <string name="ask_questions_text">Задать вопрос</string>
+    <string name="ask_text">Задать</string>
+    <string name="open_text">Открыть</string>
+
+    <!-- Dialogs -->
+    <string name="clear_history_text">Очистить историю</string>
+    <string name="do_you_really_want_to_clear_all_the_targets_history_text">Вы действительно хотите очистить всю историю целей?</string>
+    <string name="apply4_text">Применить</string>
+    <string name="cancel_text">Отмена</string>
+
+    <string name="clear_notifications_text">Очистить уведомления</string>
+    <string name="do_you_really_want_to_clear_all_the_messages_you_received_text">Вы действительно хотите очистить все полученные уведомления?</string>
+    <string name="apply5_text">Применить</string>
+    <string name="cancel2_text">Отмена</string>
+
+    <string name="delete_account_text">Удалить аккаунт</string>
+    <string name="are_you_sure_you_want_to_delete_your_account_with_all_statistic_and_more_text">Вы уверены, что хотите удалить свой аккаунт со всей статистикой и прочим?</string>
+    <string name="apply6_text">Применить</string>
+    <string name="cancel3_text">Отмена</string>
+
+    <string name="exit_account_text">Выйти из аккаунта</string>
+    <string name="do_you_want_to_exit_from_your_current_account_text">Вы действительно хотите выйти из текущего аккаунта?</string>
+    <string name="apply7_text">Применить</string>
+    <string name="cancel4_text">Отмена</string>
+
+    <string name="remove_target_statistic_text">Удалить статистику целей</string>
+    <string name="are_you_sure_you_want_to_remove_all_target_statistic_the_information_in_history_and_profile_text">Вы уверены, что хотите удалить всю статистику целей (информацию в истории и профиле)?</string>
+    <string name="apply8_text">Применить</string>
+    <string name="cancel5_text">Отмена</string>
+
+    <string name="remove_target_statistic2_text">Удалить статистику целей</string>
+    <string name="are_you_sure_you_want_to_remove_the_target_statistic_all_the_time_text">Вы уверены, что хотите удалить статистику целей за всё время?</string>
+    <string name="apply9_text">Применить</string>
+    <string name="cancel6_text">Отмена</string>
+
+    <string name="reset_settings_text">Сбросить настройки</string>
+    <string name="are_you_sure_you_want_to_reset_the_app_settings_to_their_original_state_text">Вы уверены, что хотите сбросить настройки приложения до начального состояния?</string>
+    <string name="apply10_text">Применить</string>
+    <string name="cancel7_text">Отмена</string>
+
+    <!-- Home Screen -->
+    <string name="current_targets_text">Текущие таргеты</string>
+    <string name="quick_menu_text">Быстрое меню</string>
+    <string name="add_target_text">Добавить таргет</string>
+    <string name="remove_target_text">Удалить таргет</string>
+    <string name="update_page_text">Обновить страницу</string>
+    <string name="check_api_text">Проверить API</string>
+    <string name="targets_statistic_text">Статистика таргетов</string>
+    <string name="current_targets2_text">Текущие таргеты</string>
+    <string name="active_text">Активные</string>
+    <string name="outbid_targets_text">Перебитые таргеты</string>
+    <string name="overbid_text">Перебитые</string>
+    <string name="all_time_targets_text">За всё время</string>
+    <string name="all_text">Все</string>
+
+    <!-- Login -->
+    <string name="log_in_text">Войти</string>
+    <string name="to_start_using_the_app_you_need_to_paste_your_trading_api_key_into_the_field_below_follow_the_link_to_get_more_information_text">Чтобы начать пользоваться приложением, вам нужно вставить свой торговый API-ключ в поле ниже. Перейдите по ссылке, чтобы получить больше информации.</string>
+    <string name="click_here_text">Нажмите сюда</string>
+    <string name="enter_data_text">Введите данные</string>
+    <string name="nickname_text">Никнейм</string>
+    <string name="please_enter_a_valid_nickname_text">Пожалуйста, введите действительный никнейм</string>
+    <string name="password_text">Пароль</string>
+    <string name="please_enter_a_valid_password_text">Пожалуйста, введите действительный пароль</string>
+    <string name="log_in2_text">Войти</string>
+    <string name="don_t_have_an_account_text">Нет аккаунта?</string>
+    <string name="create_an_account_text">Создать аккаунт</string>
+
+    <!-- Sign Up -->
+    <string name="sing_up_text">Регистрация</string>
+    <string name="to_start_using_the_app_you_need_to_paste_your_trading_api_key_into_the_field_below_follow_the_link_to_get_more_information2_text">Чтобы начать пользоваться приложением, вам нужно вставить свой торговый API-ключ в поле ниже. Перейдите по ссылке, чтобы получить больше информации.</string>
+    <string name="click_here2_text">Нажмите сюда</string>
+    <string name="enter_data2_text">Введите данные</string>
+    <string name="nickname2_text">Никнейм</string>
+    <string name="please_enter_a_nickname_text">Пожалуйста, введите никнейм</string>
+    <string name="password2_text">Пароль</string>
+    <string name="please_enter_a_password_text">Пожалуйста, введите пароль</string>
+    <string name="api_key_text">API ключ</string>
+    <string name="please_enter_a_valid_api_key_text">Пожалуйста, введите действительный API ключ</string>
+    <string name="i_ve_read_and_accept_with_the_terms_of_use_and_the_privacy_police_text">Я прочитал(а) и принимаю Условия использования и Политику конфиденциальности</string>
+    <string name="sign_up_text">Зарегистрироваться</string>
+    <string name="already_have_an_account_text">Уже есть аккаунт?</string>
+    <string name="log_in3_text">Войти</string>
+
+    <!-- Long Texts -->
+    <string name="disclaimer_text">Дисклеймер</string>
+    <string name="dmarket_alert_is_an_independent_third_party_application_and_is_not_affiliated_with_endorsed_by_or_associated_with_dmarket_or_any_of_its_parent_companies_subsidiaries_or_affiliates_n_nthis_application_is_provided_quot_as_is_quot_without_warranty_of_any_kind_either_express_or_implied_we_make_no_guarantees_regarding_the_accuracy_reliability_or_availability_of_the_information_provided_through_this_app_n_nkey_points_n_not_official_this_is_an_unofficial_tool_created_by_independent_developers_n_no_affiliation_we_have_no_relationship_with_dmarket_n_use_at_your_own_risk_we_are_not_responsible_for_any_losses_damages_or_issues_arising_from_the_use_of_this_application_n_no_guarantees_we_do_not_guarantee_the_accuracy_of_pricing_data_notifications_or_any_other_information_n_api_usage_this_app_uses_publicly_available_apis_and_may_stop_working_if_access_is_restricted_n_terms_of_service_by_using_this_app_you_agree_to_comply_with_dmarket_s_terms_of_service_n_account_security_keep_your_api_keys_secure_we_are_not_responsible_for_any_unauthorized_access_to_your_account_n_data_privacy_we_do_not_collect_or_share_your_personal_information_beyond_what_is_necessary_for_the_app_to_function_n_ndmarket_is_a_trademark_of_dmarket_llc_all_trademarks_service_marks_and_company_names_are_the_property_of_their_respective_owners_n_nfor_issues_related_to_your_dmarket_account_please_contact_dmarket_support_directly_text">DMarket Alert — это независимое стороннее приложение, которое НЕ связано, не одобрено и не ассоциировано с DMarket или какой-либо из её материнских компаний, дочерних компаний или аффилированных лиц.\\n\\nЭто приложение предоставляется «как есть» без каких-либо гарантий, явных или подразумеваемых. Мы не гарантируем точность, надежность или доступность информации, предоставляемой через это приложение.\\n\\nКЛЮЧЕВЫЕ МОМЕНТЫ:\\n • НЕ ОФИЦИАЛЬНО: Это неофициальный инструмент, созданный независимыми разработчиками\\n • БЕЗ СВЯЗИ: У нас нет никаких отношений с DMarket\\n • ИСПОЛЬЗУЙТЕ НА СВОЙ РИСК: Мы не несём ответственности за любые потери, убытки или проблемы, возникающие в результате использования этого приложения\\n • БЕЗ ГАРАНТИЙ: Мы не гарантируем точность ценовых данных, уведомлений или любой другой информации\\n • ИСПОЛЬЗОВАНИЕ API: Это приложение использует общедоступные API и может перестать работать, если доступ будет ограничен\\n • УСЛОВИЯ ОБСЛУЖИВАНИЯ: Используя это приложение, вы соглашаетесь соблюдать Условия обслуживания DMarket\\n • БЕЗОПАСНОСТЬ УЧЁТНОЙ ЗАПИСИ: Храните ключи API в безопасности — мы не несём ответственности за любой несанкционированный доступ к вашей учётной записи\\n • КОНФИДЕНЦИАЛЬНОСТЬ ДАННЫХ: Мы не собираем и не передаём вашу личную информацию, кроме того, что необходимо для функционирования приложения\\n\\nDMarket является торговой маркой DMarket LLC. Все торговые марки, знаки обслуживания и названия компаний являются собственностью их соответствующих владельцев.\\n\\nПри возникновении проблем, связанных с вашей учётной записью DMarket, обращайтесь напрямую в службу поддержки DMarket.</string>
+
+    <string name="license_text">Лицензия</string>
+    <string name="dmarket_alert_is_a_mobile_application_for_monitoring_targets_on_the_dmarket_platform_n_the_application_helps_the_user_to_monitor_price_changes_for_the_targets_he_has_set_and_receive_instant_notifications_about_any_changes_n_n_the_use_of_dmarket_data_is_carried_out_exclusively_for_educational_and_personal_purposes_n_our_team_is_not_dmarket_employees_and_all_trading_operations_take_place_directly_on_the_dmarket_platform_n_we_do_not_influence_the_operation_of_the_market_and_do_not_change_the_platform_data_n_n_application_functionality_n_monitoring_of_the_user_s_active_targets_n_history_of_all_set_targets_and_their_changes_n_list_of_notifications_about_new_prices_and_broken_targets_n_settings_of_notifications_and_personal_settings_n_user_profile_with_personal_data_n_n_license_and_rights_n_all_code_of_the_dmarketalert_application_is_developed_by_our_team_and_licensed_under_the_mit_license_n_use_of_the_dmarket_api_is_carried_out_within_the_limits_of_permission_for_educational_and_personal_use_n_all_rights_to_the_data_provided_by_dmarket_remain_with_the_platform_n_n_contact_information_n_developers_jozymont_and_joalausi_n_email_dmarketalert_team_gmail_com_n_github_https_github_com_joalausl_dm_tradebot_n_n_thank_you_for_using_marketalerti_we_are_always_happy_to_receive_your_feedback_and_suggestions_for_improving_the_application_text">DMarket Alert — это мобильное приложение для мониторинга целей на платформе DMarket. Приложение помогает пользователю отслеживать изменения цен на установленные им цели и получать мгновенные уведомления о любых изменениях. Использование данных DMarket осуществляется исключительно в образовательных и личных целях. Наша команда не является сотрудниками DMarket, и все торговые операции происходят непосредственно на платформе DMarket. Мы не влияем на работу рынка и не изменяем данные платформы. Функциональность приложения: • Мониторинг активных целей пользователя; • История всех установленных целей и их изменений; • Список уведомлений о новых ценах и пробитых целях; • Настройки уведомлений и личные настройки; • Профиль пользователя с личными данными. Лицензия и права: • Весь код приложения DMarketAlert разработан нашей командой и лицензирован по лицензии MIT; • Использование API DMarket осуществляется в пределах разрешения на образовательное и личное использование; • Все права на данные, предоставленные DMarket, остаются за платформой. Контактная информация: • Разработчики: JozyMont и joalausi • Электронная почта: dmarketalert.team@gmail.com • GitHub: https://github.com/joalausl/dm-tradebot Спасибо за использование DMarket Alert! Мы всегда рады получить ваши отзывы и предложения по улучшению приложения.</string>
+
+    <string name="terms_of_use_and_privacy_police_text">Условия исп. и Политика конфид.</string>
+    <string name="terms_of_use_n_n1_general_information_n_dmarketalert_is_an_independent_mobile_application_created_for_monitoring_price_targets_on_the_dmarket_platform_the_application_does_not_execute_trading_actions_and_does_not_perform_buying_or_selling_operations_all_transactions_are_carried_out_solely_by_the_user_through_the_official_dmarket_platform_n_2_independence_from_dmarket_n_the_dmarketalert_development_team_is_not_affiliated_with_employed_by_or_officially_associated_with_dmarket_all_references_to_dmarket_are_made_only_to_indicate_the_source_of_data_all_trademarks_belong_to_their_respective_owners_n_3_purpose_of_the_application_n_dmarketalert_allows_users_to_n_add_and_manage_price_targets_n_receive_notifications_when_prices_change_n_view_the_history_of_targets_n_view_active_alerts_n_configure_monitoring_and_app_settings_n_the_application_does_not_guarantee_real_time_accuracy_of_data_as_information_depends_on_external_api_response_connection_stability_and_server_operation_n_4_user_responsibility_n_users_acknowledge_that_n_all_trading_decisions_are_made_independently_n_developers_are_not_responsible_for_financial_losses_resulting_from_price_changes_delays_or_inaccurate_data_n_notifications_are_informational_and_not_a_guarantee_of_successful_transactions_n_5_limitation_of_liability_n_developers_are_not_responsible_for_n_failures_of_dmarket_servers_n_incorrect_operation_of_the_dmarket_api_n_delayed_or_missing_notifications_n_loss_of_data_caused_by_device_or_network_issues_n_dmarketalert_is_provided_as_is_without_any_warranties_n_6_restrictions_n_users_are_prohibited_from_n_reverse_engineering_the_application_n_selling_modifying_or_redistributing_the_app_n_using_the_app_for_commercial_purposes_without_permission_n_manipulating_or_falsifying_dmarket_data_n_7_updates_and_changes_n_the_developers_may_modify_the_terms_of_use_interface_or_features_without_prior_notice_n_8_acceptance_of_terms_n_by_using_dmarketalert_you_agree_to_these_terms_of_use_n_nprivacy_policy_n_n1_data_collection_n_dmarketalert_does_not_collect_personal_information_such_as_n_name_n_phone_number_n_email_address_n_passwords_n_financial_data_n_the_app_may_use_the_following_data_n_user_created_targets_n_item_price_information_n_technical_logs_api_delays_error_messages_n_none_of_this_data_can_identify_a_specific_person_n_2_data_usage_n_all_collected_or_generated_data_is_used_only_for_n_sending_local_notifications_n_displaying_targets_and_history_n_performing_background_price_monitoring_n_your_data_is_not_sold_shared_or_transferred_to_third_parties_n_3_data_storage_n_target_data_may_be_stored_n_locally_on_the_user_s_device_n_or_if_enabled_by_the_user_on_a_monitoring_server_managed_by_the_backend_developer_n_no_confidential_personal_information_is_stored_n_4_security_n_we_apply_basic_security_measures_including_n_https_for_api_communication_n_no_advertising_sdks_n_no_analytics_trackers_or_third_party_data_collectors_n_5_dmarket_api_usage_n_the_application_accesses_dmarket_data_only_through_allowed_public_or_authorized_api_methods_n_we_do_not_access_user_accounts_balances_or_private_trading_information_n_6_data_sharing_n_no_data_is_shared_with_external_organizations_advertisers_or_analytics_services_n_7_user_rights_n_users_can_n_delete_their_targets_n_clear_history_n_uninstall_the_app_and_remove_all_local_data_n_request_deletion_of_server_side_data_if_used_n_8_changes_to_privacy_policy_n_the_privacy_policy_may_be_updated_as_the_app_evolves_n_continued_use_of_the_app_indicates_acceptance_of_the_updated_policies_n_9_contact_n_if_you_have_any_questions_contact_us_n_dmarketalert_gmail_com_text">Условия использования ────────────── 1. Общая информация  DMarketAlert — это независимое мобильное приложение, созданное для мониторинга ценовых целей на платформе DMarket. Приложение не выполняет торговых действий и не осуществляет операции покупки или продажи. Все транзакции осуществляются исключительно пользователем через официальную платформу DMarket.  2. Независимость от DMarket  Команда разработчиков DMarketAlert не связана, не нанята и не связана официально с DMarket. Все упоминания DMarket делаются только для указания источника данных. Все торговые марки принадлежат их соответствующим владельцам.  3. Назначение приложения  DMarketAlert позволяет пользователям:  • добавлять и управлять ценовыми целями;  • получать уведомления при изменении цен;  • просматривать историю целей;  • просматривать активные оповещения;  • настраивать мониторинг и параметры приложения.  Приложение не гарантирует точность данных в режиме реального времени, поскольку информация зависит от внешнего ответа API, стабильности соединения и работы сервера.  4. Ответственность пользователя  Пользователи признают, что:  • все торговые решения принимаются независимо;  • разработчики не несут ответственности за финансовые потери, возникшие в результате изменения цен, задержек или неточных данных;  • уведомления носят информационный характер и не гарантируют успешных транзакций.  5. Ограничение ответственности  Разработчики не несут ответственности за:  • сбои серверов DMarket;  • неправильную работу API DMarket;  • задержанные или пропущенные уведомления;  • потерю данных, вызванную проблемами с устройством или сетью.  DMarketAlert предоставляется КАК ЕСТЬ без каких-либо гарантий.  6. Ограничения  Пользователям запрещено:  • обратное проектирование приложения;  • продажа, изменение или распространение приложения;  • использование приложения в коммерческих целях без разрешения;  • манипулирование или фальсификация данных DMarket.  7. Обновления и изменения  Разработчики могут изменять Условия использования, интерфейс или функции без предварительного уведомления.  8. Принятие условий  Используя DMarketAlert, вы соглашаетесь с настоящими Условиями использования.  Политика конфиденциальности ────────────── 1. Сбор данных  DMarketAlert не собирает личную информацию, такую как:  • имя;  • номер телефона;  • адрес электронной почты;  • пароли;  • финансовые данные.  Приложение может использовать следующие данные:  • созданные пользователем цели;  • информация о ценах на предметы;  • технические логи (задержки API, сообщения об ошибках).  Ни один из этих данных не может идентифицировать конкретного человека.  2. Использование данных  Все собранные или сгенерированные данные используются только для:  • отправки локальных уведомлений;  • отображения целей и истории;  • выполнения фонового мониторинга цен.  Ваши данные не продаются, не передаются и не передаются третьим лицам.  3. Хранение данных  Данные целей могут храниться:  • локально на устройстве пользователя;  • или (если включено пользователем) на сервере мониторинга, управляемом бэкенд-разработчиком.  Конфиденциальная личная информация не хранится.  4. Безопасность  Мы применяем базовые меры безопасности, включая:  • HTTPS для связи с API;  • отсутствие рекламных SDK;  • отсутствие трекеров аналитики или сторонних сборщиков данных.  5. Использование API DMarket  Приложение получает доступ к данным DMarket только через разрешённые публичные или авторизованные методы API.  Мы не получаем доступ к учётным записям пользователей, балансам или частной торговой информации.  6. Обмен данными  Данные не передаются внешним организациям, рекламодателям или аналитическим службам.  7. Права пользователя  Пользователи могут:  • удалять свои цели;  • очищать историю;  • удалить приложение и удалить все локальные данные;  • запросить удаление данных на стороне сервера (если используется).  8. Изменения в Политике конфиденциальности  Политика конфиденциальности может быть обновлена по мере развития приложения.  Продолжение использования приложения указывает на принятие обновлённых политик.  9. Контакт  Если у вас есть вопросы, свяжитесь с нами:  dmarketalert@gmail.com</string>
+
+    <!-- Arrays for Spinners -->
+    <string-array name="languages_array">
+        <item>English</item>
+        <item>Українська</item>
+        <item>Русский</item>
+    </string-array>
+
+    <string-array name="currencies_array">
+        <item>USD$</item>
+        <item>UAH₴</item>
+        <item>EUR€</item>
+    </string-array>
+
+    <string-array name="themes_array">
+        <item>Системная</item>
+        <item>Светлая</item>
+        <item>Тёмная</item>
+    </string-array>
+
+    <string-array name="notification_modes_array">
+        <item>Звук</item>
+        <item>Вибрация</item>
+        <item>Беззвучный</item>
+    </string-array>
+
+    <string-array name="notification_delays_array">
+        <item>0 часов</item>
+        <item>1 час</item>
+        <item>5 часов</item>
+        <item>10 часов</item>
+        <item>1 день</item>
+        <item>3 дня</item>
+        <item>7 дней</item>
+    </string-array>
+
+    <string-array name="limits_array">
+        <item>0</item>
+        <item>10</item>
+        <item>25</item>
+        <item>50</item>
+        <item>100</item>
+    </string-array>
+</resources>
