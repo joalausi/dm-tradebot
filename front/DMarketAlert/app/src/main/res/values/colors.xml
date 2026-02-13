@@ -13,4 +13,6 @@
     <color name="text">@color/black</color>
     <color name="edit_text">#AEB3B6</color>
     <color name="dialogs">#AEB3B6</color>
+    <color name="cardviews">#AEB3B6</color>
+    <color name="spinner">#606060</color>
 </resources>

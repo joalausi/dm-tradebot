@@ -12,4 +12,6 @@
     <color name="text">#FFFFFFFF</color>
     <color name="edit_text">#212324</color>
     <color name="dialogs">#1D1F20</color>
+    <color name="cardviews">@color/gray</color>
+    <color name="spinner">#212324</color>
 </resources>
