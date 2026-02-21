@@ -23,15 +23,23 @@ func main() {
 	if err != nil {
 		log.Fatalf("load config: %v", err)
 	}
+	
+	dmClient, err := adapters.NewDMarketClient()
+	if err != nil {
+		log.Fatalf("dmarket client: %v", err)
+	}
 
-	market := adapters.NewDMarketClient()
+	var market core.MarketData = dmClient
+
 	console := core.ConsoleNotifier{}
 	disc := adapters.NewDiscordNotifier(cfg.Discord)
 
 	var notifier core.Notifier
 	if disc != nil {
+		// both
 		notifier = core.MultiNotifier{Notifiers: []core.Notifier{console, disc}}
 	} else {
+		//console only
 		notifier = console
 	}
 
@@ -41,11 +49,12 @@ func main() {
 	defer stop()
 
 	switch {
-	case *check:
-		if err := r.Check(ctx); err != nil {
-			log.Fatalf("check failed: %v", err)
-		}
-		fmt.Println("Connection to DMarket API looks good ✅")
+		case *check:
+			if err := dmClient.PingUserTargets(ctx); err != nil {
+        	log.Fatalf("check failed: ping user-targets: %v", err)
+    	}
+    	fmt.Println("Connection to DMarket API looks good ✅")
+    	return
 	case *once:
 		if err := r.RunOnce(ctx); err != nil {
 			log.Fatalf("run once: %v", err)

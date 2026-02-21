@@ -2,6 +2,11 @@ package core
 
 import "context"
 
+// type DMarketConfig struct {
+//     PublicKeyEnv string `yaml:"public_key_env"` // env-переменная
+//     SecretKeyEnv string `yaml:"secret_key_env"`
+// }
+
 type PriceLevel struct {
 	Price float64 `json:"price"`
 	Qty   int     `json:"qty"`

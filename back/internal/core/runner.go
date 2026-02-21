@@ -22,7 +22,7 @@ type lastState struct {
 
 func NewRunner(cfg Config, market MarketData, notifier Notifier) *Runner {
 	if notifier == nil {
-		notifier = ConsoleNotifier{} // дефолт — просто stdout
+		notifier = ConsoleNotifier{} // дефолт - просто stdout
 	}
 	return &Runner{
 		cfg:      cfg,

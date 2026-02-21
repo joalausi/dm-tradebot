@@ -19,10 +19,19 @@ func LoadConfigFromFile(path string) (Config, error) {
 	if cfg.PollEvery == "" {
 		cfg.PollEvery = "10m"
 	}
-	for i := range cfg.Items {
-		if cfg.Items[i].TopN <= 0 {
-			cfg.Items[i].TopN = 5
-		}
-	}
 	return cfg, nil
 }
+
+// func (c Config) DMarketKeys() (publicKey, secretKey string, err error) {
+//     pkEnv := c.DMarket.PublicKeyEnv
+//     skEnv := c.DMarket.SecretKeyEnv
+//     if pkEnv == "" || skEnv == "" {
+//         return "", "", fmt.Errorf("dmarket.public_key_env / secret_key_env not set in config")
+//     }
+//     publicKey = os.Getenv(pkEnv)
+//     secretKey = os.Getenv(skEnv)
+//     if publicKey == "" || secretKey == "" {
+//         return "", "", fmt.Errorf("env %s or %s is empty", pkEnv, skEnv)
+//     }
+//     return publicKey, secretKey, nil
+// }
