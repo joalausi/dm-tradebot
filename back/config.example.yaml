@@ -11,7 +11,8 @@ dmarket:
 
 items:
   - title: "Charm | Diner Dog"
-    game_id: "a8db"
-    my_target_usd: 4.68
-    low_ask_alert_usd: 4.68
+    game_slug: "csgo"    # для targets-by-title
+    game_id: "a8db"      # для user-targets/create и тп.
+    my_target_usd: 4.73
+    low_ask_alert_usd: 5.20
     top_n: 5

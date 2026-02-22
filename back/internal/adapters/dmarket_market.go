@@ -51,61 +51,97 @@ func NewDMarketClient() (*DMarketClient, error) {
     }, nil
 }
 
+type aggregatedPricesResponse struct {
+    AggregatedPrices []struct {
+        Title          string `json:"title"`
+        OrderBestPrice struct {
+            Currency string `json:"Currency"`
+            Amount   string `json:"Amount"`
+        } `json:"orderBestPrice"`
+        OrderCount string `json:"orderCount"`
+        OfferBestPrice struct {
+            Currency string `json:"Currency"`
+            Amount   string `json:"Amount"`
+        } `json:"offerBestPrice"`
+        OfferCount string `json:"offerCount"`
+    } `json:"aggregatedPrices"`
+    NextCursor string `json:"nextCursor"`
+}
+
 // DepthByTitle возвращает стакан (bids/asks) для конкретного gameID + title.
 // Внутри делает два запроса:
 //   1) GET /marketplace-api/v1/targets-by-title/{gameId}/{title}   -> bids (targets)
 //   2) GET /exchange/v1/offers-by-title?Title=...&Limit=50        -> asks (offers)
 func (c *DMarketClient) DepthByTitle(ctx context.Context, gameID, title string, topN int) (core.Depth, error) {
-	if topN <= 0 {
-		topN = 5
-	}
-
-// --------- BIDS / TARGETS ------
-	// в swagger: get /marketplace-api/v1/targets-by-title/{game_id}/{title}
-		// важно: title - часть PATH, so  PathEscape.
-	pathTargets := fmt.Sprintf("/marketplace-api/v1/targets-by-title/%s/%s",
-        gameID, url.PathEscape(title))
-
-		bodyTargets, err := c.doSigned(ctx, http.MethodGet, pathTargets, nil, nil)
-    if err != nil {
-        return core.Depth{}, fmt.Errorf("targets-by-title: %w", err)
+    // Собираем body как в swagger:
+    // {
+    //   "cursor": "",
+    //   "limit": "1",
+    //   "filter": { "game": "<gameID>", "titles": ["<title>"] }
+    // }
+    reqBody := map[string]any{
+        "cursor": "",
+        "limit":  "1",
+        "filter": map[string]any{
+            "game":   gameID,
+            "titles": []string{title},
+        },
     }
 
-	// ключ "orders" (по доке)
-	bids, err := parseLevels(bodyTargets, []string{"orders"})
-	if err != nil {
-		return core.Depth{}, fmt.Errorf("parse targets: %w", err)
-	}
-	if len(bids) > topN {
-		bids = bids[:topN]
-	}
+    bodyBytes, err := json.Marshal(reqBody)
+    if err != nil {
+        return core.Depth{}, fmt.Errorf("marshal aggregated-prices body: %w", err)
+    }
 
-	// --------- asks offers / BIDS / TARGETS ---------
-	// В swagger: get /exchange/v1/offers-by-title?Title=...&Limit=...
-	pathOffers := "/exchange/v1/offers-by-title"
-    q := url.Values{}
-    q.Set("Title", title)
-    q.Set("Limit", "50")
+    raw, err := c.doSigned(ctx, http.MethodPost, "/marketplace-api/v1/aggregated-prices", nil, bodyBytes)
+    if err != nil {
+        return core.Depth{}, fmt.Errorf("aggregated-prices: %w", err)
+    }
 
-    bodyOffers, err := c.doSigned(ctx, http.MethodGet, pathOffers, q, nil)
-	if err != nil {
-		return core.Depth{}, fmt.Errorf("offers-by-title: %w", err)
-	}
+    var resp aggregatedPricesResponse
+    if err := json.Unmarshal(raw, &resp); err != nil {
+        return core.Depth{}, fmt.Errorf("decode aggregated-prices: %w", err)
+    }
 
-	// В ответе корневой ключ "objects" (по доке),
-	// на всякий "offers"/"asks"/"items".
-	asks, err := parseLevels(bodyOffers, []string{"objects"})
-	if err != nil {
-		return core.Depth{}, fmt.Errorf("parse offers: %w", err)
-	}
-	if len(asks) > topN {
-		asks = asks[:topN]
-	}
+    if len(resp.AggregatedPrices) == 0 {
+        // Нет ордеров/офферов по этому title — просто пустой стакан.
+        return core.Depth{}, nil
+    }
 
-	return core.Depth{
-		Bids: bids,
-		Asks: asks,
-	}, nil
+    ap := resp.AggregatedPrices[0]
+
+    var depth core.Depth
+
+    // aggregated-prices возвращает цены в cents for USD, поэтому делим на 100
+    // best target (ордеры / buy side)
+    if ap.OrderBestPrice.Amount != "" {
+    if price, err := strconv.ParseFloat(ap.OrderBestPrice.Amount, 64); err == nil {
+        price = price / 100.0
+
+        qty, _ := strconv.Atoi(ap.OrderCount)
+        depth.Bids = append(depth.Bids, core.PriceLevel{
+            Price: price,
+            Qty:   qty,
+            })
+        }
+    }
+
+    // best offer (офферы / sell side)
+    if ap.OfferBestPrice.Amount != "" {
+    if price, err := strconv.ParseFloat(ap.OfferBestPrice.Amount, 64); err == nil {
+        price = price / 100.0
+
+        qty, _ := strconv.Atoi(ap.OfferCount)
+        depth.Asks = append(depth.Asks, core.PriceLevel{
+            Price: price,
+            Qty:   qty,
+            })
+        }
+    }
+
+    // topN пока игнорируем, т.к. агрегатор даёт только best price;
+    // интерфейс оставляем на будущее.
+    return depth, nil
 }
 // --------------------------------- низкоуровневые helpers ---------------------------------
 
