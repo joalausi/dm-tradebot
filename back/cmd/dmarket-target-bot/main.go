@@ -9,8 +9,13 @@ import (
 	"os/signal"
 	"syscall"
 
-	"back/internal/adapters"
-	"back/internal/core"
+	"back/internal/adapters/markets/dmarket"
+	"back/internal/config"
+	"back/internal/domain"
+	"back/internal/ports"
+	"back/internal/services"
+	"back/internal/adapters/notifiers/console"
+	"back/internal/adapters/notifiers/dmarket"
 )
 
 func main() {
@@ -19,42 +24,42 @@ func main() {
 	check := flag.Bool("check", false, "check DMarket connectivity and exit")
 	flag.Parse()
 
-	cfg, err := core.LoadConfigFromFile(*cfgPath)
+	cfg, err := config.LoadConfigFromFile(*cfgPath)
 	if err != nil {
 		log.Fatalf("load config: %v", err)
 	}
-	
-	dmClient, err := adapters.NewDMarketClient()
+
+	dmClient, err := dmarket.NewClient()
 	if err != nil {
 		log.Fatalf("dmarket client: %v", err)
 	}
 
-	var market core.MarketData = dmClient
+	var market dmarket.MarketData = dmClient
 
-	console := core.ConsoleNotifier{}
-	disc := adapters.NewDiscordNotifier(cfg.Discord)
+	console := console.Notifier{}
+	disc := dmarket.NewDiscordNotifier(cfg.Discord)
 
-	var notifier core.Notifier
+	var notifier dmarket.Notifier
 	if disc != nil {
 		// both
-		notifier = core.MultiNotifier{Notifiers: []core.Notifier{console, disc}}
+		notifier = dmarket.MultiNotifier{Notifiers: []dmarket.Notifier{console, disc}}
 	} else {
 		//console only
 		notifier = console
 	}
 
-	r := core.NewRunner(cfg, market, notifier)
+	r := services.NewDMarketTargetRunner(cfg, market, notifier)
 
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
 	switch {
-		case *check:
-			if err := dmClient.PingUserTargets(ctx); err != nil {
-        	log.Fatalf("check failed: ping user-targets: %v", err)
-    	}
-    	fmt.Println("Connection to DMarket API looks good ✅")
-    	return
+	case *check:
+		if err := dmClient.PingUserTargets(ctx); err != nil {
+			log.Fatalf("check failed: ping user-targets: %v", err)
+		}
+		fmt.Println("Connection to DMarket API looks good ✅")
+		return
 	case *once:
 		if err := r.RunOnce(ctx); err != nil {
 			log.Fatalf("run once: %v", err)
