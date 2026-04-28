@@ -1,4 +1,4 @@
-package adapters
+package dmarket
 
 import (
 	"bytes"
@@ -347,7 +347,7 @@ func toFloat(v any) (float64, bool) {
 	}
 }
 
-func (c *DMarketClient) PingUserTargets(ctx context.Context) error {
+func (c *Client) PingUserTargets(ctx context.Context) error {
 	path := "/marketplace-api/v1/user-targets"
 	q := url.Values{}
 	q.Set("GameID", "a8db") // CS2

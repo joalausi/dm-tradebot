@@ -10,12 +10,11 @@ import (
 	"syscall"
 
 	"back/internal/adapters/markets/dmarket"
+	"back/internal/adapters/notifiers/console"
+	"back/internal/adapters/notifiers/discord"
 	"back/internal/config"
-	"back/internal/domain"
 	"back/internal/ports"
 	"back/internal/services"
-	"back/internal/adapters/notifiers/console"
-	"back/internal/adapters/notifiers/dmarket"
 )
 
 func main() {
@@ -24,7 +23,7 @@ func main() {
 	check := flag.Bool("check", false, "check DMarket connectivity and exit")
 	flag.Parse()
 
-	cfg, err := config.LoadConfigFromFile(*cfgPath)
+	cfg, err := config.LoadFromFile(*cfgPath)
 	if err != nil {
 		log.Fatalf("load config: %v", err)
 	}
@@ -34,21 +33,24 @@ func main() {
 		log.Fatalf("dmarket client: %v", err)
 	}
 
-	var market dmarket.MarketData = dmClient
+	var market ports.MarketData = dmClient
 
-	console := console.Notifier{}
-	disc := dmarket.NewDiscordNotifier(cfg.Discord)
+	consoleNotifier := console.New()
+	discordNotifier := discord.New(cfg.Discord)
 
-	var notifier dmarket.Notifier
-	if disc != nil {
-		// both
-		notifier = dmarket.MultiNotifier{Notifiers: []dmarket.Notifier{console, disc}}
+	var notifier ports.Notifier
+	if discordNotifier != nil {
+		notifier = console.Multi{
+			Notifiers: []ports.Notifier{
+				consoleNotifier,
+				discordNotifier,
+			},
+		}
 	} else {
-		//console only
-		notifier = console
+		notifier = consoleNotifier
 	}
 
-	r := services.NewDMarketTargetRunner(cfg, market, notifier)
+	runner := services.NewDMarketTargetRunner(cfg, market, notifier)
 
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
@@ -58,14 +60,22 @@ func main() {
 		if err := dmClient.PingUserTargets(ctx); err != nil {
 			log.Fatalf("check failed: ping user-targets: %v", err)
 		}
+
+		if err := runner.Check(ctx); err != nil {
+			log.Fatalf("check failed: %v", err)
+		}
+
 		fmt.Println("Connection to DMarket API looks good ✅")
 		return
+
 	case *once:
-		if err := r.RunOnce(ctx); err != nil {
+		if err := runner.RunOnce(ctx); err != nil {
 			log.Fatalf("run once: %v", err)
 		}
+		return
+
 	default:
-		if err := r.Run(ctx); err != nil && err != context.Canceled {
+		if err := runner.Run(ctx); err != nil && err != context.Canceled {
 			log.Fatalf("run: %v", err)
 		}
 	}

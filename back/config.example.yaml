@@ -10,9 +10,9 @@ dmarket:
   secret_key_env: "DMARKET_SECRET_KEY"
 
 items:
-  - title: "Charm | Diner Dog"
+  - title: "AWP | LongDog (Field-Tested)"
     game_slug: "csgo"    # для targets-by-title
     game_id: "a8db"      # для user-targets/create и тп.
-    my_target_usd: 4.73
-    low_ask_alert_usd: 5.20
+    my_target_usd: 234.35
+    low_ask_alert_usd: 234.35
     top_n: 5

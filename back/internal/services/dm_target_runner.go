@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"back/internal/config"
-	"back/internal/domain"
 	"back/internal/ports"
 )
 
