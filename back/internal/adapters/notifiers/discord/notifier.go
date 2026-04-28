@@ -1,4 +1,4 @@
-package adapters
+package discord
 
 import (
 	"bytes"
@@ -7,21 +7,22 @@ import (
 	"fmt"
 	"net/http"
 
-	"back/internal/core"
+	"back/internal/config"
+	"back/internal/ports"
 )
 
-type DiscordNotifier struct {
-	cfg core.DiscordConfig
+type Notifier struct {
+	cfg config.DiscordConfig
 }
 
-func NewDiscordNotifier(cfg core.DiscordConfig) core.Notifier {
+func New(cfg config.DiscordConfig) ports.Notifier {
 	if cfg.WebhookURL == "" {
 		return nil
 	}
-	return &DiscordNotifier{cfg: cfg}
+	return &Notifier{cfg: cfg}
 }
 
-func (d *DiscordNotifier) Notify(ctx context.Context, msg string) error {
+func (d *Notifier) Notify(ctx context.Context, msg string) error {
 	if d.cfg.Mention != "" {
 		msg = d.cfg.Mention + " " + msg
 	}
@@ -44,3 +45,5 @@ func (d *DiscordNotifier) Notify(ctx context.Context, msg string) error {
 	}
 	return nil
 }
+
+// TODO: DONE
