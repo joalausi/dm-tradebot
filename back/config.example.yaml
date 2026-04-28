@@ -1,18 +1,27 @@
-poll_every: "10m"
+poll_every: "5m"
 
 discord:
   webhook_url: "https://discord.com/api/webhooks/1432118569289781390/lsnKj40QH_VAcfo262nqZdzn6h-45E_7rY3IQVntZV09f-6ClCFP2SOYUi0uIZlYd-Tl"
   mention: ""
 
-dmarket:
-  # читаем их из окружения:
-  public_key_env: "DMARKET_PUBLIC_KEY"
-  secret_key_env: "DMARKET_SECRET_KEY"
+account_targets:
+  enabled: true
+  game_ids:
+    - "a8db"
+  statuses:
+    - "TargetStatusActive"
+    - "TargetStatusInactive"
+  default_top_n: 5
 
-items:
-  - title: "AWP | LongDog (Field-Tested)"
-    game_slug: "csgo"    # для targets-by-title
-    game_id: "a8db"      # для user-targets/create и тп.
-    my_target_usd: 234.35
-    low_ask_alert_usd: 234.35
-    top_n: 5
+# dmarket:
+#   # читаем их из окружения:
+#   public_key_env: "DMARKET_PUBLIC_KEY"
+#   secret_key_env: "DMARKET_SECRET_KEY"
+
+# items:
+#   - title: "AWP | LongDog (Field-Tested)"
+#     game_slug: "csgo"    # для targets-by-title
+#     game_id: "a8db"      # для user-targets/create и тп.
+#     my_target_usd: 234.35
+#     low_ask_alert_usd: 234.35
+#     top_n: 5

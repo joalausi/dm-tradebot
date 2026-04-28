@@ -34,6 +34,10 @@ func main() {
 	}
 
 	var market ports.MarketData = dmClient
+	var targetSource ports.UserTargets
+	if cfg.AccountTargets.Enabled {
+		targetSource = dmClient
+	}
 
 	consoleNotifier := console.New()
 	discordNotifier := discord.New(cfg.Discord)
@@ -50,7 +54,7 @@ func main() {
 		notifier = consoleNotifier
 	}
 
-	runner := services.NewDMarketTargetRunner(cfg, market, notifier)
+	runner := services.NewDMarketTargetRunner(cfg, market, notifier, targetSource)
 
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()

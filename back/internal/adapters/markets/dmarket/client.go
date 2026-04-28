@@ -27,6 +27,101 @@ type Client struct {
 	secretKey  ed25519.PrivateKey
 }
 
+type userTargetsResponse struct {
+	Items  []userTargetDTO `json:"Items"`
+	Total  string          `json:"Total"`
+	Cursor string          `json:"Cursor"`
+}
+
+type userTargetDTO struct {
+	TargetID string `json:"TargetID"`
+	Title    string `json:"Title"`
+	Amount   string `json:"Amount"`
+	Status   string `json:"Status"`
+	GameID   string `json:"GameID"`
+	Price    struct {
+		Currency string  `json:"Currency"`
+		Amount   float64 `json:"Amount"`
+	} `json:"Price"`
+	Attributes []struct {
+		Name  string `json:"Name"`
+		Value string `json:"Value"`
+	} `json:"Attributes"`
+}
+
+func (c *Client) ListUserTargets(ctx context.Context, gameID string, statuses []string) ([]domain.UserTarget, error) {
+	if len(statuses) == 0 {
+		statuses = []string{"TargetStatusActive", "TargetStatusInactive"}
+	}
+
+	var out []domain.UserTarget
+	seen := make(map[string]bool)
+
+	for _, status := range statuses {
+		cursor := ""
+
+		for {
+			q := url.Values{}
+			q.Set("GameID", gameID)
+			q.Set("Limit", "100")
+			q.Set("BasicFilters.Status", status)
+
+			if cursor != "" {
+				q.Set("Cursor", cursor)
+			}
+
+			raw, err := c.doSigned(ctx, http.MethodGet, "/marketplace-api/v1/user-targets", q, nil)
+			if err != nil {
+				return nil, fmt.Errorf("user-targets %s: %w", status, err)
+			}
+
+			var resp userTargetsResponse
+			if err := json.Unmarshal(raw, &resp); err != nil {
+				return nil, fmt.Errorf("decode user-targets: %w", err)
+			}
+
+			for _, item := range resp.Items {
+				if item.TargetID != "" && seen[item.TargetID] {
+					continue
+				}
+				if item.TargetID != "" {
+					seen[item.TargetID] = true
+				}
+
+				amount, _ := strconv.Atoi(item.Amount)
+				if amount <= 0 {
+					amount = 1
+				}
+
+				attrs := make([]domain.TargetAttribute, 0, len(item.Attributes))
+				for _, a := range item.Attributes {
+					attrs = append(attrs, domain.TargetAttribute{
+						Name:  a.Name,
+						Value: a.Value,
+					})
+				}
+
+				out = append(out, domain.UserTarget{
+					TargetID:   item.TargetID,
+					Title:      item.Title,
+					GameID:     item.GameID,
+					Status:     item.Status,
+					PriceUSD:   item.Price.Amount,
+					Amount:     amount,
+					Attributes: attrs,
+				})
+			}
+
+			if resp.Cursor == "" {
+				break
+			}
+			cursor = resp.Cursor
+		}
+	}
+
+	return out, nil
+}
+
 func NewClient() (*Client, error) {
 	publicKey := strings.TrimSpace(os.Getenv("DMARKET_PUBLIC_KEY"))
 	secretHex := strings.TrimSpace(os.Getenv("DMARKET_SECRET_KEY"))

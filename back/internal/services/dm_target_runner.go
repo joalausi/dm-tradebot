@@ -8,13 +8,15 @@ import (
 
 	"back/internal/config"
 	"back/internal/ports"
+	"back/internal/domain"
 )
 
 type DMarketTargetRunner struct {
-	cfg      config.Config
-	market   ports.MarketData
-	notifier ports.Notifier
-	state    map[string]lastState
+	cfg          config.Config
+	market       ports.MarketData
+	targetSource ports.UserTargets
+	notifier     ports.Notifier
+	state        map[string]lastState
 }
 
 type lastState struct {
@@ -27,12 +29,14 @@ func NewDMarketTargetRunner(
 	cfg config.Config,
 	market ports.MarketData,
 	notifier ports.Notifier,
+	targetSource ports.UserTargets,
 ) *DMarketTargetRunner {
 	return &DMarketTargetRunner{
-		cfg:      cfg,
-		market:   market,
-		notifier: notifier,
-		state:    make(map[string]lastState),
+		cfg:          cfg,
+		market:       market,
+		notifier:     notifier,
+		targetSource: targetSource,
+		state:        make(map[string]lastState),
 	}
 }
 
@@ -76,7 +80,12 @@ func (r *DMarketTargetRunner) RunOnce(ctx context.Context) error {
 	fmt.Println()
 	fmt.Println("========== DMarket Watch @", now, "==========")
 
-	for _, it := range r.cfg.Items {
+	items, err := r.resolveItems(ctx)
+	if err != nil {
+		return fmt.Errorf("resolve items: %w", err)
+	}
+
+	for _, it := range items {
 		topN := it.TopN
 		if topN <= 0 {
 			topN = 5
@@ -221,4 +230,60 @@ func (r *DMarketTargetRunner) Check(ctx context.Context) error {
 	}
 
 	return nil
+}
+
+func (r *DMarketTargetRunner) resolveItems(ctx context.Context) ([]domain.TargetItem, error) {
+	if !r.cfg.AccountTargets.Enabled {
+		return r.cfg.Items, nil
+	}
+
+	if r.targetSource == nil {
+		return nil, fmt.Errorf("account targets enabled, but target source is nil")
+	}
+
+	// overrides из YAML по ключу gameID|title
+	overrides := make(map[string]domain.TargetItem)
+	for _, it := range r.cfg.Items {
+		overrides[it.GameID+"|"+it.Title] = it
+	}
+
+	var result []domain.TargetItem
+
+	for _, gameID := range r.cfg.AccountTargets.GameIDs {
+		targets, err := r.targetSource.ListUserTargets(
+			ctx,
+			gameID,
+			r.cfg.AccountTargets.Statuses,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, t := range targets {
+			item := domain.TargetItem{
+				Title:       t.Title,
+				GameID:      t.GameID,
+				MyTargetUSD: t.PriceUSD,
+				TopN:        r.cfg.AccountTargets.DefaultTopN,
+			}
+
+			if item.TopN <= 0 {
+				item.TopN = 5
+			}
+
+			key := item.GameID + "|" + item.Title
+			if override, ok := overrides[key]; ok {
+				if override.LowAskAlertUSD > 0 {
+					item.LowAskAlertUSD = override.LowAskAlertUSD
+				}
+				if override.TopN > 0 {
+					item.TopN = override.TopN
+				}
+			}
+
+			result = append(result, item)
+		}
+	}
+
+	return result, nil
 }
