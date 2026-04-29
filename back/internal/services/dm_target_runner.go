@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"back/internal/config"
-	"back/internal/ports"
 	"back/internal/domain"
+	"back/internal/ports"
 )
 
 type DMarketTargetRunner struct {
@@ -219,7 +219,7 @@ func (r *DMarketTargetRunner) Check(ctx context.Context) error {
 		return fmt.Errorf("resolve items: %w", err)
 	}
 	if len(items) == 0 {
-		return fmt.Errorf("config has no items")
+		return fmt.Errorf("no items resolved from config/account targets")
 	}
 
 	it := items[0]
@@ -228,7 +228,7 @@ func (r *DMarketTargetRunner) Check(ctx context.Context) error {
 		topN = 1
 	}
 
-	_, err := r.market.DepthByTitle(ctx, it.GameID, it.Title, topN)
+	_, err = r.market.DepthByTitle(ctx, it.GameID, it.Title, topN)
 	if err != nil {
 		return fmt.Errorf("depth by title: %w", err)
 	}

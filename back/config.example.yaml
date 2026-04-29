@@ -1,7 +1,6 @@
 poll_every: "5m"
 
 discord:
-  webhook_url: "https://discord.com/api/webhooks/1432118569289781390/lsnKj40QH_VAcfo262nqZdzn6h-45E_7rY3IQVntZV09f-6ClCFP2SOYUi0uIZlYd-Tl"
   mention: ""
 
 account_targets:

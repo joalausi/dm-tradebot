@@ -3,8 +3,7 @@ package config
 import "back/internal/domain"
 
 type DiscordConfig struct {
-	WebhookURL string `yaml:"webhook_url"`
-	Mention    string `yaml:"mention"`
+	Mention string `yaml:"mention"`
 }
 
 type AccountTargetsConfig struct {
