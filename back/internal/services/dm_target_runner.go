@@ -214,11 +214,15 @@ func (r *DMarketTargetRunner) Check(ctx context.Context) error {
 		return fmt.Errorf("market data adapter is nil")
 	}
 
-	if len(r.cfg.Items) == 0 {
+	items, err := r.resolveItems(ctx)
+	if err != nil {
+		return fmt.Errorf("resolve items: %w", err)
+	}
+	if len(items) == 0 {
 		return fmt.Errorf("config has no items")
 	}
 
-	it := r.cfg.Items[0]
+	it := items[0]
 	topN := it.TopN
 	if topN <= 0 {
 		topN = 1
