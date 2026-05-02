@@ -96,7 +96,7 @@ func (r *DMarketTargetRunner) RunOnce(ctx context.Context) error {
 			topN = 5
 		}
 
-		depth, err := r.market.DepthByTitle(ctx, it.GameID, it.Title, topN)
+		depth, err := r.market.DepthByTarget(ctx, it, topN)
 		if err != nil {
 			fmt.Printf("[ERR] %s — %v\n", it.Title, err)
 			continue
@@ -116,7 +116,7 @@ func (r *DMarketTargetRunner) RunOnce(ctx context.Context) error {
 
 		if domain.HasAdvancedAttributes(it.Attributes) {
 			fmt.Printf("attrs: %s\n", domain.PrettyTargetAttributes(it.Attributes))
-			fmt.Println("[WARN] advanced target: BestTarget is title-level, not attr-specific yet")
+			fmt.Println("[INFO] advanced target: matching bids by attributes")
 		}
 
 		if it.TargetID != "" || it.Status != "" || it.Amount > 0 {
@@ -251,9 +251,9 @@ func (r *DMarketTargetRunner) Check(ctx context.Context) error {
 		topN = 1
 	}
 
-	_, err = r.market.DepthByTitle(ctx, it.GameID, it.Title, topN)
+	_, err = r.market.DepthByTarget(ctx, it, topN)
 	if err != nil {
-		return fmt.Errorf("depth by title: %w", err)
+		return fmt.Errorf("depth by target: %w", err)
 	}
 
 	return nil

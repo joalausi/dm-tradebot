@@ -2,6 +2,7 @@ package console
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"back/internal/ports"
@@ -23,8 +24,17 @@ type Multi struct {
 }
 
 func (m Multi) Notify(ctx context.Context, msg string) error {
+	var errs []error
+
 	for _, n := range m.Notifiers {
-		_ = n.Notify(ctx, msg)
+		if n == nil {
+			continue
+		}
+
+		if err := n.Notify(ctx, msg); err != nil {
+			errs = append(errs, fmt.Errorf("%T: %w", n, err))
+		}
 	}
-	return nil
+
+	return errors.Join(errs...)
 }

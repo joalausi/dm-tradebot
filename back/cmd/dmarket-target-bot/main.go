@@ -53,6 +53,7 @@ func main() {
 	} else {
 		notifier = consoleNotifier
 	}
+	// TODO: заменить Multi.Notify на полноценную функ
 
 	runner := services.NewDMarketTargetRunner(cfg, market, notifier, targetSource)
 
