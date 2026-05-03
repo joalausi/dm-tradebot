@@ -96,6 +96,9 @@ func (r *DMarketTargetRunner) RunOnce(ctx context.Context) error {
 			topN = 5
 		}
 
+		fmt.Println()
+		fmt.Println("================================================================")
+
 		depth, err := r.market.DepthByTarget(ctx, it, topN)
 		if err != nil {
 			fmt.Printf("[ERR] %s — %v\n", it.Title, err)

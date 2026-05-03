@@ -312,84 +312,24 @@ func (c *Client) depthByAdvancedTarget(ctx context.Context, target domain.Target
 }
 
 func (c *Client) targetOrdersByTitle(ctx context.Context, gameID, title string) ([]targetOrder, error) {
-	gameSlug := dmarketTargetsByTitleGameID(gameID)
-
-	rawTitlePathGameID := fmt.Sprintf(
+	signURI := fmt.Sprintf(
 		"/marketplace-api/v1/targets-by-title/%s/%s",
 		gameID,
 		title,
 	)
-	escapedTitlePathGameID := fmt.Sprintf(
+
+	requestURI := fmt.Sprintf(
 		"/marketplace-api/v1/targets-by-title/%s/%s",
 		gameID,
 		url.PathEscape(title),
 	)
 
-	rawTitlePathSlug := fmt.Sprintf(
-		"/marketplace-api/v1/targets-by-title/%s/%s",
-		gameSlug,
-		title,
-	)
-	escapedTitlePathSlug := fmt.Sprintf(
-		"/marketplace-api/v1/targets-by-title/%s/%s",
-		gameSlug,
-		url.PathEscape(title),
-	)
-
-	candidates := []struct {
-		name        string
-		signURI     string
-		requestURI  string
-	}{
-		{
-			name:       "gameID/raw-sign",
-			signURI:    rawTitlePathGameID,
-			requestURI: escapedTitlePathGameID,
-		},
-		{
-			name:       "slug/raw-sign",
-			signURI:    rawTitlePathSlug,
-			requestURI: escapedTitlePathSlug,
-		},
-		{
-			name:       "gameID/escaped-sign",
-			signURI:    escapedTitlePathGameID,
-			requestURI: escapedTitlePathGameID,
-		},
-		{
-			name:       "slug/escaped-sign",
-			signURI:    escapedTitlePathSlug,
-			requestURI: escapedTitlePathSlug,
-		},
+	raw, err := c.doSignedRoute(ctx, http.MethodGet, signURI, requestURI, nil)
+	if err != nil {
+		return nil, err
 	}
 
-	var lastErr error
-
-	for _, candidate := range candidates {
-		raw, err := c.doSignedRoute(ctx, http.MethodGet, candidate.signURI, candidate.requestURI, nil)
-		if err == nil {
-			fmt.Printf("[debug] targets-by-title OK variant=%s\n", candidate.name)
-			fmt.Printf("[debug] targets-by-title raw=%s\n", trimBody(raw))
-
-			return parseTargetOrders(raw)
-		}
-
-		lastErr = err
-		fmt.Printf("[debug] targets-by-title FAIL variant=%s err=%v\n", candidate.name, err)
-	}
-
-	return nil, lastErr
-}
-
-func dmarketTargetsByTitleGameID(gameID string) string {
-	switch gameID {
-	case "a8db":
-		return "csgo"
-	case "9a92":
-		return "dota2"
-	default:
-		return gameID
-	}
+	return parseTargetOrders(raw)
 }
 
 func parseTargetOrders(body []byte) ([]targetOrder, error) {
