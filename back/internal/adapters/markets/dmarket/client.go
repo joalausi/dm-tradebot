@@ -270,7 +270,8 @@ func (c *Client) depthByAdvancedTarget(ctx context.Context, target domain.Target
 
 	orders, err := c.targetOrdersByTitle(ctx, target.GameID, target.Title)
 	if err != nil {
-		return domain.Depth{}, fmt.Errorf("target orders by title: %w", err)
+		depth.Bids = nil
+		return depth, fmt.Errorf("target orders by title: %w", err)
 	}
 
 	bids := make([]domain.PriceLevel, 0, len(orders))
@@ -311,18 +312,84 @@ func (c *Client) depthByAdvancedTarget(ctx context.Context, target domain.Target
 }
 
 func (c *Client) targetOrdersByTitle(ctx context.Context, gameID, title string) ([]targetOrder, error) {
-	path := fmt.Sprintf(
+	gameSlug := dmarketTargetsByTitleGameID(gameID)
+
+	rawTitlePathGameID := fmt.Sprintf(
+		"/marketplace-api/v1/targets-by-title/%s/%s",
+		gameID,
+		title,
+	)
+	escapedTitlePathGameID := fmt.Sprintf(
 		"/marketplace-api/v1/targets-by-title/%s/%s",
 		gameID,
 		url.PathEscape(title),
 	)
 
-	raw, err := c.doSigned(ctx, http.MethodGet, path, nil, nil)
-	if err != nil {
-		return nil, err
+	rawTitlePathSlug := fmt.Sprintf(
+		"/marketplace-api/v1/targets-by-title/%s/%s",
+		gameSlug,
+		title,
+	)
+	escapedTitlePathSlug := fmt.Sprintf(
+		"/marketplace-api/v1/targets-by-title/%s/%s",
+		gameSlug,
+		url.PathEscape(title),
+	)
+
+	candidates := []struct {
+		name        string
+		signURI     string
+		requestURI  string
+	}{
+		{
+			name:       "gameID/raw-sign",
+			signURI:    rawTitlePathGameID,
+			requestURI: escapedTitlePathGameID,
+		},
+		{
+			name:       "slug/raw-sign",
+			signURI:    rawTitlePathSlug,
+			requestURI: escapedTitlePathSlug,
+		},
+		{
+			name:       "gameID/escaped-sign",
+			signURI:    escapedTitlePathGameID,
+			requestURI: escapedTitlePathGameID,
+		},
+		{
+			name:       "slug/escaped-sign",
+			signURI:    escapedTitlePathSlug,
+			requestURI: escapedTitlePathSlug,
+		},
 	}
 
-	return parseTargetOrders(raw)
+	var lastErr error
+
+	for _, candidate := range candidates {
+		raw, err := c.doSignedRoute(ctx, http.MethodGet, candidate.signURI, candidate.requestURI, nil)
+		if err == nil {
+			fmt.Printf("[debug] targets-by-title OK variant=%s\n", candidate.name)
+			fmt.Printf("[debug] targets-by-title raw=%s\n", trimBody(raw))
+
+			return parseTargetOrders(raw)
+		}
+
+		lastErr = err
+		fmt.Printf("[debug] targets-by-title FAIL variant=%s err=%v\n", candidate.name, err)
+	}
+
+	return nil, lastErr
+}
+
+func dmarketTargetsByTitleGameID(gameID string) string {
+	switch gameID {
+	case "a8db":
+		return "csgo"
+	case "9a92":
+		return "dota2"
+	default:
+		return gameID
+	}
 }
 
 func parseTargetOrders(body []byte) ([]targetOrder, error) {
@@ -386,40 +453,36 @@ func parseTargetOrders(body []byte) ([]targetOrder, error) {
 }
 
 func parseTargetOrderAttributes(m map[string]any) []domain.TargetAttribute {
-	var arr []any
+	v, ok := m["attributes"]
+	if !ok {
+		v = m["Attributes"]
+	}
 
-	for _, key := range []string{"Attributes", "attributes"} {
-		if v, ok := m[key]; ok {
-			if parsed, ok := v.([]any); ok {
-				arr = parsed
-				break
+	out := make([]domain.TargetAttribute, 0, 3)
+
+	switch x := v.(type) {
+	case []any:
+		for _, el := range x {
+			attrMap, ok := el.(map[string]any)
+			if !ok {
+				continue
+			}
+
+			name := readStringField(attrMap, "Name", "name")
+			value := readStringField(attrMap, "Value", "value")
+
+			if name != "" && value != "" {
+				out = append(out, domain.TargetAttribute{Name: name, Value: value})
 			}
 		}
-	}
 
-	if arr == nil {
-		return nil
-	}
-
-	out := make([]domain.TargetAttribute, 0, len(arr))
-
-	for _, el := range arr {
-		attrMap, ok := el.(map[string]any)
-		if !ok {
-			continue
+	case map[string]any:
+		for _, name := range []string{"floatPartValue", "phase", "paintSeed"} {
+			value := readStringField(x, name)
+			if value != "" {
+				out = append(out, domain.TargetAttribute{Name: name, Value: value})
+			}
 		}
-
-		name := readStringField(attrMap, "Name", "name")
-		value := readStringField(attrMap, "Value", "value")
-
-		if name == "" || value == "" {
-			continue
-		}
-
-		out = append(out, domain.TargetAttribute{
-			Name:  name,
-			Value: value,
-		})
 	}
 
 	return out
@@ -569,6 +632,59 @@ func (c *Client) doSigned(
 	if resp.StatusCode >= 300 {
 		return nil, fmt.Errorf("%s %s: status %d: %s", method, path, resp.StatusCode, trimBody(respBody))
 	}
+	return respBody, nil
+}
+
+func (c *Client) doSignedRoute(
+	ctx context.Context,
+	method string,
+	signURI string,
+	requestURI string,
+	body []byte,
+) ([]byte, error) {
+	ts := strconv.FormatInt(time.Now().Unix(), 10)
+
+	stringToSign := method + signURI + string(body) + ts
+
+	sig := ed25519.Sign(c.secretKey, []byte(stringToSign))
+	sigHex := hex.EncodeToString(sig)
+
+	req, err := http.NewRequestWithContext(ctx, method, c.baseURL+requestURI, bytes.NewReader(body))
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("Accept", "application/json")
+	if len(body) > 0 {
+		req.Header.Set("Content-Type", "application/json")
+	}
+
+	req.Header.Set("X-Api-Key", c.publicKey)
+	req.Header.Set("X-Sign-Date", ts)
+	req.Header.Set("X-Request-Sign", "dmar ed25519 "+sigHex)
+
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	respBody, err := io.ReadAll(io.LimitReader(resp.Body, 1<<20))
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.StatusCode >= 300 {
+		return nil, fmt.Errorf(
+			"%s signURI=%q requestURI=%q: status %d: %s",
+			method,
+			signURI,
+			requestURI,
+			resp.StatusCode,
+			trimBody(respBody),
+		)
+	}
+
 	return respBody, nil
 }
 

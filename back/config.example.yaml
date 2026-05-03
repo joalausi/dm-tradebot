@@ -5,6 +5,8 @@ discord:
 
 account_targets:
   enabled: true
+  game_slug:
+    - "csgo"
   game_ids:
     - "a8db"
   statuses:
