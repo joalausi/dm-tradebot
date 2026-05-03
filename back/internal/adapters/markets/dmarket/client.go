@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -47,6 +48,12 @@ type userTargetDTO struct {
 		Name  string `json:"Name"`
 		Value string `json:"Value"`
 	} `json:"Attributes"`
+}
+
+type targetOrder struct {
+	PriceUSD   float64
+	Qty        int
+	Attributes []domain.TargetAttribute
 }
 
 func (c *Client) ListUserTargets(ctx context.Context, gameID string, statuses []string) ([]domain.UserTarget, error) {
@@ -235,11 +242,272 @@ func (c *Client) DepthByTitle(ctx context.Context, gameID, title string, topN in
 	}
 
 	// topN пока игнорируем, т.к. агрегатор даёт только best price;
-	// интерфейс оставляем на будущее.
+	// TODO: интерфейс оставляем на будущее.
 	return depth, nil
 }
 
+func (c *Client) DepthByTarget(ctx context.Context, target domain.TargetItem, topN int) (domain.Depth, error) {
+	if !domain.HasAdvancedAttributes(target.Attributes) {
+		return c.DepthByTitle(ctx, target.GameID, target.Title, topN)
+	}
+
+	return c.depthByAdvancedTarget(ctx, target, topN)
+}
+
 // --------------------------------- низкоуровневые helpers ---------------------------------
+
+func (c *Client) depthByAdvancedTarget(ctx context.Context, target domain.TargetItem, topN int) (domain.Depth, error) {
+	if topN <= 0 {
+		topN = 5
+	}
+
+	// Offer пока из aggregated-prices, тк offers пока title-level.
+	// Bids ниже перезапишет attr-specific резалтом
+	depth, err := c.DepthByTitle(ctx, target.GameID, target.Title, topN)
+	if err != nil {
+		return domain.Depth{}, fmt.Errorf("title-level depth: %w", err)
+	}
+
+	orders, err := c.targetOrdersByTitle(ctx, target.GameID, target.Title)
+	if err != nil {
+		depth.Bids = nil
+		return depth, fmt.Errorf("target orders by title: %w", err)
+	}
+
+	bids := make([]domain.PriceLevel, 0, len(orders))
+
+	for _, order := range orders {
+		if !domain.SameImportantAttributes(target.Attributes, order.Attributes) {
+			continue
+		}
+
+		if order.PriceUSD <= 0 {
+			continue
+		}
+
+		qty := order.Qty
+		if qty <= 0 {
+			qty = 1
+		}
+
+		bids = append(bids, domain.PriceLevel{
+			Price: order.PriceUSD,
+			Qty:   qty,
+		})
+	}
+
+	sort.Slice(bids, func(i, j int) bool {
+		return bids[i].Price > bids[j].Price
+	})
+
+	if len(bids) > topN {
+		bids = bids[:topN]
+	}
+
+	// ВАЖН: здесь Bids уже attr-specific.
+	// Asks пока остаются title-level из aggregated-prices.
+	depth.Bids = bids
+
+	return depth, nil
+}
+
+func (c *Client) targetOrdersByTitle(ctx context.Context, gameID, title string) ([]targetOrder, error) {
+	signURI := fmt.Sprintf(
+		"/marketplace-api/v1/targets-by-title/%s/%s",
+		gameID,
+		title,
+	)
+
+	requestURI := fmt.Sprintf(
+		"/marketplace-api/v1/targets-by-title/%s/%s",
+		gameID,
+		url.PathEscape(title),
+	)
+
+	raw, err := c.doSignedRoute(ctx, http.MethodGet, signURI, requestURI, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return parseTargetOrders(raw)
+}
+
+func parseTargetOrders(body []byte) ([]targetOrder, error) {
+	var raw any
+	if err := json.Unmarshal(body, &raw); err != nil {
+		return nil, err
+	}
+
+	root, ok := raw.(map[string]any)
+	if !ok {
+		return nil, nil
+	}
+
+	if data, ok := root["data"].(map[string]any); ok {
+		root = data
+	}
+
+	var arr []any
+
+	for _, key := range []string{"orders", "Orders"} {
+		if v, ok := root[key]; ok {
+			if parsed, ok := v.([]any); ok {
+				arr = parsed
+				break
+			}
+		}
+	}
+
+	if arr == nil {
+		return nil, nil
+	}
+
+	out := make([]targetOrder, 0, len(arr))
+
+	for _, el := range arr {
+		m, ok := el.(map[string]any)
+		if !ok {
+			continue
+		}
+
+		price := parseTargetOrderPriceUSD(m)
+		if price <= 0 {
+			continue
+		}
+
+		qty := parseQtyFromMap(m)
+		if qty <= 0 {
+			qty = 1
+		}
+
+		attrs := parseTargetOrderAttributes(m)
+
+		out = append(out, targetOrder{
+			PriceUSD:   price,
+			Qty:        qty,
+			Attributes: attrs,
+		})
+	}
+
+	return out, nil
+}
+
+func parseTargetOrderAttributes(m map[string]any) []domain.TargetAttribute {
+	v, ok := m["attributes"]
+	if !ok {
+		v = m["Attributes"]
+	}
+
+	out := make([]domain.TargetAttribute, 0, 3)
+
+	switch x := v.(type) {
+	case []any:
+		for _, el := range x {
+			attrMap, ok := el.(map[string]any)
+			if !ok {
+				continue
+			}
+
+			name := readStringField(attrMap, "Name", "name")
+			value := readStringField(attrMap, "Value", "value")
+
+			if name != "" && value != "" {
+				out = append(out, domain.TargetAttribute{Name: name, Value: value})
+			}
+		}
+
+	case map[string]any:
+		for _, name := range []string{"floatPartValue", "phase", "paintSeed"} {
+			value := readStringField(x, name)
+			if value != "" {
+				out = append(out, domain.TargetAttribute{Name: name, Value: value})
+			}
+		}
+	}
+
+	return out
+}
+
+func readStringField(m map[string]any, keys ...string) string {
+	for _, key := range keys {
+		v, ok := m[key]
+		if !ok {
+			continue
+		}
+
+		switch x := v.(type) {
+		case string:
+			return strings.TrimSpace(x)
+		case float64:
+			return strconv.FormatFloat(x, 'f', -1, 64)
+		}
+	}
+
+	return ""
+}
+
+func parseTargetOrderPriceUSD(m map[string]any) float64 {
+	for _, key := range []string{"Price", "price"} {
+		v, ok := m[key]
+		if !ok {
+			continue
+		}
+
+		if priceMap, ok := v.(map[string]any); ok {
+			for _, amountKey := range []string{"Amount", "amount", "USD", "usd"} {
+				if amount, ok := priceMap[amountKey]; ok {
+					if price := parseDMarketAmountUSD(amount); price > 0 {
+						return price
+					}
+				}
+			}
+		}
+
+		if price := parseDMarketAmountUSD(v); price > 0 {
+			return price
+		}
+	}
+
+	for _, key := range []string{"priceUSD", "priceUsd", "amount", "Amount"} {
+		if v, ok := m[key]; ok {
+			if price := parseDMarketAmountUSD(v); price > 0 {
+				return price
+			}
+		}
+	}
+
+	return 0
+}
+
+func parseDMarketAmountUSD(v any) float64 {
+	switch x := v.(type) {
+	case float64:
+		return x
+
+	case string:
+		s := strings.TrimSpace(strings.ReplaceAll(x, ",", ""))
+		if s == "" {
+			return 0
+		}
+
+		f, err := strconv.ParseFloat(s, 64)
+		if err != nil {
+			return 0
+		}
+
+		// aggregated-prices / часть marketplace API может возвращает integer cents:
+		// "24403" → 244.03
+		// "244.03" → 244.03
+		if !strings.Contains(s, ".") {
+			return f / 100.0
+		}
+
+		return f
+
+	default:
+		return 0
+	}
+}
 
 func (c *Client) httpGet(ctx context.Context, urlStr string) ([]byte, error) {
 	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, urlStr, nil)
@@ -304,6 +572,59 @@ func (c *Client) doSigned(
 	if resp.StatusCode >= 300 {
 		return nil, fmt.Errorf("%s %s: status %d: %s", method, path, resp.StatusCode, trimBody(respBody))
 	}
+	return respBody, nil
+}
+
+func (c *Client) doSignedRoute(
+	ctx context.Context,
+	method string,
+	signURI string,
+	requestURI string,
+	body []byte,
+) ([]byte, error) {
+	ts := strconv.FormatInt(time.Now().Unix(), 10)
+
+	stringToSign := method + signURI + string(body) + ts
+
+	sig := ed25519.Sign(c.secretKey, []byte(stringToSign))
+	sigHex := hex.EncodeToString(sig)
+
+	req, err := http.NewRequestWithContext(ctx, method, c.baseURL+requestURI, bytes.NewReader(body))
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("Accept", "application/json")
+	if len(body) > 0 {
+		req.Header.Set("Content-Type", "application/json")
+	}
+
+	req.Header.Set("X-Api-Key", c.publicKey)
+	req.Header.Set("X-Sign-Date", ts)
+	req.Header.Set("X-Request-Sign", "dmar ed25519 "+sigHex)
+
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	respBody, err := io.ReadAll(io.LimitReader(resp.Body, 1<<20))
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.StatusCode >= 300 {
+		return nil, fmt.Errorf(
+			"%s signURI=%q requestURI=%q: status %d: %s",
+			method,
+			signURI,
+			requestURI,
+			resp.StatusCode,
+			trimBody(respBody),
+		)
+	}
+
 	return respBody, nil
 }
 
