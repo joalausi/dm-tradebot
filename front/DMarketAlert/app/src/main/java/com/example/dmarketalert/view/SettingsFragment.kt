@@ -18,6 +18,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.dmarketalert.R
 import com.example.dmarketalert.model.AppSettings
+import com.example.dmarketalert.util.LanguageManager
+import com.example.dmarketalert.util.ThemeManager
 import com.example.dmarketalert.viewModel.SettingsViewModel
 
 class SettingsFragment : Fragment() {
@@ -227,16 +229,16 @@ class SettingsFragment : Fragment() {
         // Language spinner
         spinnerLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (isUpdatingUI) return
+                val selectedLanguage = LanguageManager.getLanguageCodeFromPosition(position)
+                val currentLanguage = LanguageManager.getSavedLanguage(requireContext())
 
-                val languageCode = when (position) {
-                    0 -> AppSettings.LANGUAGE_ENGLISH
-                    1 -> AppSettings.LANGUAGE_UKRAINIAN
-                    2 -> AppSettings.LANGUAGE_RUSSIAN
-                    else -> AppSettings.LANGUAGE_ENGLISH
+                if (selectedLanguage != currentLanguage){
+                    LanguageManager.saveLanguage(requireContext(), selectedLanguage)
+
+                    viewModel.updateLanguage(selectedLanguage)
+
+                    requireActivity().recreate()
                 }
-
-                viewModel.updateLanguage(languageCode)
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
@@ -261,16 +263,17 @@ class SettingsFragment : Fragment() {
         // Theme spinner
         spinnerTheme.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (isUpdatingUI) return
-
-                val themeCode = when (position) {
-                    0 -> AppSettings.THEME_SYSTEM
-                    1 -> AppSettings.THEME_LIGHT
-                    2 -> AppSettings.THEME_DARK
-                    else -> AppSettings.THEME_SYSTEM
+                val theme = when(position){
+                    0 -> ThemeManager.THEME_SYSTEM
+                    1 -> ThemeManager.THEME_LIGHT
+                    2 -> ThemeManager.THEME_DARK
+                    else -> ThemeManager.THEME_SYSTEM
                 }
+                ThemeManager.saveTheme(requireContext(), theme)
 
-                viewModel.updateTheme(themeCode)
+                ThemeManager.applyTheme(requireContext())
+
+                viewModel.updateTheme(theme)
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
@@ -453,49 +456,79 @@ class SettingsFragment : Fragment() {
     }
 
     private fun updateUI(settings: AppSettings) {
-        isUpdatingUI = true
+        // Language
+        val languagePosition = LanguageManager.getLanguagePosition(settings.language)
+        spinnerLanguage.setSelection(languagePosition)
 
-        // Update language
-        tvLanguage.text = settings.getLanguageDisplay()
-        spinnerLanguage.setSelection(getLanguagePosition(settings.language))
+        // Theme
+        val themePosition = when (settings.theme) {
+            ThemeManager.THEME_SYSTEM -> 0
+            ThemeManager.THEME_LIGHT -> 1
+            ThemeManager.THEME_DARK -> 2
+            else -> 0
+        }
+        spinnerTheme.setSelection(themePosition)
 
-        // Update currency
-        tvCurrency.text = settings.getCurrencyDisplay()
-        spinnerCurrency.setSelection(getCurrencyPosition(settings.currency))
+        // Currency
+        val currencyPosition = when (settings.currency) {
+            "USD" -> 0
+            "UAH" -> 1
+            "EUR" -> 2
+            else -> 0
+        }
+        spinnerCurrency.setSelection(currencyPosition)
 
-        // Update theme
-        tvTheme.text = settings.getThemeDisplay()
-        spinnerTheme.setSelection(getThemePosition(settings.theme))
-
-        // Update notification switches
+        // Notifications
         switchNotifications.isChecked = settings.notificationEnabled
         switchOutbid.isChecked = settings.outBidNotification
         switchApi.isChecked = settings.apiNotification
 
-        // Update notification mode
-        tvNotificationMode.text = settings.getNotificationModeDisplay()
-        spinnerNotificationMode.setSelection(getNotificationModePosition(settings.notificationMode))
+        // Notification Mode
+        val modePosition = when (settings.notificationMode) {
+            "sound" -> 0
+            "vibration" -> 1
+            "silent" -> 2
+            else -> 0
+        }
+        spinnerNotificationMode.setSelection(modePosition)
 
-        // Update notification delay
-        tvNotificationDelay.text = settings.getDelayText()
-        spinnerNotificationDelay.setSelection(getDelayPosition(settings.notificationDelay))
+        // Notification Delay
+        val delayPosition = when (settings.notificationDelay) {
+            0 -> 0
+            1 -> 1
+            5 -> 2
+            10 -> 3
+            24 -> 4
+            72 -> 5
+            168 -> 6
+            else -> 0
+        }
+        spinnerNotificationDelay.setSelection(delayPosition)
 
-        // Update limits
-        tvNotificationLimit.text = settings.limitOfNotification.toString()
-        spinnerNotificationLimit.setSelection(getLimitPosition(settings.limitOfNotification))
+        // Limits
+        val notificationLimitPosition = when (settings.limitOfNotification) {
+            0 -> 0
+            10 -> 1
+            25 -> 2
+            50 -> 3
+            100 -> 4
+            else -> 4
+        }
+        spinnerNotificationLimit.setSelection(notificationLimitPosition)
 
-        tvHistoryLimit.text = settings.limitOfHistory.toString()
-        spinnerHistoryLimit.setSelection(getLimitPosition(settings.limitOfHistory))
-
-        // Update last update time
-        updateLastUpdateText(settings.lastUpdate)
-
-        isUpdatingUI = false
+        val historyLimitPosition = when (settings.limitOfHistory) {
+            0 -> 0
+            10 -> 1
+            25 -> 2
+            50 -> 3
+            100 -> 4
+            else -> 4
+        }
+        spinnerHistoryLimit.setSelection(historyLimitPosition)
     }
 
     private fun updateLastUpdateText(timestamp: Long) {
-        val date = java.text.SimpleDateFormat("dd.MM.yyyy", java.util.Locale.getDefault())
-            .format(java.util.Date(timestamp))
+        val date = "04.05.2026"
         tvLastUpdate.text = date
     }
 

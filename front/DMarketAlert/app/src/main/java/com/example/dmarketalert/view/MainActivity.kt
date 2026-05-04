@@ -1,5 +1,6 @@
 package com.example.dmarketalert.view
 
+import android.content.Context
 import androidx.fragment.app.Fragment
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -9,11 +10,19 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.core.content.ContextCompat
 import com.example.dmarketalert.R
+import com.example.dmarketalert.util.LanguageManager
+import com.example.dmarketalert.util.ThemeManager
 
 class MainActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView1: BottomNavigationView
 
+    override fun attachBaseContext(newBase: Context) {
+        LanguageManager.applyLanguage(newBase)
+        super.attachBaseContext(newBase)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        ThemeManager.applyTheme(this)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
