@@ -1,0 +1,14 @@
+# local
+alpha-struc/
+back/config.yaml
+back/config.example.yaml
+
+# env files
+.env
+.env.*
+back/.env
+back/.env.*
+
+# secret overrides
+*.local.yaml
+*.secrets.yaml

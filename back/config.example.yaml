@@ -1,0 +1,26 @@
+poll_every: "5m"
+
+discord:
+  mention: ""
+
+account_targets:
+  enabled: true
+  game_ids:
+    - "a8db"
+  statuses:
+    - "TargetStatusActive"
+    - "TargetStatusInactive"
+  default_top_n: 5
+
+# dmarket:
+#   # читаем их из окружения:
+#   public_key_env: "DMARKET_PUBLIC_KEY"
+#   secret_key_env: "DMARKET_SECRET_KEY"
+
+# items:
+#   - title: "AWP | LongDog (Field-Tested)"
+#     game_slug: "csgo"    # для targets-by-title
+#     game_id: "a8db"      # для user-targets/create и тп.
+#     my_target_usd: 234.35
+#     low_ask_alert_usd: 234.35
+#     top_n: 5
