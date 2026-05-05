@@ -40,3 +40,8 @@ back/
 ├─ go.sum
 ├─ config.yaml
 ```
+
+# useful links:
+
+[SteamDT doc](https://doc.steamdt.com/)
+[Dmarket doc](https://docs.dmarket.com/v1/swagger.html)

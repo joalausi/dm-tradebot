@@ -2,6 +2,7 @@
 alpha-struc/
 back/config.yaml
 back/config.example.yaml
+back/targetbot
 
 # env files
 .env
