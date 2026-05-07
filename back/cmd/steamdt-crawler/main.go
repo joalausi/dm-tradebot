@@ -8,7 +8,9 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"sort"
 	"syscall"
+	"time"
 
 	"back/internal/adapters/markets/steamdt"
 	"back/internal/config"
@@ -17,7 +19,8 @@ import (
 func main() {
 	cfgPath := flag.String("config", "config.steamdt.yaml", "path to steamdt config yaml")
 	check := flag.Bool("check", false, "check SteamDT connectivity and exit")
-	once := flag.Bool("once", false, "run single request and print response")
+	once := flag.Bool("once", false, "run single request and print formatted response")
+	raw := flag.Bool("raw", false, "print raw JSON responses")
 	flag.Parse()
 
 	if !*check && !*once {
@@ -27,6 +30,11 @@ func main() {
 	cfg, err := config.LoadSteamDTSmokeConfig(*cfgPath)
 	if err != nil {
 		log.Fatalf("load config: %v", err)
+	}
+
+	watchlist := cfg.ResolveWatchlist()
+	if len(watchlist) == 0 {
+		log.Fatal("watchlist is empty")
 	}
 
 	client, err := steamdt.NewClient()
@@ -39,38 +47,108 @@ func main() {
 
 	switch {
 	case *check:
-		resp, err := client.FetchPriceSingle(ctx, cfg.MarketHashName)
+		resp, err := client.FetchPriceSingle(ctx, watchlist[0])
 		if err != nil {
 			log.Fatalf("steamdt check failed: %v", err)
 		}
 
-		fmt.Printf("SteamDT API looks good ✅ marketHashName=%q platforms=%d\n", cfg.MarketHashName, len(resp.Data))
+		fmt.Printf("SteamDT API looks good ✅ item=%q platforms=%d\n", watchlist[0], len(resp.Data))
 		if len(resp.Data) > 0 {
 			first := resp.Data[0]
 			fmt.Printf(
-				"first platform=%s sellPrice=%.2f sellCount=%d bidPrice=%.2f bidCount=%d updateTime=%d\n",
+				"first platform=%s sellPrice=%.2f sellCount=%d bidPrice=%.2f bidCount=%d updated=%s (%s)\n",
 				first.Platform,
 				first.SellPrice,
 				first.SellCount,
 				first.BiddingPrice,
 				first.BiddingCount,
-				first.UpdateTime,
+				formatUnixTime(first.UpdateTime),
+				formatAge(first.UpdateTime),
 			)
 		}
 		return
 
 	case *once:
-		resp, err := client.FetchPriceSingle(ctx, cfg.MarketHashName)
+		results, err := client.FetchMany(ctx, watchlist)
 		if err != nil {
 			log.Fatalf("steamdt fetch failed: %v", err)
 		}
 
-		out, err := json.MarshalIndent(resp, "", "  ")
-		if err != nil {
-			log.Fatalf("marshal response: %v", err)
+		if *raw {
+			out, err := json.MarshalIndent(results, "", "  ")
+			if err != nil {
+				log.Fatalf("marshal response: %v", err)
+			}
+			fmt.Println(string(out))
+			return
 		}
 
-		fmt.Println(string(out))
+		printSummary(results)
 		return
+	}
+}
+
+func printSummary(results map[string]steamdt.PriceSingleResponse) {
+	names := make([]string, 0, len(results))
+	for name := range results {
+		names = append(names, name)
+	}
+	sort.Strings(names)
+
+	fmt.Println("========== SteamDT Watch ==========")
+	for _, name := range names {
+		resp := results[name]
+
+		fmt.Printf("\n%s\n", name)
+		fmt.Println("--------------------------------------------------------------------------")
+		fmt.Printf("%-10s | %-10s | %-10s | %-10s | %-24s\n", "PLATFORM", "SELL", "SELL_CNT", "BID_CNT", "UPDATED")
+		fmt.Println("--------------------------------------------------------------------------")
+
+		if len(resp.Data) == 0 {
+			fmt.Printf("%-10s | %-10s | %-10s | %-10s | %-24s\n", "-", "-", "-", "-", "-")
+			continue
+		}
+
+		for _, p := range resp.Data {
+			updated := fmt.Sprintf("%s (%s)", formatUnixTime(p.UpdateTime), formatAge(p.UpdateTime))
+			fmt.Printf(
+				"%-10s | %-10.2f | %-10d | %-10d | %-24s\n",
+				p.Platform,
+				p.SellPrice,
+				p.SellCount,
+				p.BiddingCount,
+				updated,
+			)
+		}
+	}
+}
+
+// ------------      Helpers  ----------------------------------
+func formatUnixTime(ts int64) string {
+	if ts <= 0 {
+		return "-"
+	}
+	return time.Unix(ts, 0).In(time.Local).Format("2006-01-02 15:04:05 MST")
+}
+
+func formatAge(ts int64) string {
+	if ts <= 0 {
+		return "-"
+	}
+
+	d := time.Since(time.Unix(ts, 0))
+	if d < 0 {
+		d = 0
+	}
+
+	switch {
+	case d < time.Minute:
+		return fmt.Sprintf("%ds ago", int(d.Seconds()))
+	case d < time.Hour:
+		return fmt.Sprintf("%dm ago", int(d.Minutes()))
+	case d < 24*time.Hour:
+		return fmt.Sprintf("%dh ago", int(d.Hours()))
+	default:
+		return fmt.Sprintf("%dd ago", int(d.Hours()/24))
 	}
 }
