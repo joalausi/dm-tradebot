@@ -9,6 +9,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	"back/internal/adapters/httpapi"
 	"back/internal/adapters/markets/dmarket"
 	"back/internal/adapters/notifiers/console"
 	"back/internal/adapters/notifiers/discord"
@@ -19,6 +20,7 @@ import (
 
 func main() {
 	cfgPath := flag.String("config", "config.yaml", "path to config yaml")
+	apiAddr := flag.String("api", "", "HTTP API listen address, example: :8080")
 	once := flag.Bool("once", false, "run single iteration and exit")
 	check := flag.Bool("check", false, "check DMarket connectivity and exit")
 	flag.Parse()
@@ -58,6 +60,16 @@ func main() {
 
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
+
+	if *apiAddr != "" {
+		apiServer := httpapi.New(*apiAddr, runner)
+
+		go func() {
+			if err := apiServer.Run(ctx); err != nil {
+				log.Fatalf("api server: %v", err)
+			}
+		}()
+	}
 
 	switch {
 	case *check:
