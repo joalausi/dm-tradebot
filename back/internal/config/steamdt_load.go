@@ -10,6 +10,9 @@ import (
 
 func LoadSteamDTSmokeConfig(path string) (SteamDTSmokeConfig, error) {
 	var cfg SteamDTSmokeConfig
+	if strings.TrimSpace(cfg.Database.Path) == "" {
+		cfg.Database.Path = "data/steamdt_smoke.db"
+	}
 
 	data, err := os.ReadFile(path)
 	if err != nil {

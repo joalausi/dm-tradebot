@@ -14,6 +14,7 @@ import (
 
 	"back/internal/adapters/markets/steamdt"
 	"back/internal/config"
+	"back/internal/storage/sqlite"
 )
 
 func main() {
@@ -45,6 +46,18 @@ func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
+	db, err := sqlite.Open(cfg.Database.Path)
+	if err != nil {
+		log.Fatalf("open sqlite: %v", err)
+	}
+	defer db.Close()
+
+	if err := sqlite.Migrate(ctx, db); err != nil {
+		log.Fatalf("migrate sqlite: %v", err)
+	}
+
+	snapshotRepo := sqlite.NewSnapshotRepository(db)
+
 	switch {
 	case *check:
 		resp, err := client.FetchPriceSingle(ctx, watchlist[0])
@@ -73,7 +86,11 @@ func main() {
 		if err != nil {
 			log.Fatalf("steamdt fetch failed: %v", err)
 		}
+		fetchedAt := time.Now().UTC()
 
+		if err := snapshotRepo.SaveBatch(ctx, results, fetchedAt); err != nil {
+			log.Fatalf("save snapshots: %v", err)
+		}
 		if *raw {
 			out, err := json.MarshalIndent(results, "", "  ")
 			if err != nil {
@@ -109,7 +126,12 @@ func printSummary(results map[string]steamdt.PriceSingleResponse) {
 			continue
 		}
 
+		liveCount := 0
 		for _, p := range resp.Data {
+			if isProbablyStalePlatform(p) {
+				continue
+			}
+
 			updated := fmt.Sprintf("%s (%s)", formatUnixTime(p.UpdateTime), formatAge(p.UpdateTime))
 			fmt.Printf(
 				"%-10s | %-10.2f | %-10d | %-10d | %-24s\n",
@@ -119,6 +141,11 @@ func printSummary(results map[string]steamdt.PriceSingleResponse) {
 				p.BiddingCount,
 				updated,
 			)
+			liveCount++
+		}
+
+		if liveCount == 0 {
+			fmt.Printf("%-10s | %-10s | %-10s | %-10s | %-24s\n", "NO_DATA", "-", "-", "-", "-")
 		}
 	}
 }
@@ -151,4 +178,14 @@ func formatAge(ts int64) string {
 	default:
 		return fmt.Sprintf("%dd ago", int(d.Hours()/24))
 	}
+}
+
+func isProbablyStalePlatform(p steamdt.PlatformPrice) bool {
+	if p.SellPrice == 0 &&
+		p.SellCount == 0 &&
+		p.BiddingPrice == 0 &&
+		p.BiddingCount == 0 {
+		return true
+	}
+	return false
 }
