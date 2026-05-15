@@ -9,10 +9,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.dmarketalert.R
+import com.example.dmarketalert.viewModel.HomeViewModel
 import com.example.dmarketalert.viewModel.TargetStatisticsViewModel
+import com.example.dmarketalert.viewModel.adapter_viewHolder.MarketItemAdapter
+import com.example.dmarketalert.viewModel.state.HomeUiState
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -20,6 +28,8 @@ import com.github.mikephil.charting.data.PieEntry
 
 class HomeFragment : Fragment() {
 
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var progressBar: ProgressBar
     private lateinit var addTarget: ImageView
     private lateinit var removeTarget: ImageView
     private lateinit var updatePage: ImageView
@@ -28,7 +38,13 @@ class HomeFragment : Fragment() {
     private lateinit var currentTargetsText: TextView
     private lateinit var outbidTargetsText: TextView
     private lateinit var allTargetsText: TextView
+    private lateinit var errorText: TextView
+    private lateinit var emptyText: TextView
+    private lateinit var emptyImage: ImageView
     private val statisticsViewModel: TargetStatisticsViewModel by activityViewModels()
+
+    private val viewModel: HomeViewModel by viewModels()
+    private lateinit var adapter: MarketItemAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,12 +55,24 @@ class HomeFragment : Fragment() {
 
         initViews(view)
         observeStatistics()
+        observeViewModel()
+        setupRecyclerView()
+
         setupClickListeners()
+
+        if (savedInstanceState == null){
+            viewModel.loadActiveTargets()
+        }
 
         return view
     }
 
     private fun initViews(view: View) {
+        emptyImage = view.findViewById(R.id.imageView_targetsEmpty)
+        errorText = view.findViewById(R.id.textView_Error)
+        emptyText = view.findViewById(R.id.textView_Empty)
+        recyclerView = view.findViewById(R.id.recyclerView_homeFragment)
+        progressBar = view.findViewById(R.id.progressBar_homeFragment)
         addTarget = view.findViewById(R.id.imageView_add_target)
         removeTarget = view.findViewById(R.id.imageView_remove_target)
         updatePage = view.findViewById(R.id.imageView_update_page)
@@ -55,10 +83,78 @@ class HomeFragment : Fragment() {
         allTargetsText = view.findViewById(R.id.textView_all_targets_inBox)
     }
 
+    private fun setupRecyclerView(){
+        adapter = MarketItemAdapter {item ->
+            Toast.makeText(
+                requireContext(),
+                "Clicked: ${item.title}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = adapter
+    }
+
     private fun observeStatistics() {
         statisticsViewModel.statistics.observe(viewLifecycleOwner) { stats ->
             updateUI(stats.currentTargets, stats.outbidTargets, stats.allTimeTargets)
         }
+    }
+
+    private fun observeViewModel(){
+        viewModel.uiState.observe(viewLifecycleOwner) {state ->
+            handleUiState(state)
+        }
+    }
+
+    private fun handleUiState(state: HomeUiState) {
+        when (state) {
+            is HomeUiState.Idle -> {
+                showContent()
+            }
+
+            is HomeUiState.Loading -> {
+                showLoading()
+            }
+
+            is HomeUiState.Success -> {
+                showContent()
+                adapter.submitList(state.items)
+            }
+
+            is HomeUiState.Error -> {
+                showError()
+            }
+
+            is HomeUiState.Empty -> {
+                showEmpty()
+            }
+        }
+    }
+
+    private fun showContent() {
+        progressBar.visibility = View.GONE
+        errorText.visibility = View.GONE
+        emptyText.visibility = View.GONE
+    }
+
+    private fun showLoading() {
+        progressBar.visibility = View.VISIBLE
+        errorText.visibility = View.GONE
+        emptyText.visibility = View.GONE
+    }
+
+    private fun showError() {
+        progressBar.visibility = View.GONE
+        errorText.visibility = View.VISIBLE
+        emptyText.visibility = View.GONE
+    }
+
+    private fun showEmpty() {
+        progressBar.visibility = View.GONE
+        errorText.visibility = View.GONE
+        emptyText.visibility = View.VISIBLE
+        emptyImage.visibility = View.VISIBLE
     }
 
     private fun setupClickListeners() {

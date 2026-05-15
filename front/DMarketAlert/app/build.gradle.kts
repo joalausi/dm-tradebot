@@ -4,6 +4,7 @@ plugins {
     id("com.android.application")
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
+    id("kotlin-parcelize")
 }
 
 kotlin {
@@ -63,11 +64,26 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.messaging)
 
+    // Retrofit - HTTP client
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    // OkHttp - logging requests
+    implementation(libs.logging.interceptor)
+
+    // Coroutines - async work
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+
+    // Lifecycle - ViewModel
+    implementation(libs.androidx.lifecycle.viewmodel.ktx.v262)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+
     // Other
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.fragment.ktx)
-    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation(libs.mpandroidchart)
 
     // Tests
     testImplementation(libs.junit)

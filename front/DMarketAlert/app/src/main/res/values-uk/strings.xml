@@ -164,6 +164,8 @@
 
     <!-- Home Screen -->
     <string name="current_targets_text">Поточні таргети</string>
+    <string name="text_error">Неможливо завантажити дані</string>
+    <string name="text_empty">Таргети відсутні</string>
     <string name="quick_menu_text">Швидке меню</string>
     <string name="add_target_text">Додати таргет</string>
     <string name="remove_target_text">Видалити таргет</string>
