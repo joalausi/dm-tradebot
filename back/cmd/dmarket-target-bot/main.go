@@ -15,12 +15,14 @@ import (
 	"back/internal/config"
 	"back/internal/ports"
 	"back/internal/services"
+	"back/internal/storage/noop"
 )
 
 func main() {
 	cfgPath := flag.String("config", "config.yaml", "path to config yaml")
 	once := flag.Bool("once", false, "run single iteration and exit")
 	check := flag.Bool("check", false, "check DMarket connectivity and exit")
+	crawl := flag.Bool("crawl-dmarket", false, "run DMarket market crawler once and exit")
 	flag.Parse()
 
 	cfg, err := config.LoadFromFile(*cfgPath)
@@ -61,6 +63,22 @@ func main() {
 	defer stop()
 
 	switch {
+	case *crawl:
+		opportunityStore := noop.NewOpportunityStore()
+
+		crawler := services.NewDMarketMarketCrawler(
+			cfg.DMarketCrawler,
+			dmClient,
+			dmClient,
+			opportunityStore,
+		)
+
+		if err := crawler.RunOnce(ctx); err != nil {
+			log.Fatalf("dmarket crawler: %v", err)
+		}
+
+		return
+
 	case *check:
 		if err := dmClient.PingUserTargets(ctx); err != nil {
 			log.Fatalf("check failed: ping user-targets: %v", err)

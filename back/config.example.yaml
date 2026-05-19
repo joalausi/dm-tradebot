@@ -12,6 +12,22 @@ account_targets:
     - "TargetStatusInactive"
   default_top_n: 5
 
+dmarket_crawler:
+  enabled: true
+  game_id: "a8db"
+  currency: "USD"
+
+  price_from_usd: 5
+  price_to_usd: 500
+
+  limit: 100
+  max_pages: 100
+
+  min_profit_usd: 1
+  min_roi_percent: 3
+
+  last_sales_limit: 10
+  min_last_sales_count: 1
 # dmarket:
 #   # читаем их из окружения:
 #   public_key_env: "DMARKET_PUBLIC_KEY"
