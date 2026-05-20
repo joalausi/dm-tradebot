@@ -50,7 +50,7 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/dela_gothic_one"
         android:text="DMARKET ALERT"
         android:textColor="@color/text"
@@ -64,7 +64,7 @@
         android:id="@+id/imageView3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/textView4"
@@ -78,7 +78,7 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:fontFamily="sans-serif-light"
@@ -274,14 +274,48 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/bg_for_edittext"
         android:ems="10"
-        android:paddingLeft="15dp"
-        android:hint="@string/api_key_text"
+        android:hint="@string/secret_api_key_text"
         android:inputType="textPassword"
+        android:paddingLeft="15dp"
+        android:textColor="@color/text"
+        android:textColorHint="@color/text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_error_API_public"
+        app:layout_constraintWidth_percent="0.9" />
+
+    <EditText
+        android:id="@+id/editText_API_Public"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_for_edittext"
+        android:ems="10"
+        android:inputType="text"
+        android:paddingStart="15dp"
+        android:text="@string/public_api_key_text"
         android:textColor="@color/text"
         android:textColorHint="@color/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_error_password2"
         app:layout_constraintWidth_percent="0.9" />
+
+    <TextView
+        android:id="@+id/textView_error_API_public"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="@string/please_enter_a_valid_api_key_text_public"
+        android:textColor="@color/text"
+        android:textSize="10sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_API_Public" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

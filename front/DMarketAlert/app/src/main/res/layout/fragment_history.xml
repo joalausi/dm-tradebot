@@ -7,9 +7,92 @@
     android:background="@color/background"
     tools:context=".view.HistoryFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="100dp" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_history"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="16dp"
+            android:paddingRight="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <ProgressBar
+            android:id="@+id/progressBar_history"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/recyclerView_history"
+            app:layout_constraintEnd_toEndOf="@+id/recyclerView_history"
+            app:layout_constraintStart_toStartOf="@+id/recyclerView_history"
+            app:layout_constraintTop_toTopOf="@+id/recyclerView_history" />
+
+        <ImageView
+            android:id="@+id/imageView_Error"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="36dp"
+            android:src="@drawable/icon_homeerror"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/recyclerView_history"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintStart_toStartOf="@+id/recyclerView_history"
+            app:layout_constraintTop_toBottomOf="@+id/textView_error"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <TextView
+            android:id="@+id/textView_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/sora_medium"
+            android:text="No targets\n in history"
+            android:textColor="@color/text"
+            android:textSize="24sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/recyclerView_history"
+            app:layout_constraintStart_toStartOf="@+id/recyclerView_history"
+            app:layout_constraintTop_toTopOf="@+id/recyclerView_history" />
+
+        <ImageView
+            android:id="@+id/imageView_history"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="36dp"
+            android:src="@drawable/icon_historyempty"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintStart_toStartOf="@+id/recyclerView_history"
+            app:layout_constraintTop_toBottomOf="@+id/textView_empty"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <TextView
+            android:id="@+id/textView_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/sora_medium"
+            android:text="Failed to load data"
+            android:textColor="@color/light_red"
+            android:textSize="24sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/recyclerView_history"
+            app:layout_constraintStart_toStartOf="@+id/recyclerView_history"
+            app:layout_constraintTop_toTopOf="@+id/recyclerView_history" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

@@ -41,6 +41,7 @@ class HomeFragment : Fragment() {
     private lateinit var errorText: TextView
     private lateinit var emptyText: TextView
     private lateinit var emptyImage: ImageView
+    private lateinit var errorImage: ImageView
     private val statisticsViewModel: TargetStatisticsViewModel by activityViewModels()
 
     private val viewModel: HomeViewModel by viewModels()
@@ -57,7 +58,6 @@ class HomeFragment : Fragment() {
         observeStatistics()
         observeViewModel()
         setupRecyclerView()
-
         setupClickListeners()
 
         if (savedInstanceState == null){
@@ -68,6 +68,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViews(view: View) {
+        errorImage = view.findViewById(R.id.imageView_targetsError)
         emptyImage = view.findViewById(R.id.imageView_targetsEmpty)
         errorText = view.findViewById(R.id.textView_Error)
         emptyText = view.findViewById(R.id.textView_Empty)
@@ -136,18 +137,24 @@ class HomeFragment : Fragment() {
         progressBar.visibility = View.GONE
         errorText.visibility = View.GONE
         emptyText.visibility = View.GONE
+        emptyImage.visibility = View.GONE
+        errorImage.visibility = View.GONE
     }
 
     private fun showLoading() {
         progressBar.visibility = View.VISIBLE
         errorText.visibility = View.GONE
         emptyText.visibility = View.GONE
+        emptyImage.visibility = View.GONE
+        errorImage.visibility = View.GONE
     }
 
     private fun showError() {
         progressBar.visibility = View.GONE
         errorText.visibility = View.VISIBLE
         emptyText.visibility = View.GONE
+        emptyImage.visibility = View.GONE
+        errorImage.visibility = View.VISIBLE
     }
 
     private fun showEmpty() {
@@ -155,6 +162,7 @@ class HomeFragment : Fragment() {
         errorText.visibility = View.GONE
         emptyText.visibility = View.VISIBLE
         emptyImage.visibility = View.VISIBLE
+        errorImage.visibility = View.GONE
     }
 
     private fun setupClickListeners() {

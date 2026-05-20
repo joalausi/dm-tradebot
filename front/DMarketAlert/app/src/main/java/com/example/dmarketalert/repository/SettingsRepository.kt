@@ -13,6 +13,8 @@ class SettingsRepository {
      * Clear all user notification
      */
     suspend fun clearNotifications(userId: String): Result<Unit> {
+        if (userId.isBlank()) return Result.failure(IllegalArgumentException("User ID cannot be empty"))
+
         return try {
             val notificationsRef = db.collection("users")
                 .document(userId)
@@ -37,6 +39,8 @@ class SettingsRepository {
      * Clear all history about user targets
      */
     suspend fun clearHistory(userId: String): Result<Unit> {
+        if (userId.isBlank()) return Result.failure(IllegalArgumentException("User ID cannot be empty"))
+
         return try {
             val historyRef = db.collection("users")
                 .document(userId)
@@ -61,6 +65,8 @@ class SettingsRepository {
      * Clear all statistic(history + notification)
      */
     suspend fun clearAllStatistics(userId: String): Result<Unit> {
+        if (userId.isBlank()) return Result.failure(IllegalArgumentException("User ID cannot be empty"))
+
         return try {
             // Clear notification
             clearNotifications(userId).getOrThrow()
@@ -80,6 +86,8 @@ class SettingsRepository {
      * Get count in notification
      */
     suspend fun getNotificationsCount(userId: String): Result<Int> {
+        if (userId.isBlank()) return Result.failure(IllegalArgumentException("User ID cannot be empty"))
+
         return try {
             val count = db.collection("users")
                 .document(userId)
@@ -99,6 +107,8 @@ class SettingsRepository {
      * Get count in history
      */
     suspend fun getHistoryCount(userId: String): Result<Int> {
+        if (userId.isBlank()) return Result.failure(IllegalArgumentException("User ID cannot be empty"))
+
         return try {
             val count = db.collection("users")
                 .document(userId)
@@ -118,9 +128,10 @@ class SettingsRepository {
      * Apply limit for notification (delete old, if limit is bigger, than number which user choose)
      */
     suspend fun applyNotificationLimit(userId: String, limit: Int): Result<Unit> {
+        if (userId.isBlank()) return Result.failure(IllegalArgumentException("User ID cannot be empty"))
+
         return try {
             if (limit == 0) {
-                // Якщо ліміт 0, очищаємо все
                 return clearNotifications(userId)
             }
 
@@ -150,6 +161,8 @@ class SettingsRepository {
      * Apply limit for history (delete old, if limit is bigger, than number which user choose)
      */
     suspend fun applyHistoryLimit(userId: String, limit: Int): Result<Unit> {
+        if (userId.isBlank()) return Result.failure(IllegalArgumentException("User ID cannot be empty"))
+
         return try {
             if (limit == 0) {
                 // if limit = 0, clear all

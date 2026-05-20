@@ -92,8 +92,8 @@ class SettingsFragment : Fragment() {
         initViews(view)
         setupSearchView()
         setupSpinners()
-        setupListeners()
         observeViewModel()
+        setupListeners()
 
         // Load statistic
         val userId = getCurrentUserId()
@@ -384,7 +384,7 @@ class SettingsFragment : Fragment() {
         // Notification limit spinner
         spinnerNotificationLimit.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (isUpdatingUI) return
+                if (isUpdatingUI || userId.isEmpty()) return
 
                 val limit = when (position) {
                     0 -> 0
@@ -403,7 +403,7 @@ class SettingsFragment : Fragment() {
         // History limit spinner
         spinnerHistoryLimit.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (isUpdatingUI) return
+                if (isUpdatingUI || userId.isEmpty()) return
 
                 val limit = when (position) {
                     0 -> 0
