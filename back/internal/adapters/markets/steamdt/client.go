@@ -1,6 +1,7 @@
 package steamdt
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -10,7 +11,6 @@ import (
 	"os"
 	"strings"
 	"time"
-	"bytes"
 )
 
 const defaultBaseURL = "https://open.steamdt.com"

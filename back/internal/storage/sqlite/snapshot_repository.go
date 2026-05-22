@@ -20,10 +20,10 @@ func (r *SnapshotRepository) SaveBatch(
 	ctx context.Context,
 	results map[string]steamdt.PriceSingleResponse,
 	fetchedAt time.Time,
-) error {
+) (saved int, skipped int, err error) {
 	tx, err := r.db.BeginTx(ctx, nil)
 	if err != nil {
-		return err
+		return 0, 0, err
 	}
 	defer tx.Rollback()
 
@@ -42,15 +42,15 @@ func (r *SnapshotRepository) SaveBatch(
 		) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 	`)
 	if err != nil {
-		return err
+		return 0, 0, err
 	}
 	defer stmt.Close()
 
 	for marketHashName, resp := range results {
 		for _, p := range resp.Data {
-			isStale := 0
 			if isProbablyStale(p, fetchedAt) {
-				isStale = 1
+				skipped++
+				continue
 			}
 
 			if _, err := stmt.ExecContext(
@@ -64,14 +64,20 @@ func (r *SnapshotRepository) SaveBatch(
 				p.BiddingCount,
 				p.UpdateTime,
 				fetchedAt.Unix(),
-				isStale,
+				0,
 			); err != nil {
-				return err
+				return saved, skipped, err
 			}
+
+			saved++
 		}
 	}
 
-	return tx.Commit()
+	if err := tx.Commit(); err != nil {
+		return saved, skipped, err
+	}
+
+	return saved, skipped, nil
 }
 
 func isProbablyStale(p steamdt.PlatformPrice, fetchedAt time.Time) bool {

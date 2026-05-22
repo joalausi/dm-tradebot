@@ -88,6 +88,13 @@ func main() {
 		}
 		fetchedAt := time.Now().UTC()
 
+		saved, skipped, err := snapshotRepo.SaveBatch(ctx, results, fetchedAt)
+		if err != nil {
+			log.Fatalf("save snapshots: %v", err)
+		}
+
+		fmt.Printf("saved live snapshots=%d skipped stale snapshots=%d\n", saved, skipped)
+
 		if err := snapshotRepo.SaveBatch(ctx, results, fetchedAt); err != nil {
 			log.Fatalf("save snapshots: %v", err)
 		}
