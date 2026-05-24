@@ -7,6 +7,7 @@ package com.example.dmarketalert.model
 data class User(
     val nickname: String = "",
     val passwordHash: String = "",
+    val apiPublic: String = "",
     val apiHash: String = "",
     val fcmToken: String = "",
     val createdAt: Long = System.currentTimeMillis(),

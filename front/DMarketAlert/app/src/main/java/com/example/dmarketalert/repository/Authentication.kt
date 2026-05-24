@@ -116,6 +116,21 @@ class Authentication {
         }
     }
 
+    //Updating of public API key
+    suspend fun updatePublicApiKey(nickname: String, newPublicKey: String): Result<Unit> {
+        return try {
+            users.document(nickname)
+                .update(mapOf(
+                    "publicApiKey" to newPublicKey,
+                    "updatedAt" to System.currentTimeMillis()
+                ))
+                .await()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     // Updating of API key
     suspend fun updateApiKey(
         nickname: String,

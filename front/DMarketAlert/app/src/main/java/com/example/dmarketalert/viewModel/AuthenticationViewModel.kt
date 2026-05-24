@@ -14,8 +14,8 @@ class AuthenticationViewModel : ViewModel() {
     val authState = MutableLiveData<AuthState>(AuthState.Idle)
 
     // Registration
-    fun register(nickname: String, password: String, api: String) {
-        if (nickname.isBlank() || password.isBlank() || api.isBlank()) {
+    fun register(nickname: String, password: String, apiPublic: String, api: String) {
+        if (nickname.isBlank() || password.isBlank() || apiPublic.isBlank() || api.isBlank()) {
             authState.value = AuthState.Error("All fields are required")
             return
         }
@@ -26,6 +26,7 @@ class AuthenticationViewModel : ViewModel() {
             val user = User(
                 nickname = nickname,
                 passwordHash = SecurityUtil.sha256(password),
+                apiPublic = apiPublic,
                 apiHash = SecurityUtil.sha256(api),
                 createdAt = System.currentTimeMillis(),
                 updatedAt = System.currentTimeMillis()
@@ -108,6 +109,18 @@ class AuthenticationViewModel : ViewModel() {
                 SecurityUtil.sha256(oldPassword),
                 SecurityUtil.sha256(newPassword)
             )
+            onResult(result)
+        }
+    }
+
+    // Updating of public API key
+    fun updatePublicApiKey(
+        nickname: String,
+        newPublicKey: String,
+        onResult: (Result<Unit>) -> Unit
+    ) {
+        viewModelScope.launch {
+            val result = repository.updatePublicApiKey(nickname, newPublicKey)
             onResult(result)
         }
     }

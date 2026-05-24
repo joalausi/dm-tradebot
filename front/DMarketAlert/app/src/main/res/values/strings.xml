@@ -78,8 +78,16 @@
     <string name="change_nickname2_text">Change nickname</string>
     <string name="current_nickname_text">Current nickname</string>
     <string name="new_nickname_text">New nickname</string>
+    <string name="new_nickname_text_error">Please, write correct nickname</string>
     <string name="enter_nickname_text">Enter nickname</string>
     <string name="apply2_text">Apply</string>
+
+    <string name="change_public_api_text">Change public API key</string>
+    <string name="change_public_api2_text">Change public API key</string>
+    <string name="current_public_api_text">Current public API key</string>
+    <string name="new_public_api_text">New public API key</string>
+    <string name="new_api_public_text_error">Please, write correct public API key</string>
+    <string name="enter_public_api_text">Enter public API key</string>
 
     <string name="change_password_text">Change password</string>
     <string name="change_password2_text">Change password</string>
@@ -192,7 +200,7 @@
 
     <!-- Sign Up -->
     <string name="sing_up_text">Sign up</string>
-    <string name="to_start_using_the_app_you_need_to_paste_your_trading_api_key_into_the_field_below_follow_the_link_to_get_more_information2_text">To start using the app, you need to paste your trading API key into the field below. Follow the link to get more information.</string>
+    <string name="to_start_using_the_app_you_need_to_paste_your_trading_api_key_into_the_field_below_follow_the_link_to_get_more_information2_text">To get started, paste your trading API key below. Learn more.</string>
     <string name="click_here2_text">Click here</string>
     <string name="enter_data2_text">Enter data</string>
     <string name="nickname2_text">Nickname</string>

@@ -150,7 +150,7 @@
         android:layout_marginStart="60dp"
         android:layout_marginTop="4dp"
         android:fontFamily="sans-serif-light"
-        android:text="Please, write nickname"
+        android:text="@string/new_nickname_text_error"
         android:textColor="@color/text"
         android:textSize="10sp"
         android:visibility="invisible"

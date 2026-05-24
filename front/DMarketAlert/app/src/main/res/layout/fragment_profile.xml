@@ -36,7 +36,7 @@
                         android:layout_marginTop="96dp"
                         android:background="@drawable/icon_profile2"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHeight_percent="0.065"
+                        app:layout_constraintHeight_percent="0.0625"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintWidth_percent="0.265" />
@@ -296,11 +296,12 @@
 
                             <TextView
                                 android:id="@+id/textView_API_public"
-                                android:layout_width="wrap_content"
+                                android:layout_width="65dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="6dp"
                                 android:fontFamily="@font/sora_medium"
                                 android:textColor="@color/text"
+                                android:maxLines="1"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"

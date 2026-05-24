@@ -80,8 +80,16 @@
     <string name="change_nickname2_text">Змінити нікнейм</string>
     <string name="current_nickname_text">Поточний нікнейм</string>
     <string name="new_nickname_text">Новий нікнейм</string>
+    <string name="new_nickname_text_error">Будь ласка, введіть вірний нікнейм</string>
     <string name="enter_nickname_text">Ввести нікнейм</string>
     <string name="apply2_text">Застосувати</string>
+
+    <string name="change_public_api_text">Змінити публічнийAPI-ключ</string>
+    <string name="change_public_api2_text">Змінити публічний API-ключ</string>
+    <string name="current_public_api_text">Поточний публічний API-ключ</string>
+    <string name="new_public_api_text">Новий публічний API-ключ</string>
+    <string name="new_api_public_text_error">Будь ласка, введіть вірний API-ключ</string>
+    <string name="enter_public_api_text">Ввести публічний API-ключ</string>
 
     <string name="change_password_text">Змінити пароль</string>
     <string name="change_password2_text">Змінити пароль</string>
@@ -194,15 +202,17 @@
 
     <!-- Sign Up -->
     <string name="sing_up_text">Зареєструватися</string>
-    <string name="to_start_using_the_app_you_need_to_paste_your_trading_api_key_into_the_field_below_follow_the_link_to_get_more_information2_text">Щоб почати користуватися додатком, вам потрібно вставити свій торговий API-ключ у поле нижче. Перейдіть за посиланням, щоб отримати більше інформації.</string>
+    <string name="to_start_using_the_app_you_need_to_paste_your_trading_api_key_into_the_field_below_follow_the_link_to_get_more_information2_text">Щоб почати, вставте свій торговий API-ключ нижче. Детальніше за посиланням.</string>
     <string name="click_here2_text">Натисніть тут</string>
     <string name="enter_data2_text">Введіть дані</string>
     <string name="nickname2_text">Нікнейм</string>
     <string name="please_enter_a_nickname_text">Будь ласка, введіть нікнейм</string>
     <string name="password2_text">Пароль</string>
     <string name="please_enter_a_password_text">Будь ласка, введіть пароль</string>
-    <string name="api_key_text">API ключ</string>
+    <string name="please_enter_a_valid_api_key_text_public">Будь ласка, введіть дійсний API-ключ</string>
+    <string name="public_api_key_text">Публічний API-ключ</string>
     <string name="please_enter_a_valid_api_key_text">Будь ласка, введіть дійсний API ключ</string>
+    <string name="secret_api_key_text">Секретний API-ключ</string>
     <string name="i_ve_read_and_accept_with_the_terms_of_use_and_the_privacy_police_text">Я прочитав(-ла) та приймаю Умови використання та Політику конфіденційності</string>
     <string name="sign_up_text">Зареєструватися</string>
     <string name="already_have_an_account_text">Вже маєте акаунт?</string>

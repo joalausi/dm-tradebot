@@ -80,8 +80,16 @@
     <string name="change_nickname2_text">Изменить никнейм</string>
     <string name="current_nickname_text">Текущий никнейм</string>
     <string name="new_nickname_text">Новый никнейм</string>
+    <string name="new_nickname_text_error">Пожалуйста, введите верный никнейм</string>
     <string name="enter_nickname_text">Введите никнейм</string>
     <string name="apply2_text">Применить</string>
+
+    <string name="change_public_api_text">Изминить публичный API-ключ</string>
+    <string name="change_public_api2_text">Изминить публичный API-ключ</string>
+    <string name="current_public_api_text">Текущий публичный API-ключ</string>
+    <string name="new_public_api_text">Новый публичный API-ключ</string>
+    <string name="new_api_public_text_error">Пожалуйста, введите верный API-ключ</string>
+    <string name="enter_public_api_text">Ввести публичный API-ключ</string>
 
     <string name="change_password_text">Изменить пароль</string>
     <string name="change_password2_text">Изменить пароль</string>
@@ -194,15 +202,17 @@
 
     <!-- Sign Up -->
     <string name="sing_up_text">Регистрация</string>
-    <string name="to_start_using_the_app_you_need_to_paste_your_trading_api_key_into_the_field_below_follow_the_link_to_get_more_information2_text">Чтобы начать пользоваться приложением, вам нужно вставить свой торговый API-ключ в поле ниже. Перейдите по ссылке, чтобы получить больше информации.</string>
+    <string name="to_start_using_the_app_you_need_to_paste_your_trading_api_key_into_the_field_below_follow_the_link_to_get_more_information2_text">Чтобы начать, вставьте свой торговый API-ключ ниже. Подробнее по ссылке.</string>
     <string name="click_here2_text">Нажмите сюда</string>
     <string name="enter_data2_text">Введите данные</string>
     <string name="nickname2_text">Никнейм</string>
     <string name="please_enter_a_nickname_text">Пожалуйста, введите никнейм</string>
     <string name="password2_text">Пароль</string>
     <string name="please_enter_a_password_text">Пожалуйста, введите пароль</string>
-    <string name="api_key_text">API ключ</string>
-    <string name="please_enter_a_valid_api_key_text">Пожалуйста, введите действительный API ключ</string>
+    <string name="please_enter_a_valid_api_key_text_public">Пожалуйста введите действительный API-ключ</string>
+    <string name="public_api_key_text">Публичный API-ключ</string>
+    <string name="please_enter_a_valid_api_key_text">Пожалуйста введите действительный API-ключ</string>
+    <string name="secret_api_key_text">Секретный API-ключ</string>
     <string name="i_ve_read_and_accept_with_the_terms_of_use_and_the_privacy_police_text">Я прочитал(а) и принимаю Условия использования и Политику конфиденциальности</string>
     <string name="sign_up_text">Зарегистрироваться</string>
     <string name="already_have_an_account_text">Уже есть аккаунт?</string>

@@ -44,11 +44,19 @@ object ValidationUtil {
         }
     }
 
+    //Validate of public API key
+    fun validatePublicApiKey(publicKey: String): String? {
+        return when{
+            publicKey.isBlank() -> "API key cannot be empty"
+            publicKey.length < 20 -> "API key isn't long enough"
+            else -> null
+        }
+    }
     //Validate of API key
     fun validateApiKey(apiKey: String): String? {
         return when {
             apiKey.isBlank() -> "API key cannot be empty"
-            apiKey.length < 10 -> "API key seems too short"
+            apiKey.length < 20 -> "API key seems too short"
             else -> null
         }
     }

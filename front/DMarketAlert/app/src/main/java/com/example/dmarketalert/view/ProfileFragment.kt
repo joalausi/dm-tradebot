@@ -26,9 +26,11 @@ class ProfileFragment : Fragment() {
     // UI elements
     private lateinit var userNickname: TextView
     private lateinit var nicknameText: TextView
+    private lateinit var apiTextPublic: TextView
     private lateinit var apiText: TextView
     private lateinit var editNickname: CardView
     private lateinit var editPassword: CardView
+    private lateinit var editApiPublic: CardView
     private lateinit var editAPI: CardView
 
     private lateinit var currentTargetsText: TextView
@@ -71,9 +73,11 @@ class ProfileFragment : Fragment() {
     private fun initViews(view: View) {
         userNickname = view.findViewById(R.id.textView_user_nickname)
         nicknameText = view.findViewById(R.id.textView_nickname)
+        apiTextPublic = view.findViewById(R.id.textView_API_public)
         apiText = view.findViewById(R.id.textView_API)
         editNickname = view.findViewById(R.id.CardView_nickname)
         editPassword = view.findViewById(R.id.CardView_password)
+        editApiPublic = view.findViewById(R.id.CardView_API_Public)
         editAPI = view.findViewById(R.id.CardView_API)
         currentTargetsText = view.findViewById(R.id.textView_current_targets)
         outbidTargetsText = view.findViewById(R.id.textView_outbid_targets)
@@ -98,6 +102,7 @@ class ProfileFragment : Fragment() {
                     val user = state.user ?: return@observe
                     userNickname.text = user.nickname
                     nicknameText.text = user.nickname
+                    apiTextPublic.text = user.apiPublic
                     apiText.text = getMaskedApiKey(user.apiHash)
                 }
 
@@ -127,6 +132,10 @@ class ProfileFragment : Fragment() {
             val intent = Intent(requireContext(), CheckPasswordActivity::class.java)
             intent.putExtra("next_screen", "password")
             startActivity(intent)
+        }
+
+        editApiPublic.setOnClickListener {
+            val intent = startActivity(Intent(requireContext(), ChangeApiPublic::class.java))
         }
 
         editAPI.setOnClickListener {

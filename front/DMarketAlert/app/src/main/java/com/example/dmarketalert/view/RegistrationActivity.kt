@@ -22,6 +22,8 @@ class RegistrationActivity : AppCompatActivity() {
     private lateinit var errorNickname: TextView
     private lateinit var passwordEdit: EditText
     private lateinit var errorPassword: TextView
+    private lateinit var apiPublicEdit: EditText
+    private lateinit var errorApiPublic: TextView
     private lateinit var apiEdit: EditText
     private lateinit var errorApi: TextView
     private lateinit var signUpButton: Button
@@ -48,6 +50,8 @@ class RegistrationActivity : AppCompatActivity() {
         errorNickname = findViewById(R.id.textView_error_nickname2)
         passwordEdit = findViewById(R.id.editText_password)
         errorPassword = findViewById(R.id.textView_error_password2)
+        apiPublicEdit = findViewById(R.id.editText_API_Public)
+        errorApiPublic = findViewById(R.id.textView_error_API_public)
         apiEdit = findViewById(R.id.editText_API_key)
         errorApi = findViewById(R.id.textView_error_API)
         signUpButton = findViewById(R.id.button_signUp)
@@ -115,9 +119,10 @@ class RegistrationActivity : AppCompatActivity() {
 
         val nickname = nicknameEdit.text.toString().trim()
         val password = passwordEdit.text.toString().trim()
+        val apiPublic = apiPublicEdit.text.toString().trim()
         val api = apiEdit.text.toString().trim()
 
-        registerWithFcm(nickname, password, api)
+        registerWithFcm(nickname, password, apiPublic, api)
     }
 
     private fun validateAllFields(): Boolean {
@@ -141,6 +146,17 @@ class RegistrationActivity : AppCompatActivity() {
             ValidationUtil.hideError(errorPassword)
         }
 
+        val apiPublicError = ValidationUtil.validatePublicApiKey(apiPublicEdit.text.toString().trim())
+        if (apiPublicError != null){
+            errorApiPublic.text = apiPublicError
+            ValidationUtil.showError(errorApiPublic)
+            isValid = false
+        } else {
+            ValidationUtil.hideError(errorApiPublic)
+        }
+
+        return isValid
+
         val apiError = ValidationUtil.validateApiKey(apiEdit.text.toString().trim())
         if (apiError != null) {
             errorApi.text = apiError
@@ -153,14 +169,14 @@ class RegistrationActivity : AppCompatActivity() {
         return isValid
     }
 
-    private fun registerWithFcm(nickname: String, password: String, api: String) {
+    private fun registerWithFcm(nickname: String, password: String, apiPublic: String, api: String) {
         FirebaseMessaging.getInstance().token
             .addOnSuccessListener { token ->
-                viewModel.register(nickname, password, api)
+                viewModel.register(nickname, password, apiPublic, api)
                 viewModel.saveFcmToken(nickname, token)
             }
             .addOnFailureListener {
-                viewModel.register(nickname, password, api)
+                viewModel.register(nickname, password, apiPublic, api)
             }
     }
 
@@ -169,6 +185,7 @@ class RegistrationActivity : AppCompatActivity() {
         signUpButton.isEnabled = !isLoading
         nicknameEdit.isEnabled = !isLoading
         passwordEdit.isEnabled = !isLoading
+        apiPublicEdit.isEnabled = !isLoading
         apiEdit.isEnabled = !isLoading
         acceptRulesCheckBox.isEnabled = !isLoading
         signUpButton.text = if (isLoading) "Registering..." else "Sign Up"
