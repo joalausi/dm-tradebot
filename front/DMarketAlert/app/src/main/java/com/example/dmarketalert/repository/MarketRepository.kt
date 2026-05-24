@@ -2,6 +2,7 @@ package com.example.dmarketalert.repository
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.example.dmarketalert.model.MarketItem
 import com.example.dmarketalert.model.NetworkResult
 import com.example.dmarketalert.model.remote.RetrofitClient
@@ -19,10 +20,6 @@ class MarketRepository(private val context: Context) {
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
-    private fun getApiKey(): String {
-        return sharedPreferences.getString("api_key", "") ?: ""
-    }
-
     fun getActiveTargets(): Flow<NetworkResult<List<MarketItem>>> = flow {
         emit(NetworkResult.Loading())
 
@@ -31,16 +28,11 @@ class MarketRepository(private val context: Context) {
             return@flow
         }
 
-        val apiKey = getApiKey()
-        if (apiKey.isEmpty()) {
-            emit(NetworkResult.Error("API key not found. Please log in"))
-            return@flow
-        }
-
         try {
-            val response = apiService.getActiveTargets("Bearer $apiKey")
+            val response = apiService.getActiveTargets("Bearer DUMMY_KEY")
             emit(handleResponse(response))
         } catch (e: Exception) {
+            Log.e("API_CRASH", "Помилка запиту: ${e.message}")
             emit(NetworkResult.Error(e.localizedMessage ?: "Unknown error"))
         }
     }.flowOn(Dispatchers.IO)
@@ -53,14 +45,8 @@ class MarketRepository(private val context: Context) {
             return@flow
         }
 
-        val apiKey = getApiKey()
-        if (apiKey.isEmpty()) {
-            emit(NetworkResult.Error("API key not found. Please log in."))
-            return@flow
-        }
-
         try {
-            val response = apiService.getTargetsHistory("Bearer $apiKey")
+            val response = apiService.getTargetsHistory("Bearer DUMMY_KEY")
             emit(handleResponse(response))
         } catch (e: Exception) {
             emit(NetworkResult.Error(e.localizedMessage ?: "Unknown error occurred"))
@@ -75,14 +61,8 @@ class MarketRepository(private val context: Context) {
             return@flow
         }
 
-        val apiKey = getApiKey()
-        if (apiKey.isEmpty()) {
-            emit(NetworkResult.Error("API key not found"))
-            return@flow
-        }
-
         try {
-            val response = apiService.refreshTargets("Bearer $apiKey")
+            val response = apiService.refreshTargets("Bearer DUMMY_KEY")
             emit(handleResponse(response))
         } catch (e: Exception) {
             emit(NetworkResult.Error(e.localizedMessage ?: "Unknown error"))
@@ -107,15 +87,16 @@ class MarketRepository(private val context: Context) {
     }
 
     private fun handleResponse(response: Response<com.example.dmarketalert.model.TargetsApiResponse>): NetworkResult<List<MarketItem>> {
+        if (!response.isSuccessful) {
+            Log.e("API_ERROR", "Server return error: ${response.code()} ${response.errorBody()?.string()}")
+        }
+
         return when {
             response.isSuccessful -> {
                 val body = response.body()
-                if (body != null) {
-                    val items = body.items.map { it.toDomainModel() }
-                    NetworkResult.Success(items)
-                } else {
-                    NetworkResult.Error("Empty response from server")
-                }
+                val itemsDto = body?.items ?: emptyList()
+                val items = itemsDto.map { it.toDomainModel() }
+                NetworkResult.Success(items)
             }
             response.code() == 401 -> NetworkResult.Error("Unauthorized. Please check your API key.")
             response.code() == 404 -> NetworkResult.Error("Endpoint not found")

@@ -7,25 +7,24 @@ import retrofit2.http.Header
 import retrofit2.http.Query
 
 interface MarketApiService {
-
-    @GET("api/targets")
+    @GET("api/v1/targets/current")
     suspend fun getActiveTargets(
         @Header("Authorization") apiKey: String,
         @Query("status") status: String = "active"
     ): Response<TargetsApiResponse>
 
-    @GET("api/targets/history")
+    @GET("api/v1/targets/current")
     suspend fun getTargetsHistory(
         @Header("Authorization") apiKey: String,
         @Query("limit") limit: Int = 100
     ): Response<TargetsApiResponse>
 
-    @GET("api/targets/refresh")
+    @GET("api/v1/targets/current")
     suspend fun refreshTargets(
         @Header("Authorization") apiKey: String
     ): Response<TargetsApiResponse>
 
-    @GET("api/validate")
+    @GET("api/v1/validate")
     suspend fun validateApiKey(
         @Header("Authorization") apiKey: String
     ): Response<Unit>
