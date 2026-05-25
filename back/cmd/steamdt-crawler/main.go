@@ -95,9 +95,6 @@ func main() {
 
 		fmt.Printf("saved live snapshots=%d skipped stale snapshots=%d\n", saved, skipped)
 
-		if err := snapshotRepo.SaveBatch(ctx, results, fetchedAt); err != nil {
-			log.Fatalf("save snapshots: %v", err)
-		}
 		if *raw {
 			out, err := json.MarshalIndent(results, "", "  ")
 			if err != nil {
