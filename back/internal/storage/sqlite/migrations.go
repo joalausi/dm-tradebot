@@ -20,4 +20,19 @@ on steamdt_market_snapshots (market_hash_name, platform, fetched_at_unix);
 
 create index if not exists idx_steamdt_snapshots_time
 on steamdt_market_snapshots (fetched_at_unix);
+
+create table if not exists steamdt_anomaly_alerts (
+  id integer primary key autoincrement,
+  market_hash_name text not null,
+  platform text not null,
+  metric text not null,
+  current_value real not null,
+  baseline_value real not null,
+  pct_change real not null,
+  fetched_at_unix integer not null,
+  created_at_unix integer not null
+);
+
+create index if not exists idx_steamdt_alerts_lookup
+on steamdt_anomaly_alerts (market_hash_name, platform, metric, created_at_unix);
 `

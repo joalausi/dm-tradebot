@@ -29,6 +29,32 @@ func LoadSteamDTSmokeConfig(path string) (SteamDTSmokeConfig, error) {
 		cfg.Watchlist[i].MarketHashName = strings.TrimSpace(cfg.Watchlist[i].MarketHashName)
 	}
 
+	if strings.TrimSpace(cfg.Database.Path) == "" {
+		cfg.Database.Path = "data/steamdt_smoke.db"
+	}
+
+	if cfg.Signals.LookbackDays <= 0 {
+		cfg.Signals.LookbackDays = 3
+	}
+	if cfg.Signals.MinBaselineSamples <= 0 {
+		cfg.Signals.MinBaselineSamples = 3
+	}
+	if cfg.Signals.SellCountSpikePct <= 0 {
+		cfg.Signals.SellCountSpikePct = 50
+	}
+	if cfg.Signals.BidCountSpikePct <= 0 {
+		cfg.Signals.BidCountSpikePct = 50
+	}
+	if cfg.Signals.MinCurrentSellCount <= 0 {
+		cfg.Signals.MinCurrentSellCount = 20
+	}
+	if cfg.Signals.MinCurrentBidCount <= 0 {
+		cfg.Signals.MinCurrentBidCount = 10
+	}
+	if cfg.Signals.AlertCooldownHours <= 0 {
+		cfg.Signals.AlertCooldownHours = 24
+	}
+
 	if cfg.MarketHashName == "" && len(cfg.Watchlist) == 0 {
 		return cfg, fmt.Errorf("either market_hash_name or watchlist is required")
 	}

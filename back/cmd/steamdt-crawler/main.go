@@ -14,6 +14,7 @@ import (
 
 	"back/internal/adapters/markets/steamdt"
 	"back/internal/config"
+	"back/internal/services"
 	"back/internal/storage/sqlite"
 )
 
@@ -57,6 +58,8 @@ func main() {
 	}
 
 	snapshotRepo := sqlite.NewSnapshotRepository(db)
+	anomalyRepo := sqlite.NewAnomalyRepository(db)
+	detector := services.NewSteamDTAnomalyDetector(cfg, anomalyRepo)
 
 	switch {
 	case *check:
@@ -95,6 +98,15 @@ func main() {
 
 		fmt.Printf("saved live snapshots=%d skipped stale snapshots=%d\n", saved, skipped)
 
+		alerts, err := detector.Detect(ctx, results, fetchedAt)
+		if err != nil {
+			log.Fatalf("detect anomalies: %v", err)
+		}
+
+		if err := anomalyRepo.SaveAlerts(ctx, alerts); err != nil {
+			log.Fatalf("save alerts: %v", err)
+		}
+
 		if *raw {
 			out, err := json.MarshalIndent(results, "", "  ")
 			if err != nil {
@@ -104,6 +116,7 @@ func main() {
 			return
 		}
 
+		printAlerts(alerts)
 		printSummary(results)
 		return
 	}
@@ -192,4 +205,24 @@ func isProbablyStalePlatform(p steamdt.PlatformPrice) bool {
 		return true
 	}
 	return false
+}
+
+func printAlerts(alerts []sqlite.AnomalyAlert) {
+	if len(alerts) == 0 {
+		fmt.Println("\nNo anomalies detected.")
+		return
+	}
+
+	fmt.Println("\n========== SteamDT Alerts ==========")
+	for _, a := range alerts {
+		fmt.Printf(
+			"%s | %s | %s | current=%.0f baseline=%.0f change=%.2f%%\n",
+			a.MarketHashName,
+			a.Platform,
+			a.Metric,
+			a.CurrentValue,
+			a.BaselineValue,
+			a.PctChange,
+		)
+	}
 }
