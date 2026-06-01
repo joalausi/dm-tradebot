@@ -7,6 +7,15 @@ type SteamDTSmokeConfig struct {
 	Database struct {
 		Path string `yaml:"path"`
 	} `yaml:"database"`
+
+	Catalog struct {
+		SyncTTLHours int `yaml:"sync_ttl_hours"`
+	} `yaml:"catalog"`
+
+	Collector struct {
+		BatchSize       int `yaml:"batch_size"`
+		MaxChunksPerRun int `yaml:"max_chunks_per_run"`
+	} `yaml:"collector"`
 }
 
 type SteamDTWatchItem struct {

@@ -54,6 +54,25 @@ type BatchItemPrice struct {
 	DataList       []PlatformPrice `json:"dataList"`
 }
 
+type BaseResponse struct {
+	Success      bool       `json:"success"`
+	Data         []BaseItem `json:"data"`
+	ErrorCode    int        `json:"errorCode"`
+	ErrorMsg     string     `json:"errorMsg"`
+	ErrorCodeStr string     `json:"errorCodeStr"`
+}
+
+type BaseItem struct {
+	Name           string             `json:"name"`
+	MarketHashName string             `json:"marketHashName"`
+	PlatformList   []BasePlatformItem `json:"platformList"`
+}
+
+type BasePlatformItem struct {
+	Name   string `json:"name"`
+	ItemID string `json:"itemId"`
+}
+
 func NewClient() (*Client, error) {
 	apiKey := strings.TrimSpace(os.Getenv("STEAMDT_API_KEY"))
 	if apiKey == "" {
@@ -208,6 +227,44 @@ func (c *Client) FetchMany(ctx context.Context, marketHashNames []string) (map[s
 				Data:    nil,
 			}
 		}
+	}
+
+	return out, nil
+}
+
+func (c *Client) FetchBase(ctx context.Context) (BaseResponse, error) {
+	var out BaseResponse
+
+	endpoint := c.baseURL + "/open/cs2/v1/base"
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, endpoint, nil)
+	if err != nil {
+		return out, err
+	}
+
+	req.Header.Set("Authorization", "Bearer "+c.apiKey)
+	req.Header.Set("Accept", "application/json")
+
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		return out, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode >= 300 {
+		body, readErr := io.ReadAll(io.LimitReader(resp.Body, 1<<20))
+		if readErr != nil {
+			return out, readErr
+		}
+		return out, fmt.Errorf("steamdt base status %d: %s", resp.StatusCode, trimBody(body))
+	}
+
+	if err := json.NewDecoder(resp.Body).Decode(&out); err != nil {
+		return out, fmt.Errorf("decode steamdt base response: %w", err)
+	}
+
+	if !out.Success {
+		return out, fmt.Errorf("steamdt base error %d: %s", out.ErrorCode, out.ErrorMsg)
 	}
 
 	return out, nil

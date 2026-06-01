@@ -1,12 +1,19 @@
 database:
   path: "./data/steamdt.db"
 
+catalog:
+  sync_ttl_hours: 24
+
+collector:
+  batch_size: 25
+  max_chunks_per_run: 1
+
 watchlist:
   - market_hash_name: "AK-47 | Cartel (Minimal Wear)"
-    enabled: true
+    enabled: false
 
   - market_hash_name: "USP-S | Road Rash (Factory New)"
-    enabled: true
+    enabled: false
 
   - market_hash_name: "AWP | Atheris (Field-Tested)"
     enabled: false

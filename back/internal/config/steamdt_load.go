@@ -1,7 +1,7 @@
 package config
 
 import (
-	"fmt"
+	// "fmt"
 	"os"
 	"strings"
 
@@ -23,15 +23,28 @@ func LoadSteamDTSmokeConfig(path string) (SteamDTSmokeConfig, error) {
 		return cfg, err
 	}
 
-	cfg.MarketHashName = strings.TrimSpace(cfg.MarketHashName)
+	// cfg.MarketHashName = strings.TrimSpace(cfg.MarketHashName)
 
 	for i := range cfg.Watchlist {
 		cfg.Watchlist[i].MarketHashName = strings.TrimSpace(cfg.Watchlist[i].MarketHashName)
 	}
 
-	if cfg.MarketHashName == "" && len(cfg.Watchlist) == 0 {
-		return cfg, fmt.Errorf("either market_hash_name or watchlist is required")
+	if cfg.Database.Path == "" {
+		cfg.Database.Path = "data/steamdt_smoke.db"
 	}
+	if cfg.Catalog.SyncTTLHours <= 0 {
+		cfg.Catalog.SyncTTLHours = 24
+	}
+	if cfg.Collector.BatchSize <= 0 {
+		cfg.Collector.BatchSize = 25
+	}
+	if cfg.Collector.MaxChunksPerRun <= 0 {
+		cfg.Collector.MaxChunksPerRun = 1
+	}
+
+	// if cfg.MarketHashName == "" && len(cfg.Watchlist) == 0 {
+	// 	return cfg, fmt.Errorf("either market_hash_name or watchlist is required")
+	// }
 
 	return cfg, nil
 }

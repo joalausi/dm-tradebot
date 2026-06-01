@@ -22,20 +22,17 @@ func main() {
 	check := flag.Bool("check", false, "check SteamDT connectivity and exit")
 	once := flag.Bool("once", false, "run single request and print formatted response")
 	raw := flag.Bool("raw", false, "print raw JSON responses")
+	syncBase := flag.Bool("sync-base", false, "sync SteamDT base catalog and exit")
+	collectCatalogChunk := flag.Bool("collect-catalog-chunk", false, "collect next catalog chunk and save snapshots")
 	flag.Parse()
 
-	if !*check && !*once {
+	if !*check && !*once && !*syncBase && !*collectCatalogChunk {
 		*once = true
 	}
 
 	cfg, err := config.LoadSteamDTSmokeConfig(*cfgPath)
 	if err != nil {
 		log.Fatalf("load config: %v", err)
-	}
-
-	watchlist := cfg.ResolveWatchlist()
-	if len(watchlist) == 0 {
-		log.Fatal("watchlist is empty")
 	}
 
 	client, err := steamdt.NewClient()
@@ -56,10 +53,110 @@ func main() {
 		log.Fatalf("migrate sqlite: %v", err)
 	}
 
+	catalogRepo := sqlite.NewCatalogRepository(db)
+	stateRepo := sqlite.NewCollectorStateRepository(db)
 	snapshotRepo := sqlite.NewSnapshotRepository(db)
 
 	switch {
+	case *syncBase:
+		lastSyncedAt, err := catalogRepo.LastSyncedAt(ctx)
+		if err != nil {
+			log.Fatalf("catalog last synced: %v", err)
+		}
+
+		if lastSyncedAt > 0 {
+			age := time.Since(time.Unix(lastSyncedAt, 0))
+			if age < time.Duration(cfg.Catalog.SyncTTLHours)*time.Hour {
+				fmt.Printf("catalog is fresh enough, skip sync (last synced %s ago)\n", age.Round(time.Minute))
+				return
+			}
+		}
+
+		baseResp, err := client.FetchBase(ctx)
+		if err != nil {
+			log.Fatalf("sync base failed: %v", err)
+		}
+
+		syncedAt := time.Now().UTC()
+		if err := catalogRepo.ReplaceAll(ctx, baseResp.Data, syncedAt); err != nil {
+			log.Fatalf("save catalog: %v", err)
+		}
+
+		fmt.Printf("catalog synced: items=%d at=%s\n", len(baseResp.Data), syncedAt.Format(time.RFC3339))
+		return
+
+	case *collectCatalogChunk:
+		total, err := catalogRepo.Count(ctx)
+		if err != nil {
+			log.Fatalf("catalog count: %v", err)
+		}
+		if total == 0 {
+			log.Fatal("catalog is empty, run -sync-base first")
+		}
+
+		offset, err := stateRepo.GetInt(ctx, "collector_offset", 0)
+		if err != nil {
+			log.Fatalf("read collector state: %v", err)
+		}
+
+		for i := 0; i < cfg.Collector.MaxChunksPerRun; i++ {
+			chunk, err := catalogRepo.ListChunk(ctx, cfg.Collector.BatchSize, offset)
+			if err != nil {
+				log.Fatalf("list catalog chunk: %v", err)
+			}
+
+			if len(chunk) == 0 {
+				offset = 0
+				if err := stateRepo.SetInt(ctx, "collector_offset", offset); err != nil {
+					log.Fatalf("reset collector state: %v", err)
+				}
+				fmt.Println("catalog chunk empty, offset reset to 0")
+				return
+			}
+
+			names := make([]string, 0, len(chunk))
+			for _, item := range chunk {
+				names = append(names, item.MarketHashName)
+			}
+
+			results, err := client.FetchMany(ctx, names)
+			if err != nil {
+				log.Fatalf("fetch catalog chunk: %v", err)
+			}
+
+			fetchedAt := time.Now().UTC()
+			saved, skipped, err := snapshotRepo.SaveBatch(ctx, results, fetchedAt)
+			if err != nil {
+				log.Fatalf("save snapshots: %v", err)
+			}
+
+			fmt.Printf(
+				"chunk=%d/%d offset=%d size=%d saved=%d skipped=%d\n",
+				i+1,
+				cfg.Collector.MaxChunksPerRun,
+				offset,
+				len(chunk),
+				saved,
+				skipped,
+			)
+
+			offset += len(chunk)
+			if offset >= total {
+				offset = 0
+			}
+
+			if err := stateRepo.SetInt(ctx, "collector_offset", offset); err != nil {
+				log.Fatalf("update collector state: %v", err)
+			}
+		}
+		return
+
 	case *check:
+		watchlist := cfg.ResolveWatchlist()
+		if len(watchlist) == 0 {
+			log.Fatal("watchlist is empty")
+		}
+
 		resp, err := client.FetchPriceSingle(ctx, watchlist[0])
 		if err != nil {
 			log.Fatalf("steamdt check failed: %v", err)
@@ -82,6 +179,10 @@ func main() {
 		return
 
 	case *once:
+		watchlist := cfg.ResolveWatchlist()
+		if len(watchlist) == 0 {
+			log.Fatal("watchlist is empty")
+		}
 		results, err := client.FetchMany(ctx, watchlist)
 		if err != nil {
 			log.Fatalf("steamdt fetch failed: %v", err)
