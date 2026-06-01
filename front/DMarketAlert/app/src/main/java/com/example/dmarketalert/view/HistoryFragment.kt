@@ -77,25 +77,28 @@ class HistoryFragment : Fragment() {
 
     private fun handleUiState(state: HistoryUiState) {
         when (state) {
-            is HistoryUiState.Idle -> {
-                showContent()
-            }
-
             is HistoryUiState.Loading -> {
                 showLoading()
             }
-
             is HistoryUiState.Success -> {
-                showContent()
-            }
+                recyclerView.visibility = View.VISIBLE
+                adapter.submitList(state.items)
 
+                progressBar.visibility = View.GONE
+                errorText.visibility = View.GONE
+                emptyText.visibility = View.GONE
+                errorImage.visibility = View.GONE
+                emptyImage.visibility = View.GONE
+            }
             is HistoryUiState.Error -> {
+                recyclerView.visibility = View.GONE
                 showError()
             }
-
             is HistoryUiState.Empty -> {
+                recyclerView.visibility = View.GONE
                 showEmpty()
             }
+            else -> showContent()
         }
     }
 
