@@ -2,6 +2,7 @@ package com.example.dmarketalert.repository
 
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.WriteBatch
 import kotlinx.coroutines.tasks.await
 
 class SettingsRepository {
@@ -9,71 +10,60 @@ class SettingsRepository {
     private val db = FirebaseFirestore.getInstance()
     private val TAG = "SettingsRepository"
 
-    /**
-     * Clear all user notification
-     */
-    suspend fun clearNotifications(userId: String): Result<Unit> {
-        if (userId.isBlank()) return Result.failure(IllegalArgumentException("User ID cannot be empty"))
+    // ===== PRIVATE HELPING FUNCTION =====
+
+    private suspend fun clearCollection(userId: String, collectionName: String): Result<Unit> {
+
+        if (userId.isBlank()) return Result.failure(
+            IllegalArgumentException("User ID cannot be empty")
+        )
 
         return try {
-            val notificationsRef = db.collection("users")
+            val collectionRef = db.collection("users")
                 .document(userId)
-                .collection("notifications")
+                .collection(collectionName)
 
-            val documents = notificationsRef.get().await()
+            val documents = collectionRef.get().await()
 
-            // Delete all documents
-            for (document in documents) {
-                document.reference.delete().await()
+            if (documents.isEmpty) {
+                return Result.success(Unit)
+            }
+            val batchSize = 500
+            val docList = documents.documents
+            docList.chunked(batchSize).forEach { chunk ->
+                val batch: WriteBatch = db.batch()
+
+                chunk.forEach { document ->
+                    batch.delete(document.reference)
+                }
+
+                batch.commit().await()
             }
 
-            Log.d(TAG, "Notifications cleared for user: $userId")
+            Log.d(TAG, "Collection '$collectionName' cleared for user: $userId")
             Result.success(Unit)
+
         } catch (e: Exception) {
-            Log.e(TAG, "Error clearing notifications", e)
+            Log.e(TAG, "Error clearing collection '$collectionName'", e)
             Result.failure(e)
         }
     }
 
-    /**
-     * Clear all history about user targets
-     */
-    suspend fun clearHistory(userId: String): Result<Unit> {
-        if (userId.isBlank()) return Result.failure(IllegalArgumentException("User ID cannot be empty"))
+    // ===== PUBLIC FUNCTIONS =====
 
-        return try {
-            val historyRef = db.collection("users")
-                .document(userId)
-                .collection("history")
+    suspend fun clearNotifications(userId: String): Result<Unit> =
+        clearCollection(userId, "notifications")
 
-            val documents = historyRef.get().await()
+    suspend fun clearHistory(userId: String): Result<Unit> =
+        clearCollection(userId, "history")
 
-            // Delete all documents
-            for (document in documents) {
-                document.reference.delete().await()
-            }
-
-            Log.d(TAG, "History cleared for user: $userId")
-            Result.success(Unit)
-        } catch (e: Exception) {
-            Log.e(TAG, "Error clearing history", e)
-            Result.failure(e)
-        }
-    }
-
-    /**
-     * Clear all statistic(history + notification)
-     */
     suspend fun clearAllStatistics(userId: String): Result<Unit> {
-        if (userId.isBlank()) return Result.failure(IllegalArgumentException("User ID cannot be empty"))
-
+        if (userId.isBlank()) return Result.failure(
+            IllegalArgumentException("User ID cannot be empty")
+        )
         return try {
-            // Clear notification
             clearNotifications(userId).getOrThrow()
-
-            // Clear history
             clearHistory(userId).getOrThrow()
-
             Log.d(TAG, "All statistics cleared for user: $userId")
             Result.success(Unit)
         } catch (e: Exception) {
@@ -82,20 +72,15 @@ class SettingsRepository {
         }
     }
 
-    /**
-     * Get count in notification
-     */
     suspend fun getNotificationsCount(userId: String): Result<Int> {
-        if (userId.isBlank()) return Result.failure(IllegalArgumentException("User ID cannot be empty"))
-
+        if (userId.isBlank()) return Result.failure(
+            IllegalArgumentException("User ID cannot be empty")
+        )
         return try {
             val count = db.collection("users")
                 .document(userId)
                 .collection("notifications")
-                .get()
-                .await()
-                .size()
-
+                .get().await().size()
             Result.success(count)
         } catch (e: Exception) {
             Log.e(TAG, "Error getting notifications count", e)
@@ -103,20 +88,15 @@ class SettingsRepository {
         }
     }
 
-    /**
-     * Get count in history
-     */
     suspend fun getHistoryCount(userId: String): Result<Int> {
-        if (userId.isBlank()) return Result.failure(IllegalArgumentException("User ID cannot be empty"))
-
+        if (userId.isBlank()) return Result.failure(
+            IllegalArgumentException("User ID cannot be empty")
+        )
         return try {
             val count = db.collection("users")
                 .document(userId)
                 .collection("history")
-                .get()
-                .await()
-                .size()
-
+                .get().await().size()
             Result.success(count)
         } catch (e: Exception) {
             Log.e(TAG, "Error getting history count", e)
@@ -124,32 +104,22 @@ class SettingsRepository {
         }
     }
 
-    /**
-     * Apply limit for notification (delete old, if limit is bigger, than number which user choose)
-     */
+    // ===== LIMITS =====
+
     suspend fun applyNotificationLimit(userId: String, limit: Int): Result<Unit> {
-        if (userId.isBlank()) return Result.failure(IllegalArgumentException("User ID cannot be empty"))
+        if (userId.isBlank()) return Result.failure(
+            IllegalArgumentException("User ID cannot be empty")
+        )
+        if (limit == 0) return clearNotifications(userId)
 
         return try {
-            if (limit == 0) {
-                return clearNotifications(userId)
-            }
-
-            val notificationsRef = db.collection("users")
+            val documents = db.collection("users")
                 .document(userId)
                 .collection("notifications")
                 .orderBy("timestamp", com.google.firebase.firestore.Query.Direction.DESCENDING)
+                .get().await()
 
-            val documents = notificationsRef.get().await()
-
-            if (documents.size() > limit) {
-                val toDelete = documents.documents.drop(limit)
-                for (document in toDelete) {
-                    document.reference.delete().await()
-                }
-                Log.d(TAG, "Applied notification limit: deleted ${toDelete.size} old notifications")
-            }
-
+            deleteExcess(documents.documents, limit)
             Result.success(Unit)
         } catch (e: Exception) {
             Log.e(TAG, "Error applying notification limit", e)
@@ -157,37 +127,41 @@ class SettingsRepository {
         }
     }
 
-    /**
-     * Apply limit for history (delete old, if limit is bigger, than number which user choose)
-     */
     suspend fun applyHistoryLimit(userId: String, limit: Int): Result<Unit> {
-        if (userId.isBlank()) return Result.failure(IllegalArgumentException("User ID cannot be empty"))
+        if (userId.isBlank()) return Result.failure(
+            IllegalArgumentException("User ID cannot be empty")
+        )
+        if (limit == 0) return clearHistory(userId)
 
         return try {
-            if (limit == 0) {
-                // if limit = 0, clear all
-                return clearHistory(userId)
-            }
-
-            val historyRef = db.collection("users")
+            val documents = db.collection("users")
                 .document(userId)
                 .collection("history")
                 .orderBy("timestamp", com.google.firebase.firestore.Query.Direction.DESCENDING)
+                .get().await()
 
-            val documents = historyRef.get().await()
-
-            if (documents.size() > limit) {
-                val toDelete = documents.documents.drop(limit)
-                for (document in toDelete) {
-                    document.reference.delete().await()
-                }
-                Log.d(TAG, "Applied history limit: deleted ${toDelete.size} old records")
-            }
-
+            deleteExcess(documents.documents, limit)
             Result.success(Unit)
         } catch (e: Exception) {
             Log.e(TAG, "Error applying history limit", e)
             Result.failure(e)
         }
+    }
+
+    private suspend fun deleteExcess(
+        documents: List<com.google.firebase.firestore.DocumentSnapshot>,
+        limit: Int
+    ) {
+        if (documents.size <= limit) return
+
+        val toDelete = documents.drop(limit)
+
+        toDelete.chunked(500).forEach { chunk ->
+            val batch = db.batch()
+            chunk.forEach { doc -> batch.delete(doc.reference) }
+            batch.commit().await()
+        }
+
+        Log.d(TAG, "Deleted ${toDelete.size} excess documents")
     }
 }

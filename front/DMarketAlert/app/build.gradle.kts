@@ -91,6 +91,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.mpandroidchart)
+    implementation(libs.androidx.work.runtime.ktx)
 
     // Tests
     testImplementation(libs.junit)

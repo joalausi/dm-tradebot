@@ -523,8 +523,8 @@
                     <ProgressBar
                         android:id="@+id/progressBar_homeFragment"
                         style="@style/Widget.AppCompat.ProgressBar"
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:secondaryProgressTint="#8BC34A"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/recyclerView_homeFragment"

@@ -8,6 +8,7 @@ import com.example.dmarketalert.model.NetworkResult
 import com.example.dmarketalert.model.remote.RetrofitClient
 import com.example.dmarketalert.model.toDomainModel
 import com.example.dmarketalert.util.NetworkHelper
+import com.example.dmarketalert.util.SettingsManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -46,7 +47,14 @@ class MarketRepository(private val context: Context) {
         }
 
         try {
-            val response = apiService.getTargetsHistory("Bearer DUMMY_KEY")
+            val limit = SettingsManager.getHistoryLimit(context)
+
+            if (limit == 0) {
+                emit(NetworkResult.Success(emptyList()))
+                return@flow
+            }
+
+            val response = apiService.getTargetsHistory("Bearer DUMMY_KEY", limit)
             emit(handleResponse(response))
         } catch (e: Exception) {
             emit(NetworkResult.Error(e.localizedMessage ?: "Unknown error occurred"))

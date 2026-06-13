@@ -187,6 +187,12 @@
     <string name="all_time_targets_text">За весь час</string>
     <string name="all_text">Усі</string>
 
+    <!-- History & Notifications screens -->
+    <string name="text_error_history">Неможливо завантажити дані</string>
+    <string name="text_empty_history">Таргети відсутні</string>
+    <string name="text_error_notifications">Неможливо завантажити дані</string>
+    <string name="text_empty_notifications">Сповіщення відсутні</string>
+
     <!-- Login -->
     <string name="log_in_text">Увійти</string>
     <string name="to_start_using_the_app_you_need_to_paste_your_trading_api_key_into_the_field_below_follow_the_link_to_get_more_information_text">Щоб почати користуватися додатком, вам потрібно вставити свій торговий API-ключ у поле нижче. Перейдіть за посиланням, щоб отримати більше інформації.</string>

@@ -17,4 +17,7 @@ interface NotificationDao {
 
     @Query("DELETE FROM notifications")
     suspend fun clearAll()
+
+    @Query("DELETE FROM notifications WHERE id NOT IN (SELECT id FROM notifications ORDER BY timestamp DESC LIMIT :limit)")
+    suspend fun applyLimit(limit: Int)
 }

@@ -185,6 +185,12 @@
     <string name="all_time_targets_text">All time targets</string>
     <string name="all_text">All</string>
 
+    <!-- History & Notifications screens -->
+    <string name="text_error_history">Failed to load data</string>
+    <string name="text_empty_history">No Active Targets</string>
+    <string name="text_error_notifications">Failed to load data</string>
+    <string name="text_empty_notifications">No notifications</string>
+
     <!-- Login -->
     <string name="log_in_text">Log in</string>
     <string name="to_start_using_the_app_you_need_to_paste_your_trading_api_key_into_the_field_below_follow_the_link_to_get_more_information_text">To start using the app, you need to paste your trading API key into the field below. Follow the link to get more information.</string>

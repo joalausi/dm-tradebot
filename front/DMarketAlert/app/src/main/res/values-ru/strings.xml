@@ -187,6 +187,12 @@
     <string name="all_time_targets_text">За всё время</string>
     <string name="all_text">Все</string>
 
+    <!-- History & Notifications screens -->
+    <string name="text_error_history">Не удалось загрузить данные</string>
+    <string name="text_empty_history">Таргети отсутствуют</string>
+    <string name="text_error_notifications">Не удалось загрузить данные</string>
+    <string name="text_empty_notifications">Сообщения отсутствуют</string>
+
     <!-- Login -->
     <string name="log_in_text">Войти</string>
     <string name="to_start_using_the_app_you_need_to_paste_your_trading_api_key_into_the_field_below_follow_the_link_to_get_more_information_text">Чтобы начать пользоваться приложением, вам нужно вставить свой торговый API-ключ в поле ниже. Перейдите по ссылке, чтобы получить больше информации.</string>

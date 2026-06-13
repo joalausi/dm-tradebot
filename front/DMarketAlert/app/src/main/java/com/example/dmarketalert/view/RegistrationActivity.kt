@@ -147,15 +147,13 @@ class RegistrationActivity : AppCompatActivity() {
         }
 
         val apiPublicError = ValidationUtil.validatePublicApiKey(apiPublicEdit.text.toString().trim())
-        if (apiPublicError != null){
+        if (apiPublicError != null) {
             errorApiPublic.text = apiPublicError
             ValidationUtil.showError(errorApiPublic)
             isValid = false
         } else {
             ValidationUtil.hideError(errorApiPublic)
         }
-
-        return isValid
 
         val apiError = ValidationUtil.validateApiKey(apiEdit.text.toString().trim())
         if (apiError != null) {

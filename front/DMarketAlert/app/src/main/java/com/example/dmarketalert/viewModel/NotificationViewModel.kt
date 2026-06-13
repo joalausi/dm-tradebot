@@ -16,14 +16,10 @@ class NotificationViewModel(application: Application) : AndroidViewModel(applica
         notificationState.value = NotificationState.Loading
 
         notificationState.addSource(dao.getAllNotification()) { list ->
-            try {
-                if (list.isNullOrEmpty()) {
-                    notificationState.value = NotificationState.Empty
-                } else {
-                    notificationState.value = NotificationState.Success(list)
-                }
-            } catch (e: Exception) {
-                notificationState.value = NotificationState.Error(e.message ?: "Loading error")
+            notificationState.value = if (list.isNullOrEmpty()) {
+                NotificationState.Empty
+            } else {
+                NotificationState.Success(list)
             }
         }
     }

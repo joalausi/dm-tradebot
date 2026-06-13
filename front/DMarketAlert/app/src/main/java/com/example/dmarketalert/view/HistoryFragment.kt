@@ -32,13 +32,10 @@ class HistoryFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_history, container, false)
-    }
+    ): View? = inflater.inflate(R.layout.fragment_history, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initViews(view)
         setupRecyclerView()
         observeViewModel()
@@ -56,15 +53,11 @@ class HistoryFragment : Fragment() {
         emptyImage = view.findViewById(R.id.imageView_history)
         emptyText = view.findViewById(R.id.textView_empty)
     }
+
     private fun setupRecyclerView() {
         adapter = MarketItemAdapter { item ->
-            Toast.makeText(
-                requireContext(),
-                "History: ${item.title}",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(requireContext(), "History: ${item.title}", Toast.LENGTH_SHORT).show()
         }
-
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
     }
@@ -76,61 +69,30 @@ class HistoryFragment : Fragment() {
     }
 
     private fun handleUiState(state: HistoryUiState) {
-        when (state) {
-            is HistoryUiState.Loading -> {
-                showLoading()
-            }
-            is HistoryUiState.Success -> {
-                recyclerView.visibility = View.VISIBLE
-                adapter.submitList(state.items)
+        // Скидаємо все одразу — потім вмикаємо тільки потрібне
+        updateUi(
+            showRecycler   = state is HistoryUiState.Success,
+            showProgress   = state is HistoryUiState.Loading,
+            showError      = state is HistoryUiState.Error,
+            showEmpty      = state is HistoryUiState.Empty
+        )
 
-                progressBar.visibility = View.GONE
-                errorText.visibility = View.GONE
-                emptyText.visibility = View.GONE
-                errorImage.visibility = View.GONE
-                emptyImage.visibility = View.GONE
-            }
-            is HistoryUiState.Error -> {
-                recyclerView.visibility = View.GONE
-                showError()
-            }
-            is HistoryUiState.Empty -> {
-                recyclerView.visibility = View.GONE
-                showEmpty()
-            }
-            else -> showContent()
+        if (state is HistoryUiState.Success) {
+            adapter.submitList(state.items)
         }
     }
 
-    private fun showContent() {
-        progressBar.visibility = View.GONE
-        errorText.visibility = View.GONE
-        emptyText.visibility = View.GONE
-        errorImage.visibility = View.GONE
-        emptyImage.visibility = View.GONE
-    }
-
-    private fun showLoading() {
-        progressBar.visibility = View.VISIBLE
-        errorText.visibility = View.GONE
-        emptyText.visibility = View.GONE
-        errorImage.visibility = View.GONE
-        emptyImage.visibility = View.GONE
-    }
-
-    private fun showError() {
-        progressBar.visibility = View.GONE
-        errorText.visibility = View.VISIBLE
-        emptyText.visibility = View.GONE
-        errorImage.visibility = View.VISIBLE
-        emptyImage.visibility = View.GONE
-    }
-
-    private fun showEmpty() {
-        progressBar.visibility = View.GONE
-        errorText.visibility = View.GONE
-        emptyText.visibility = View.VISIBLE
-        errorImage.visibility = View.GONE
-        emptyImage.visibility = View.VISIBLE
+    private fun updateUi(
+        showRecycler: Boolean,
+        showProgress: Boolean,
+        showError: Boolean,
+        showEmpty: Boolean
+    ) {
+        recyclerView.visibility = if (showRecycler) View.VISIBLE else View.GONE
+        progressBar.visibility  = if (showProgress) View.VISIBLE else View.GONE
+        errorImage.visibility   = if (showError)    View.VISIBLE else View.GONE
+        errorText.visibility    = if (showError)    View.VISIBLE else View.GONE
+        emptyImage.visibility   = if (showEmpty)    View.VISIBLE else View.GONE
+        emptyText.visibility    = if (showEmpty)    View.VISIBLE else View.GONE
     }
 }

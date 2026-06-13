@@ -26,11 +26,13 @@ class NotificationAdapter : ListAdapter<NotificationEntity, NotificationViewHold
 }
 
 class NotificationDiffCallback : DiffUtil.ItemCallback<NotificationEntity>() {
-    override fun areItemsTheSame(oldItem: NotificationEntity, newItem: NotificationEntity): Boolean {
-        return oldItem.title == newItem.title
-    }
+    override fun areItemsTheSame(
+        oldItem: NotificationEntity,
+        newItem: NotificationEntity
+    ): Boolean = oldItem.id == newItem.id
 
-    override fun areContentsTheSame(oldItem: NotificationEntity, newItem: NotificationEntity): Boolean {
-        return oldItem == newItem
-    }
+    override fun areContentsTheSame(
+        oldItem: NotificationEntity,
+        newItem: NotificationEntity
+    ): Boolean = oldItem == newItem
 }
