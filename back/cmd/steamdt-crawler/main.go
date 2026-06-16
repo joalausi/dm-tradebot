@@ -23,10 +23,11 @@ func main() {
 	once := flag.Bool("once", false, "run single request and print formatted response")
 	raw := flag.Bool("raw", false, "print raw JSON responses")
 	syncBase := flag.Bool("sync-base", false, "sync SteamDT base catalog and exit")
+	rebuildUniverse := flag.Bool("rebuild-universe", false, "rebuild working universe from synced catalog")
 	collectCatalogChunk := flag.Bool("collect-catalog-chunk", false, "collect next catalog chunk and save snapshots")
 	flag.Parse()
 
-	if !*check && !*once && !*syncBase && !*collectCatalogChunk {
+	if !*check && !*once && !*syncBase && !*collectCatalogChunk && !*rebuildUniverse {
 		*once = true
 	}
 
@@ -56,6 +57,7 @@ func main() {
 	catalogRepo := sqlite.NewCatalogRepository(db)
 	stateRepo := sqlite.NewCollectorStateRepository(db)
 	snapshotRepo := sqlite.NewSnapshotRepository(db)
+	universeRepo := sqlite.NewUniverseRepository(db)
 
 	switch {
 	case *syncBase:
@@ -85,43 +87,59 @@ func main() {
 		fmt.Printf("catalog synced: items=%d at=%s\n", len(baseResp.Data), syncedAt.Format(time.RFC3339))
 		return
 
-	case *collectCatalogChunk:
-		total, err := catalogRepo.Count(ctx)
+	case *rebuildUniverse:
+		platformRows, err := universeRepo.RebuildPlatformsFromCatalog(ctx)
 		if err != nil {
-			log.Fatalf("catalog count: %v", err)
-		}
-		if total == 0 {
-			log.Fatal("catalog is empty, run -sync-base first")
+			log.Fatalf("rebuild catalog platforms: %v", err)
 		}
 
-		offset, err := stateRepo.GetInt(ctx, "collector_offset", 0)
+		enabled, disabled, err := universeRepo.RebuildWorkingUniverse(ctx, cfg)
 		if err != nil {
-			log.Fatalf("read collector state: %v", err)
+			log.Fatalf("rebuild working universe: %v", err)
+		}
+
+		fmt.Printf(
+			"universe rebuilt: platform_rows=%d enabled=%d disabled=%d\n",
+			platformRows,
+			enabled,
+			disabled,
+		)
+		return
+
+	case *collectCatalogChunk:
+		total, err := universeRepo.CountEnabled(ctx)
+		if err != nil {
+			log.Fatalf("working universe count: %v", err)
+		}
+		if total == 0 {
+			log.Fatal("working universe is empty, run -sync-base and -rebuild-universe first")
+		}
+
+		offset, err := stateRepo.GetInt(ctx, "universe_collector_offset", 0)
+		if err != nil {
+			log.Fatalf("read universe collector state: %v", err)
 		}
 
 		for i := 0; i < cfg.Collector.MaxChunksPerRun; i++ {
-			chunk, err := catalogRepo.ListChunk(ctx, cfg.Collector.BatchSize, offset)
+			names, err := universeRepo.ListEnabledChunk(ctx, cfg.Collector.BatchSize, offset)
 			if err != nil {
-				log.Fatalf("list catalog chunk: %v", err)
+				log.Fatalf("list universe chunk: %v", err)
 			}
 
-			if len(chunk) == 0 {
+			if len(names) == 0 {
 				offset = 0
-				if err := stateRepo.SetInt(ctx, "collector_offset", offset); err != nil {
-					log.Fatalf("reset collector state: %v", err)
+				if err := stateRepo.SetInt(ctx, "universe_collector_offset", offset); err != nil {
+					log.Fatalf("reset universe collector state: %v", err)
 				}
-				fmt.Println("catalog chunk empty, offset reset to 0")
+				fmt.Println("working universe chunk empty, offset reset to 0")
 				return
 			}
 
-			names := make([]string, 0, len(chunk))
-			for _, item := range chunk {
-				names = append(names, item.MarketHashName)
-			}
+			fmt.Printf("collecting universe chunk offset=%d size=%d first=%q\n", offset, len(names), names[0])
 
 			results, err := client.FetchMany(ctx, names)
 			if err != nil {
-				log.Fatalf("fetch catalog chunk: %v", err)
+				log.Fatalf("fetch universe chunk: %v", err)
 			}
 
 			fetchedAt := time.Now().UTC()
@@ -131,22 +149,22 @@ func main() {
 			}
 
 			fmt.Printf(
-				"chunk=%d/%d offset=%d size=%d saved=%d skipped=%d\n",
+				"universe chunk=%d/%d offset=%d size=%d saved=%d skipped=%d\n",
 				i+1,
 				cfg.Collector.MaxChunksPerRun,
 				offset,
-				len(chunk),
+				len(names),
 				saved,
 				skipped,
 			)
 
-			offset += len(chunk)
+			offset += len(names)
 			if offset >= total {
 				offset = 0
 			}
 
-			if err := stateRepo.SetInt(ctx, "collector_offset", offset); err != nil {
-				log.Fatalf("update collector state: %v", err)
+			if err := stateRepo.SetInt(ctx, "universe_collector_offset", offset); err != nil {
+				log.Fatalf("update universe collector state: %v", err)
 			}
 		}
 		return

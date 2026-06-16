@@ -2,7 +2,9 @@
 alpha-struc/
 back/config.yaml
 back/config.example.yaml
+back/config.steamdt.yaml
 back/targetbot
+back/bin/
 
 # env files
 .env

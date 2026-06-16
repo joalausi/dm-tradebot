@@ -5,7 +5,7 @@ catalog:
   sync_ttl_hours: 24
 
 collector:
-  batch_size: 25
+  batch_size: 50
   max_chunks_per_run: 1
 
 watchlist:
@@ -17,3 +17,33 @@ watchlist:
 
   - market_hash_name: "AWP | Atheris (Field-Tested)"
     enabled: false
+
+universe:
+  include_skins: true
+  include_agents: true
+  include_stickers: false
+  include_stattrak: false
+  include_souvenir: false
+
+  require_platforms:
+    - "BUFF"
+    - "YOUPIN"
+    - "C5"
+    - "HALOSKINS"
+    - "STEAM"
+
+  exclude_patterns:
+    - "Graffiti"
+    - "Patch"
+    - "Music Kit"
+    - "Case"
+    - "Capsule"
+    - "Souvenir Package"
+    - "Service Medal"
+    - "Coin"
+    - "Star for Operation"
+    - "Stars for Operation"
+    - "Pass"
+    - "Name Tag"
+    - "Swap Tool"
+    - "Key"

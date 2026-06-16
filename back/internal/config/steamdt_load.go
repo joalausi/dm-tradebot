@@ -1,7 +1,6 @@
 package config
 
 import (
-	// "fmt"
 	"os"
 	"strings"
 
@@ -10,9 +9,6 @@ import (
 
 func LoadSteamDTSmokeConfig(path string) (SteamDTSmokeConfig, error) {
 	var cfg SteamDTSmokeConfig
-	if strings.TrimSpace(cfg.Database.Path) == "" {
-		cfg.Database.Path = "data/steamdt_smoke.db"
-	}
 
 	data, err := os.ReadFile(path)
 	if err != nil {
@@ -40,6 +36,44 @@ func LoadSteamDTSmokeConfig(path string) (SteamDTSmokeConfig, error) {
 	}
 	if cfg.Collector.MaxChunksPerRun <= 0 {
 		cfg.Collector.MaxChunksPerRun = 1
+	}
+
+	if !cfg.Universe.IncludeSkins &&
+		!cfg.Universe.IncludeAgents &&
+		!cfg.Universe.IncludeStickers {
+		cfg.Universe.IncludeSkins = true
+		cfg.Universe.IncludeAgents = true
+		cfg.Universe.IncludeStickers = false
+	}
+
+	if len(cfg.Universe.RequirePlatforms) == 0 {
+		cfg.Universe.RequirePlatforms = []string{
+			"BUFF",
+			"YOUPIN",
+			"C5",
+			"HALOSKINS",
+			"STEAM",
+		}
+	}
+
+	if len(cfg.Universe.ExcludePatterns) == 0 {
+		cfg.Universe.ExcludePatterns = []string{
+			"Graffiti",
+			"Sticker",
+			"Patch",
+			"Music Kit",
+			"Case",
+			"Capsule",
+			"Souvenir Package",
+		}
+	}
+
+	for i := range cfg.Universe.RequirePlatforms {
+		cfg.Universe.RequirePlatforms[i] = strings.ToUpper(strings.TrimSpace(cfg.Universe.RequirePlatforms[i]))
+	}
+
+	for i := range cfg.Universe.ExcludePatterns {
+		cfg.Universe.ExcludePatterns[i] = strings.TrimSpace(cfg.Universe.ExcludePatterns[i])
 	}
 
 	// if cfg.MarketHashName == "" && len(cfg.Watchlist) == 0 {
