@@ -8,9 +8,18 @@ collector:
   batch_size: 50
   max_chunks_per_run: 1
 
+signals:
+  lookback_days: 3
+  min_baseline_samples: 3
+  sell_count_spike_pct: 50
+  bid_count_spike_pct: 50
+  min_current_sell_count: 20
+  min_current_bid_count: 10
+  alert_cooldown_hours: 24
+
 watchlist:
   - market_hash_name: "AK-47 | Cartel (Minimal Wear)"
-    enabled: false
+    enabled: true
 
   - market_hash_name: "USP-S | Road Rash (Factory New)"
     enabled: false
