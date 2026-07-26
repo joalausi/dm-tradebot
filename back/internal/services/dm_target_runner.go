@@ -376,8 +376,8 @@ func (r *DMarketTargetRunner) CurrentTargets(ctx context.Context) ([]domain.Targ
 		}
 
 		out = append(out, domain.TargetView{
-			Title:           it.Title,
-			GameID:          it.GameID,
+			Title:          it.Title,
+			GameID:         it.GameID,
 			MyTargetUSD:    it.MyTargetUSD,
 			MaxTargetUSD:   maxTarget,
 			BestOfferUSD:   bestOffer,

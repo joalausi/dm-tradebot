@@ -150,7 +150,7 @@ func main() {
 			if err != nil {
 				log.Fatalf("save snapshots: %v", err)
 			}
-			
+
 			alerts, err := detector.Detect(ctx, results, fetchedAt)
 			if err != nil {
 				log.Fatalf("detect anomalies: %v", err)

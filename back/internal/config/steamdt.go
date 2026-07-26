@@ -18,7 +18,7 @@ type SteamDTSmokeConfig struct {
 	} `yaml:"collector"`
 
 	Universe SteamDTUniverseConfig `yaml:"universe"`
-	Signals SteamDTSignalConfig `yaml:"signals"`
+	Signals  SteamDTSignalConfig   `yaml:"signals"`
 }
 
 type SteamDTUniverseConfig struct {

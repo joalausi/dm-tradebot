@@ -92,4 +92,44 @@ create table if not exists steamdt_anomaly_alerts (
 
 create index if not exists idx_steamdt_alerts_lookup
 on steamdt_anomaly_alerts (market_hash_name, platform, metric, created_at_unix);
+
+create table if not exists dmarket_opportunities (
+  game_id text not null,
+  title text not null,
+  scanned_at_unix integer not null,
+
+  best_target_usd real not null default 0,
+  target_count integer not null default 0,
+  best_offer_usd real not null default 0,
+  offer_count integer not null default 0,
+
+  last_sale_avg_usd real not null default 0,
+  last_sale_median_usd real not null default 0,
+  last_sales_count integer not null default 0,
+  expected_sell_usd real not null default 0,
+  gross_profit_usd real not null default 0,
+  roi_percent real not null default 0,
+
+  score real not null default 0,
+  risk text not null default '',
+  reason text not null default '',
+
+  steamdt_eligible integer not null default 0,
+  steamdt_reason text not null default '',
+  steamdt_universe_known integer not null default 0,
+  steamdt_universe_enabled integer not null default 0,
+  steamdt_universe_reason text not null default '',
+  steamdt_latest_fetched_at_unix integer not null default 0,
+  steamdt_snapshot_age_seconds integer not null default 0,
+  steamdt_platform_count integer not null default 0,
+  steamdt_total_sell_count integer not null default 0,
+  steamdt_total_bid_count integer not null default 0,
+  steamdt_sell_spike_alerts integer not null default 0,
+  steamdt_bid_spike_alerts integer not null default 0,
+
+  primary key (game_id, title)
+);
+
+create index if not exists idx_dmarket_opportunities_score
+on dmarket_opportunities (score desc, scanned_at_unix desc);
 `

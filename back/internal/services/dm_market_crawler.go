@@ -16,6 +16,7 @@ type DMarketMarketCrawler struct {
 	catalog ports.MarketCatalog
 	sales   ports.SalesHistory
 	store   ports.OpportunityStore
+	filter  ports.OpportunityFilter
 }
 
 func NewDMarketMarketCrawler(
@@ -23,12 +24,39 @@ func NewDMarketMarketCrawler(
 	catalog ports.MarketCatalog,
 	sales ports.SalesHistory,
 	store ports.OpportunityStore,
+	filter ports.OpportunityFilter,
 ) *DMarketMarketCrawler {
 	return &DMarketMarketCrawler{
 		cfg:     cfg,
 		catalog: catalog,
 		sales:   sales,
 		store:   store,
+		filter:  filter,
+	}
+}
+
+func (c *DMarketMarketCrawler) Run(ctx context.Context) error {
+	pollEvery, err := time.ParseDuration(c.cfg.PollEvery)
+	if err != nil || pollEvery <= 0 {
+		pollEvery = 10 * time.Minute
+	}
+
+	if err := c.RunOnce(ctx); err != nil {
+		fmt.Println("[crawler error]:", err)
+	}
+
+	ticker := time.NewTicker(pollEvery)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		case <-ticker.C:
+			if err := c.RunOnce(ctx); err != nil {
+				fmt.Println("[crawler error]:", err)
+			}
+		}
 	}
 }
 
@@ -93,6 +121,18 @@ func (c *DMarketMarketCrawler) RunOnce(ctx context.Context) error {
 				continue
 			}
 
+			if c.filter != nil {
+				filterResult, err := c.filter.Evaluate(ctx, op.Title)
+				if err != nil {
+					fmt.Printf("[crawler] SteamDT filter error for %s: %v\n", op.Title, err)
+					continue
+				}
+				op.SteamDT = filterResult
+				if !filterResult.Eligible {
+					continue
+				}
+			}
+
 			sales, err := c.sales.LastSales(ctx, c.cfg.GameID, op.Title, c.cfg.LastSalesLimit)
 			if err != nil {
 				fmt.Printf("[crawler] last sales error for %s: %v\n", op.Title, err)
@@ -118,6 +158,7 @@ func (c *DMarketMarketCrawler) RunOnce(ctx context.Context) error {
 			}
 
 			op.Score, op.Risk, op.Reason = scoreOpportunity(op, c.cfg)
+			applySteamDTScore(&op)
 
 			if op.GrossProfitUSD < c.cfg.MinProfitUSD || op.ROIPercent < c.cfg.MinROIPercent {
 				continue
@@ -142,7 +183,7 @@ func (c *DMarketMarketCrawler) RunOnce(ctx context.Context) error {
 		return allCandidates[i].Score > allCandidates[j].Score
 	})
 
-	if c.store != nil && len(allCandidates) > 0 {
+	if c.store != nil {
 		if err := c.store.SaveOpportunities(ctx, allCandidates); err != nil {
 			return fmt.Errorf("save opportunities: %w", err)
 		}
@@ -151,6 +192,30 @@ func (c *DMarketMarketCrawler) RunOnce(ctx context.Context) error {
 	printCrawlerResults(allCandidates)
 
 	return nil
+}
+
+func applySteamDTScore(op *domain.Opportunity) {
+	if op == nil || op.SteamDT.Reason == "" {
+		return
+	}
+
+	op.Reason += fmt.Sprintf(
+		" steamdt_platforms=%d steamdt_sells=%d steamdt_bids=%d",
+		op.SteamDT.PlatformCount,
+		op.SteamDT.TotalSellCount,
+		op.SteamDT.TotalBidCount,
+	)
+
+	if op.SteamDT.BidSpikeAlerts > op.SteamDT.SellSpikeAlerts {
+		op.Score += 5
+		op.Reason += " steamdt_bid_spike"
+	}
+
+	if op.SteamDT.SellSpikeAlerts > op.SteamDT.BidSpikeAlerts {
+		op.Score -= 5
+		op.Risk = "steamdt_sell_spike"
+		op.Reason += " steamdt_sell_spike"
+	}
 }
 
 func uniqueMarketTitles(items []domain.MarketItem) []string {

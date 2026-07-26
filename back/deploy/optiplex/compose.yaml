@@ -52,6 +52,50 @@ services:
       retries: 3
       start_period: 10m
 
+  dmtargetbot-api:
+    build:
+      context: ../..
+      dockerfile: Dockerfile.api
+      network: host
+    image: dmtargetbot-api:local
+    init: true
+    restart: unless-stopped
+
+    depends_on:
+      steamdt-worker:
+        condition: service_healthy
+
+    env_file:
+      - .env.api
+
+    volumes:
+      - ./config.api.yaml:/etc/targetbot/config.yaml:ro
+      - steamdt-data:/var/lib/targetbot
+
+    ports:
+      - "127.0.0.1:8080:8080"
+
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=16m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 64
+    cpus: "1.50"
+    mem_limit: 768m
+    stop_grace_period: 30s
+
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - curl --fail --silent --show-error http://127.0.0.1:8080/api/v1/health >/dev/null
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
 volumes:
   steamdt-data:
     name: dmtargetbot-steamdt-data

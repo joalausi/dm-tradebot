@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 
 	"back/internal/adapters/httpapi"
@@ -16,7 +17,7 @@ import (
 	"back/internal/config"
 	"back/internal/ports"
 	"back/internal/services"
-	"back/internal/storage/noop"
+	"back/internal/storage/sqlite"
 )
 
 func main() {
@@ -25,6 +26,7 @@ func main() {
 	once := flag.Bool("once", false, "run single iteration and exit")
 	check := flag.Bool("check", false, "check DMarket connectivity and exit")
 	crawl := flag.Bool("crawl-dmarket", false, "run DMarket market crawler once and exit")
+	apiOnly := flag.Bool("api-only", false, "run HTTP API and DMarket crawler without target monitor")
 	flag.Parse()
 
 	cfg, err := config.LoadFromFile(*cfgPath)
@@ -57,39 +59,94 @@ func main() {
 	} else {
 		notifier = consoleNotifier
 	}
-	// TODO: заменить Multi.Notify на полноценную функ
-
 	runner := services.NewDMarketTargetRunner(cfg, market, notifier, targetSource)
 
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
+	var opportunityStore *sqlite.OpportunityRepository
+	var opportunityFilter ports.OpportunityFilter
+	var crawler *services.DMarketMarketCrawler
+
+	if cfg.DMarketCrawler.Enabled || *apiAddr != "" || *crawl {
+		db, err := sqlite.Open(cfg.DMarketCrawler.SteamDTFilter.DatabasePath)
+		if err != nil {
+			log.Fatalf("open shared sqlite: %v", err)
+		}
+		defer db.Close()
+
+		if err := sqlite.Migrate(ctx, db); err != nil {
+			log.Fatalf("migrate shared sqlite: %v", err)
+		}
+
+		opportunityStore = sqlite.NewOpportunityRepository(db)
+
+		if cfg.DMarketCrawler.SteamDTFilter.Enabled {
+			filter, err := services.NewSteamDTOpportunityFilter(
+				cfg.DMarketCrawler.SteamDTFilter,
+				sqlite.NewSteamDTSignalReader(db),
+			)
+			if err != nil {
+				log.Fatalf("configure SteamDT opportunity filter: %v", err)
+			}
+			opportunityFilter = filter
+		}
+
+		crawler = services.NewDMarketMarketCrawler(
+			cfg.DMarketCrawler,
+			dmClient,
+			dmClient,
+			opportunityStore,
+			opportunityFilter,
+		)
+	}
+
+	apiErr := make(chan error, 1)
 	if *apiAddr != "" {
-		apiServer := httpapi.New(*apiAddr, runner)
+		apiServer := httpapi.New(
+			*apiAddr,
+			runner,
+			opportunityStore,
+			splitCSV(os.Getenv("DMTARGETBOT_ALLOWED_USERS")),
+		)
 
 		go func() {
-			if err := apiServer.Run(ctx); err != nil {
-				log.Fatalf("api server: %v", err)
-			}
+			apiErr <- apiServer.Run(ctx)
 		}()
 	}
 
 	switch {
 	case *crawl:
-		opportunityStore := noop.NewOpportunityStore()
-
-		crawler := services.NewDMarketMarketCrawler(
-			cfg.DMarketCrawler,
-			dmClient,
-			dmClient,
-			opportunityStore,
-		)
-
+		if crawler == nil {
+			log.Fatal("dmarket crawler is not configured")
+		}
 		if err := crawler.RunOnce(ctx); err != nil {
 			log.Fatalf("dmarket crawler: %v", err)
 		}
 
 		return
+
+	case *apiOnly:
+		if *apiAddr == "" {
+			log.Fatal("-api-only requires -api")
+		}
+		if crawler != nil {
+			go func() {
+				if err := crawler.Run(ctx); err != nil && err != context.Canceled {
+					log.Printf("dmarket crawler stopped: %v", err)
+				}
+			}()
+		}
+
+		select {
+		case <-ctx.Done():
+			return
+		case err := <-apiErr:
+			if err != nil {
+				log.Fatalf("api server: %v", err)
+			}
+			return
+		}
 
 	case *check:
 		if err := dmClient.PingUserTargets(ctx); err != nil {
@@ -110,8 +167,27 @@ func main() {
 		return
 
 	default:
+		if crawler != nil {
+			go func() {
+				if err := crawler.Run(ctx); err != nil && err != context.Canceled {
+					log.Printf("dmarket crawler stopped: %v", err)
+				}
+			}()
+		}
 		if err := runner.Run(ctx); err != nil && err != context.Canceled {
 			log.Fatalf("run: %v", err)
 		}
 	}
+}
+
+func splitCSV(value string) []string {
+	parts := strings.Split(value, ",")
+	out := make([]string, 0, len(parts))
+	for _, part := range parts {
+		part = strings.TrimSpace(part)
+		if part != "" {
+			out = append(out, part)
+		}
+	}
+	return out
 }
