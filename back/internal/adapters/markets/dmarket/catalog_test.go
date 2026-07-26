@@ -29,7 +29,7 @@ func TestListMarketItemsUsesMarketplaceV2Offers(t *testing.T) {
 		w.Header().Set("Content-Type", "application/json")
 		_, _ = w.Write([]byte(`{
 			"items": [
-				{"offerId":"one","priceCents":1599,"attributes":{"title":"AK-47 | Redline (Field-Tested)","gameId":"a8db"}},
+				{"offerId":"one","priceCents":"1599","attributes":{"title":"AK-47 | Redline (Field-Tested)","gameId":"a8db"}},
 				{"offerId":"two","priceCents":2500,"attributes":{"title":"M4A1-S | Test"}},
 				{"offerId":"missing-title","priceCents":100,"attributes":{}}
 			],
