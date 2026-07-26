@@ -333,5 +333,62 @@ func applyTargetOverride(item *domain.TargetItem, override domain.TargetItem) {
 		item.TopN = override.TopN
 	}
 
-	// истина - DMarket /user-targets.
+	// DMarket /user-targets remains the source of truth for target state.
+}
+
+func (r *DMarketTargetRunner) CurrentTargets(ctx context.Context) ([]domain.TargetView, error) {
+	items, err := r.resolveItems(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("resolve items: %w", err)
+	}
+
+	out := make([]domain.TargetView, 0, len(items))
+
+	for _, it := range items {
+		topN := it.TopN
+		if topN <= 0 {
+			topN = 5
+		}
+
+		depth, err := r.market.DepthByTitle(ctx, it.GameID, it.Title, topN)
+		if err != nil {
+			return nil, fmt.Errorf("depth %s: %w", it.Title, err)
+		}
+
+		maxTarget := 0.0
+		targetQtyTotal := 0
+		if len(depth.Bids) > 0 {
+			maxTarget = depth.Bids[0].Price
+			targetQtyTotal = depth.Bids[0].Qty
+		}
+
+		bestOffer := 0.0
+		if len(depth.Asks) > 0 {
+			bestOffer = depth.Asks[0].Price
+		}
+
+		roiUSD := 0.0
+		roiPercent := 0.0
+
+		if it.MyTargetUSD > 0 && bestOffer > 0 {
+			roiUSD = bestOffer - it.MyTargetUSD
+			roiPercent = roiUSD / it.MyTargetUSD * 100
+		}
+
+		out = append(out, domain.TargetView{
+			Title:          it.Title,
+			GameID:         it.GameID,
+			MyTargetUSD:    it.MyTargetUSD,
+			MaxTargetUSD:   maxTarget,
+			BestOfferUSD:   bestOffer,
+			MyQty:          1,
+			TargetQtyTotal: targetQtyTotal,
+			ROIUSD:         roiUSD,
+			ROIPercent:     roiPercent,
+			IsActive:       true,
+			IsOutbid:       maxTarget > it.MyTargetUSD,
+		})
+	}
+
+	return out, nil
 }

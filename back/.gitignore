@@ -1,0 +1,11 @@
+# Local secrets and runtime configuration.
+.env
+.env.*
+config.yaml
+
+# Runtime data and local build output.
+*.db
+*.db-shm
+*.db-wal
+data/
+bin/

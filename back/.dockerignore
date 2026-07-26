@@ -1,0 +1,13 @@
+.git
+.github
+.env
+.env.*
+*.db
+*.db-shm
+*.db-wal
+data
+bin
+steamdt-crawler
+targetbot
+targetbot-android
+deploy/optiplex/.env
