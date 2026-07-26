@@ -1,0 +1,57 @@
+name: dmtargetbot
+
+services:
+  steamdt-worker:
+    build:
+      context: ../..
+      dockerfile: Dockerfile.steamdt
+      network: host
+    image: dmtargetbot-steamdt:local
+    init: true
+    restart: unless-stopped
+
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
+
+    env_file:
+      - .env
+    environment:
+      STEAMDT_CONFIG: /etc/targetbot/config.yaml
+      STEAMDT_HEALTH_FILE: /var/lib/targetbot/last-success
+      COLLECT_INTERVAL_SECONDS: "${COLLECT_INTERVAL_SECONDS:-600}"
+      CATALOG_REFRESH_SECONDS: "${CATALOG_REFRESH_SECONDS:-86400}"
+      HEALTH_MAX_AGE_SECONDS: "${HEALTH_MAX_AGE_SECONDS:-2400}"
+
+    volumes:
+      - ./config.steamdt.yaml:/etc/targetbot/config.yaml:ro
+      - steamdt-data:/var/lib/targetbot
+
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=16m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 64
+    cpus: "1.50"
+    mem_limit: 768m
+    stop_grace_period: 30s
+
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          test -f /var/lib/targetbot/last-success &&
+          now=$$(date +%s) &&
+          modified=$$(stat -c %Y /var/lib/targetbot/last-success) &&
+          test $$((now - modified)) -lt $${HEALTH_MAX_AGE_SECONDS}
+      interval: 1m
+      timeout: 5s
+      retries: 3
+      start_period: 10m
+
+volumes:
+  steamdt-data:
+    name: dmtargetbot-steamdt-data

@@ -1,0 +1,33 @@
+# syntax=docker/dockerfile:1
+
+FROM golang:1.25-bookworm AS build
+
+WORKDIR /src
+
+COPY go.mod go.sum ./
+RUN go mod download
+
+COPY cmd ./cmd
+COPY internal ./internal
+
+RUN CGO_ENABLED=0 GOOS=linux go build \
+    -trimpath \
+    -ldflags="-s -w" \
+    -o /out/steamdt-crawler \
+    ./cmd/steamdt-crawler
+
+FROM debian:bookworm-slim AS runtime
+
+RUN apt-get update \
+    && apt-get install --yes --no-install-recommends ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN install -d -o 65532 -g 65532 /var/lib/targetbot
+
+COPY --from=build /out/steamdt-crawler /usr/local/bin/steamdt-crawler
+COPY deploy/optiplex/steamdt-worker.sh /usr/local/bin/steamdt-worker
+
+USER 65532:65532
+WORKDIR /var/lib/targetbot
+
+ENTRYPOINT ["/usr/local/bin/steamdt-worker"]

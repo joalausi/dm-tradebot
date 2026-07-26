@@ -2,6 +2,9 @@
 alpha-struc/
 back/config.yaml
 back/config.example.yaml
+back/config.steamdt.yaml
+back/targetbot
+back/bin/
 
 # env files
 .env
@@ -12,3 +15,12 @@ back/.env.*
 # secret overrides
 *.local.yaml
 *.secrets.yaml
+
+# sqlite
+*.db
+*.db-shm
+*.db-wal
+
+# local crawler data
+data/
+back/data/
