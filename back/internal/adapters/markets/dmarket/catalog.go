@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 
@@ -11,16 +12,15 @@ import (
 	"back/internal/ports"
 )
 
-// в /exchange/v1/market/items цены обычн идут стрингами в price.USD
-// потому для запросов priceFrom/priceTo лучше исподльзовать чем usd cents
 type marketItemsResponse struct {
-	Objects []struct {
-		Title  string `json:"title"`
-		GameID string `json:"gameId"`
-		Price  struct {
-			USD string `json:"USD"`
-		} `json:"price"`
-	} `json:"objects"`
+	Items []struct {
+		OfferID    string `json:"offerId"`
+		PriceCents int64  `json:"priceCents"`
+		Attributes struct {
+			Title  string `json:"title"`
+			GameID string `json:"gameId"`
+		} `json:"attributes"`
+	} `json:"items"`
 	Cursor string `json:"cursor"`
 }
 
@@ -30,9 +30,11 @@ func (c *Client) ListMarketItems(
 ) ([]domain.MarketItem, string, error) {
 	q := url.Values{}
 	q.Set("gameId", req.GameID)
-	q.Set("currency", req.Currency)
 
 	if req.Limit <= 0 {
+		req.Limit = 100
+	}
+	if req.Limit > 100 {
 		req.Limit = 100
 	}
 	q.Set("limit", strconv.Itoa(req.Limit))
@@ -52,7 +54,7 @@ func (c *Client) ListMarketItems(
 	q.Set("orderBy", "price")
 	q.Set("orderDir", "asc")
 
-	raw, err := c.doSigned(ctx, "GET", "/exchange/v1/market/items", q, nil)
+	raw, err := c.doSigned(ctx, http.MethodGet, "/marketplace-api/v2/offers", q, nil)
 	if err != nil {
 		return nil, "", fmt.Errorf("market items: %w", err)
 	}
@@ -62,19 +64,22 @@ func (c *Client) ListMarketItems(
 		return nil, "", fmt.Errorf("decode market items: %w", err)
 	}
 
-	out := make([]domain.MarketItem, 0, len(resp.Objects))
+	out := make([]domain.MarketItem, 0, len(resp.Items))
 
-	for _, obj := range resp.Objects {
-		if obj.Title == "" {
+	for _, item := range resp.Items {
+		if item.Attributes.Title == "" || item.PriceCents <= 0 {
 			continue
 		}
 
-		price := coinsStringToUSD(obj.Price.USD)
+		gameID := item.Attributes.GameID
+		if gameID == "" {
+			gameID = req.GameID
+		}
 
 		out = append(out, domain.MarketItem{
-			Title:        obj.Title,
-			GameID:       obj.GameID,
-			BestOfferUSD: price,
+			Title:        item.Attributes.Title,
+			GameID:       gameID,
+			BestOfferUSD: float64(item.PriceCents) / 100.0,
 		})
 	}
 
@@ -84,15 +89,6 @@ func (c *Client) ListMarketItems(
 // ------------------------------- helpers
 func usdToCoins(v float64) int {
 	return int(v*100 + 0.5)
-}
-
-func coinsStringToUSD(s string) float64 {
-	v, err := strconv.ParseFloat(s, 64)
-	if err != nil {
-		return 0
-	}
-
-	return v / 100.0
 }
 
 //-------------------------------
