@@ -47,3 +47,9 @@ jobs:
 
       - name: Build dmarket-target-bot
         run: go build ./cmd/dmarket-target-bot
+
+      - name: Build steamdt-crawler
+        run: go build ./cmd/steamdt-crawler
+
+      - name: Check OptiPlex worker script
+        run: sh -n deploy/optiplex/steamdt-worker.sh
