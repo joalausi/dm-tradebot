@@ -76,13 +76,18 @@ func (r *DMarketTargetRunner) RunOnce(ctx context.Context) error {
 		return fmt.Errorf("market data adapter is nil")
 	}
 
+	items, err := r.resolveItems(ctx)
+	if err != nil {
+		return fmt.Errorf("resolve items: %w", err)
+	}
+
 	now := time.Now().Format("2006-01-02 15:04:05")
 	fmt.Println()
 	fmt.Println("========== DMarket Watch @", now, "==========")
 
-	items, err := r.resolveItems(ctx)
-	if err != nil {
-		return fmt.Errorf("resolve items: %w", err)
+	if len(items) == 0 {
+		fmt.Println("[INFO] no targets to watch")
+		return nil
 	}
 
 	for _, it := range items {
@@ -91,7 +96,10 @@ func (r *DMarketTargetRunner) RunOnce(ctx context.Context) error {
 			topN = 5
 		}
 
-		depth, err := r.market.DepthByTitle(ctx, it.GameID, it.Title, topN)
+		fmt.Println()
+		fmt.Println("================================================================")
+
+		depth, err := r.market.DepthByTarget(ctx, it, topN)
 		if err != nil {
 			fmt.Printf("[ERR] %s — %v\n", it.Title, err)
 			continue
@@ -108,6 +116,16 @@ func (r *DMarketTargetRunner) RunOnce(ctx context.Context) error {
 		}
 
 		fmt.Printf("\n%s (gameId=%s)\n", it.Title, it.GameID)
+
+		if domain.HasAdvancedAttributes(it.Attributes) {
+			fmt.Printf("attrs: %s\n", domain.PrettyTargetAttributes(it.Attributes))
+			fmt.Println("[INFO] advanced target: matching bids by attributes")
+		}
+
+		if it.TargetID != "" || it.Status != "" || it.Amount > 0 {
+			fmt.Printf("account target: id=%s status=%s amount=%d\n", it.TargetID, it.Status, it.Amount)
+		}
+
 		fmt.Println("-------------------------------------------------------------")
 		fmt.Printf("%-10s | %-20s | %-20s\n", "SIDE", "PRICE USD", "QTY")
 		fmt.Println("-------------------------------------------------------------")
@@ -160,16 +178,22 @@ func (r *DMarketTargetRunner) RunOnce(ctx context.Context) error {
 			lowAskNote,
 		)
 
-		key := it.GameID + "|" + it.Title
+		key := domain.TargetKey(it.GameID, it.Title, it.Attributes)
 		prev := r.state[key]
 
 		var messages []string
 
+		attrNote := ""
+		if domain.HasAdvancedAttributes(it.Attributes) {
+			attrNote = "\nAttrs: " + domain.PrettyTargetAttributes(it.Attributes)
+		}
+
 		if undercut && !prev.Undercut {
 			messages = append(messages,
 				fmt.Sprintf(
-					"⚠️ Твой таргет перебит\n%s\nBestTarget: %.2f (твой %.2f)",
+					"⚠️ Твой таргет перебит\n%s%s\nBestTarget: %.2f (твой %.2f)",
 					it.Title,
+					attrNote,
 					bestBid,
 					it.MyTargetUSD,
 				),
@@ -182,8 +206,9 @@ func (r *DMarketTargetRunner) RunOnce(ctx context.Context) error {
 			(prev.BestAsk == 0 || bestAsk < prev.BestAsk-1e-9) {
 			messages = append(messages,
 				fmt.Sprintf(
-					"💡 Низкий оффер\n%s\nBestOffer: %.2f (порог %.2f)",
+					"💡 Низкий оффер\n%s%s\nBestOffer: %.2f (порог %.2f)",
 					it.Title,
+					attrNote,
 					bestAsk,
 					it.LowAskAlertUSD,
 				),
@@ -218,8 +243,9 @@ func (r *DMarketTargetRunner) Check(ctx context.Context) error {
 	if err != nil {
 		return fmt.Errorf("resolve items: %w", err)
 	}
+
 	if len(items) == 0 {
-		return fmt.Errorf("no items resolved from config/account targets")
+		return fmt.Errorf("no items to check")
 	}
 
 	it := items[0]
@@ -228,9 +254,9 @@ func (r *DMarketTargetRunner) Check(ctx context.Context) error {
 		topN = 1
 	}
 
-	_, err = r.market.DepthByTitle(ctx, it.GameID, it.Title, topN)
+	_, err = r.market.DepthByTarget(ctx, it, topN)
 	if err != nil {
-		return fmt.Errorf("depth by title: %w", err)
+		return fmt.Errorf("depth by target: %w", err)
 	}
 
 	return nil
@@ -245,10 +271,11 @@ func (r *DMarketTargetRunner) resolveItems(ctx context.Context) ([]domain.Target
 		return nil, fmt.Errorf("account targets enabled, but target source is nil")
 	}
 
-	// overrides из YAML по ключу gameID|title
 	overrides := make(map[string]domain.TargetItem)
+
 	for _, it := range r.cfg.Items {
-		overrides[it.GameID+"|"+it.Title] = it
+		exactKey := domain.TargetKey(it.GameID, it.Title, it.Attributes)
+		overrides[exactKey] = it
 	}
 
 	var result []domain.TargetItem
@@ -260,29 +287,34 @@ func (r *DMarketTargetRunner) resolveItems(ctx context.Context) ([]domain.Target
 			r.cfg.AccountTargets.Statuses,
 		)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("list user targets for game %s: %w", gameID, err)
 		}
 
 		for _, t := range targets {
+			topN := r.cfg.AccountTargets.DefaultTopN
+			if topN <= 0 {
+				topN = 5
+			}
+
 			item := domain.TargetItem{
 				Title:       t.Title,
 				GameID:      t.GameID,
 				MyTargetUSD: t.PriceUSD,
-				TopN:        r.cfg.AccountTargets.DefaultTopN,
+				TopN:        topN,
+
+				TargetID:   t.TargetID,
+				Status:     t.Status,
+				Amount:     t.Amount,
+				Attributes: t.Attributes,
 			}
 
-			if item.TopN <= 0 {
-				item.TopN = 5
-			}
+			exactKey := domain.TargetKey(item.GameID, item.Title, item.Attributes)
+			titleOnlyKey := domain.TargetKey(item.GameID, item.Title, nil)
 
-			key := item.GameID + "|" + item.Title
-			if override, ok := overrides[key]; ok {
-				if override.LowAskAlertUSD > 0 {
-					item.LowAskAlertUSD = override.LowAskAlertUSD
-				}
-				if override.TopN > 0 {
-					item.TopN = override.TopN
-				}
+			if override, ok := overrides[exactKey]; ok {
+				applyTargetOverride(&item, override)
+			} else if override, ok := overrides[titleOnlyKey]; ok {
+				applyTargetOverride(&item, override)
 			}
 
 			result = append(result, item)
@@ -290,6 +322,18 @@ func (r *DMarketTargetRunner) resolveItems(ctx context.Context) ([]domain.Target
 	}
 
 	return result, nil
+}
+
+func applyTargetOverride(item *domain.TargetItem, override domain.TargetItem) {
+	if override.LowAskAlertUSD > 0 {
+		item.LowAskAlertUSD = override.LowAskAlertUSD
+	}
+
+	if override.TopN > 0 {
+		item.TopN = override.TopN
+	}
+
+	// DMarket /user-targets remains the source of truth for target state.
 }
 
 func (r *DMarketTargetRunner) CurrentTargets(ctx context.Context) ([]domain.TargetView, error) {

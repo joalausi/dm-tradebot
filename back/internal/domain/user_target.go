@@ -1,8 +1,8 @@
 package domain
 
 type TargetAttribute struct {
-	Name  string
-	Value string
+	Name  string `json:"name" yaml:"name"`
+	Value string `json:"value" yaml:"value"`
 }
 
 type UserTarget struct {
