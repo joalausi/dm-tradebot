@@ -48,4 +48,7 @@ func TestOpportunityRepositoryReplaceAndRead(t *testing.T) {
 	if len(got) != 0 {
 		t.Fatalf("empty replacement retained %d rows", len(got))
 	}
+	if got == nil {
+		t.Fatal("empty replacement returned a nil slice")
+	}
 }

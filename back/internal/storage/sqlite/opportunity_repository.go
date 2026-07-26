@@ -111,7 +111,7 @@ func (r *OpportunityRepository) CurrentOpportunities(ctx context.Context) ([]dom
 	}
 	defer rows.Close()
 
-	var out []domain.Opportunity
+	out := make([]domain.Opportunity, 0)
 	for rows.Next() {
 		var item domain.Opportunity
 		var scannedAtUnix int64
