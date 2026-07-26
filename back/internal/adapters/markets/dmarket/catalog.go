@@ -1,6 +1,7 @@
 package dmarket
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -15,13 +16,30 @@ import (
 type marketItemsResponse struct {
 	Items []struct {
 		OfferID    string `json:"offerId"`
-		PriceCents int64  `json:"priceCents"`
+		PriceCents cents  `json:"priceCents"`
 		Attributes struct {
 			Title  string `json:"title"`
 			GameID string `json:"gameId"`
 		} `json:"attributes"`
 	} `json:"items"`
 	Cursor string `json:"cursor"`
+}
+
+type cents int64
+
+func (v *cents) UnmarshalJSON(data []byte) error {
+	data = bytes.TrimSpace(data)
+	data = bytes.Trim(data, `"`)
+	if len(data) == 0 {
+		return fmt.Errorf("empty cents value")
+	}
+
+	parsed, err := strconv.ParseInt(string(data), 10, 64)
+	if err != nil {
+		return fmt.Errorf("parse cents %q: %w", data, err)
+	}
+	*v = cents(parsed)
+	return nil
 }
 
 func (c *Client) ListMarketItems(
