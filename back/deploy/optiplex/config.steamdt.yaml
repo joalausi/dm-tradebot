@@ -1,0 +1,52 @@
+database:
+  path: "/var/lib/targetbot/steamdt.db"
+
+catalog:
+  sync_ttl_hours: 24
+
+collector:
+  batch_size: 50
+  max_chunks_per_run: 1
+
+signals:
+  lookback_days: 3
+  min_baseline_samples: 3
+  sell_count_spike_pct: 50
+  bid_count_spike_pct: 50
+  min_current_sell_count: 20
+  min_current_bid_count: 10
+  alert_cooldown_hours: 24
+
+watchlist:
+  - market_hash_name: "AK-47 | Cartel (Minimal Wear)"
+    enabled: false
+
+universe:
+  include_skins: true
+  include_agents: true
+  include_stickers: false
+  include_stattrak: false
+  include_souvenir: false
+
+  require_platforms:
+    - "BUFF"
+    - "YOUPIN"
+    - "C5"
+    - "HALOSKINS"
+    - "STEAM"
+
+  exclude_patterns:
+    - "Graffiti"
+    - "Patch"
+    - "Music Kit"
+    - "Case"
+    - "Capsule"
+    - "Souvenir Package"
+    - "Service Medal"
+    - "Coin"
+    - "Star for Operation"
+    - "Stars for Operation"
+    - "Pass"
+    - "Name Tag"
+    - "Swap Tool"
+    - "Key"

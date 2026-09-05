@@ -14,27 +14,23 @@ account_targets:
 
 dmarket_crawler:
   enabled: true
-  # Independent cadence for scanning the DMarket catalog.
   poll_every: "10m"
   game_id: "a8db"
   currency: "USD"
 
   price_from_usd: 5
   price_to_usd: 500
-
   limit: 100
-  max_pages: 100
+  max_pages: 20
 
   min_profit_usd: 1
   min_roi_percent: 3
-
   last_sales_limit: 10
-  min_last_sales_count: 1
+  min_last_sales_count: 3
 
-  # Additional fail-closed purchase-candidate filter backed by the SteamDT DB.
   steamdt_filter:
     enabled: true
-    database_path: "data/steamdt.db"
+    database_path: "/var/lib/targetbot/steamdt.db"
     max_snapshot_age: "36h"
     anomaly_lookback: "24h"
     min_platforms: 3
@@ -42,15 +38,3 @@ dmarket_crawler:
     min_total_bid_count: 10
     allow_outside_universe: false
     allow_missing_snapshots: false
-# dmarket:
-#   # читаем их из окружения:
-#   public_key_env: "DMARKET_PUBLIC_KEY"
-#   secret_key_env: "DMARKET_SECRET_KEY"
-
-# items:
-#   - title: "AWP | LongDog (Field-Tested)"
-#     game_slug: "csgo"    # для targets-by-title
-#     game_id: "a8db"      # для user-targets/create и тп.
-#     my_target_usd: 234.35
-#     low_ask_alert_usd: 234.35
-#     top_n: 5

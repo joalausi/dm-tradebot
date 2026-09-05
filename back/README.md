@@ -3,16 +3,21 @@
 ```
 back/
 ├─ cmd/
-│  └─ dmarket-target-bot/
+│  ├─ dmarket-target-bot/
+│  │  └─ main.go
+│  └─ steamdt-crawler/
 │     └─ main.go
 │
 ├─ internal/
 │  ├─ config/
 │  │  ├─ load.go
+│  │  ├─ steamdt_load.go
+│  │  ├─ steamdt.go
 │  │  └─ types.go
 │  │
 │  ├─ domain/
 │  │  ├─ depth.go
+│  │  ├─ target_attributes.go
 │  │  ├─ target.go
 │  │  └─ user_target.go
 │  │
@@ -26,7 +31,9 @@ back/
 │  │
 │  └─ adapters/
 │     ├─ markets/
-│     │  └─ dmarket/
+│     │  ├─ dmarket/
+│     │  │  └─ client.go
+│     │  └─ steamdt/
 │     │     └─ client.go
 │     │
 │     └─ notifiers/
@@ -40,3 +47,8 @@ back/
 ├─ go.sum
 ├─ config.yaml
 ```
+
+# useful links:
+
+[SteamDT doc](https://doc.steamdt.com/)
+[Dmarket doc](https://docs.dmarket.com/v1/swagger.html)
