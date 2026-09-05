@@ -29,6 +29,53 @@ func applyDefaults(cfg *Config) {
 		cfg.PollEvery = "10m"
 	}
 
+	if cfg.DMarketCrawler.Currency == "" {
+		cfg.DMarketCrawler.Currency = "USD"
+	}
+	if cfg.DMarketCrawler.PollEvery == "" {
+		cfg.DMarketCrawler.PollEvery = "10m"
+	}
+
+	if cfg.DMarketCrawler.GameID == "" {
+		cfg.DMarketCrawler.GameID = "a8db"
+	}
+
+	if cfg.DMarketCrawler.Limit <= 0 {
+		cfg.DMarketCrawler.Limit = 100
+	}
+
+	if cfg.DMarketCrawler.MaxPages <= 0 {
+		cfg.DMarketCrawler.MaxPages = 3
+	}
+
+	if cfg.DMarketCrawler.LastSalesLimit <= 0 {
+		cfg.DMarketCrawler.LastSalesLimit = 20
+	}
+
+	if cfg.DMarketCrawler.MinLastSalesCount <= 0 {
+		cfg.DMarketCrawler.MinLastSalesCount = 3
+	}
+
+	filter := &cfg.DMarketCrawler.SteamDTFilter
+	if filter.DatabasePath == "" {
+		filter.DatabasePath = "data/steamdt.db"
+	}
+	if filter.MaxSnapshotAge == "" {
+		filter.MaxSnapshotAge = "36h"
+	}
+	if filter.AnomalyLookback == "" {
+		filter.AnomalyLookback = "24h"
+	}
+	if filter.MinPlatforms <= 0 {
+		filter.MinPlatforms = 3
+	}
+	if filter.MinTotalSellCount <= 0 {
+		filter.MinTotalSellCount = 20
+	}
+	if filter.MinTotalBidCount <= 0 {
+		filter.MinTotalBidCount = 10
+	}
+
 	for i := range cfg.Items {
 		if cfg.Items[i].TopN <= 0 {
 			cfg.Items[i].TopN = 5
